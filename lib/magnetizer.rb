@@ -5,6 +5,11 @@ require "etc/antlr-4.5.1-complete.jar"
 module Antlr
   include_package "org.antlr.v4.runtime"
   include_package "org.antlr.v4.runtime.tree"
+  include_package "org.antlr.v4.gui"
+end
+
+module Swing
+  include_package "javax.swing"
 end
 
 ## Uncomment the following code to put all the Antlr classes in the main
@@ -24,14 +29,32 @@ end
 # java_import org.antlr.v4.runtime.ANTLRInputStream
 # java_import org.antlr.v4.runtime.CommonTokenStream
 
-puts "#{Antlr::ANTLRInputStream.inspect}"
-# input = ANTLRInputStream.new(java.lang.System.in)
-# 
-# lexer = Java::ArrayInitLexer.new(input)
-# tokens = CommonTokenStream.new(lexer)
-# parser = Java::ArrayInitParser.new(tokens)
-# 
-# tree = parser.init
-# 
-# java.lang.System.out.println(tree.toStringTree(parser))
+class Magnetizer
+  def initialize file
+    input = Antlr::ANTLRInputStream.new(java.io.FileInputStream.new(file))
+    lexer = Java::JavaLexer.new(input)
+    tokens = Antlr::CommonTokenStream.new(lexer)
+    @parser = Java::JavaParser.new(tokens)
+    
+    @tree = @parser.compilationUnit
+  end
 
+  def print_tree
+    java.lang.System.out.println(@tree.toStringTree(@parser))
+  end
+
+  def show_gui_tree
+    frame = Swing::JFrame.new("Antlr AST")
+    panel = Swing::JPanel.new
+    scrollPane = Swing::JScrollPane.new panel
+    viewr = Antlr::TreeViewer.new(java.util.Arrays.asList(@parser.getRuleNames()), @tree)
+
+    #viewr.setScale(2)
+    panel.add(viewr)
+    frame.add(scrollPane)
+    frame.setDefaultCloseOperation(Swing::JFrame::EXIT_ON_CLOSE)
+    frame.pack
+    frame.setVisible(true)
+
+  end
+end

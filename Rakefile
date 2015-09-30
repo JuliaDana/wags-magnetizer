@@ -9,9 +9,13 @@ rescue LoadError
 end
 
 task :compile do
-  puts `cd java; mkdir bin; javac -d bin src/*.java`
+  system "cd java; mkdir bin; javac -d bin -cp ../etc/antlr-4.5.1-complete.jar:$CLASSPATH src/**/*.java"
 end
 
 task :clean do
-  `cd java; rm -rf  bin`
+  system "cd java; rm -rf  bin"
+end
+
+task :generate do
+  system "java -cp etc/antlr-4.5.1-complete.jar:$CLASSPATH org.antlr.v4.Tool -o java/src data/Java.g4"
 end

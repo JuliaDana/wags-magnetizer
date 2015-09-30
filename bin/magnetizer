@@ -24,6 +24,10 @@ file = ARGV.first
 
 puts "Running the magnetizer on #{file}"
 
+$CLASSPATH << "java/bin/"
+
 require "lib/magnetizer.rb"
+magnetizer = Magnetizer.new(file)
+magnetizer.show_gui_tree
 
 puts "After running"
