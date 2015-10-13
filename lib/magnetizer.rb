@@ -1,5 +1,8 @@
 require 'java'
 require "etc/antlr-4.5.1-complete.jar"
+require 'cgi'
+
+require_relative "magnetizer/magnet_emitter.rb"
 
 # Importing entire packages
 module Antlr
@@ -39,6 +42,23 @@ class Magnetizer
     @tree = @parser.compilationUnit
   end
 
+  def print_magnets
+    walker = Antlr::ParseTreeWalker.new()
+    emitter = MagnetEmitter.new
+    emitter.stream = @parser.getInputStream
+    walker.walk(emitter, @tree)
+
+    puts "Class Magnets:"
+    puts emitter.classMagnets
+
+    puts "Method Magnets:"
+    puts emitter.methodMagnets
+
+
+    puts "Statement Magnets:"
+    puts emitter.statementMagnets
+  end
+
   def print_tree
     java.lang.System.out.println(@tree.toStringTree(@parser))
   end
@@ -57,4 +77,5 @@ class Magnetizer
     frame.setVisible(true)
 
   end
+
 end
