@@ -87,17 +87,22 @@ class MagnetEmitter < Java::JavaBaseListener
 
   def exitStatement ctx
     interval = ctx.getSourceInterval
-    stmtToks = []
     
-    interval.length.times do |i|
-      j = i + interval.a
-      stmtToks << @tokens.get(j).getText
-      ws =  @tokens.getHiddenTokensToRight(j, 1)
+    text = get_text_with_whitespace @tokens, interval
+
+    @statementMagnets << text.strip;
+  end
+
+  def get_text_with_whitespace stream, interval
+    toks = []
+    (interval.a .. interval.b).each  do |j|
+      toks << stream.get(j).getText
+      ws =  stream.getHiddenTokensToRight(j, 1)
       ws.each do |w|
-       stmtToks << w.getText 
+       toks << w.getText 
       end if ws
     end
 
-    @statementMagnets << stmtToks.join("").strip;
+    toks.join("")
   end
 end
