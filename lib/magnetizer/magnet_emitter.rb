@@ -9,6 +9,8 @@ class MagnetEmitter < Java::JavaBaseListener
     @methodMagnets = []
     @statementMagnets = []
 
+    @statementLevel = 0
+
     @tokens = tokens
   end
 
@@ -46,7 +48,7 @@ class MagnetEmitter < Java::JavaBaseListener
 
     num_children.times do |i|
       c = ctx.getChild(i)
-      p = getTextWithWhitespace @tokens, c
+      p = getTextWithWhitespace c
 
       if c.is_a?(Antlr::TerminalNodeImpl)
         @classMagnets.last << p
@@ -70,7 +72,7 @@ class MagnetEmitter < Java::JavaBaseListener
 
     num_children.times do |i|
       c = ctx.getChild(i)
-      p = getTextWithWhitespace @tokens, c
+      p = getTextWithWhitespace c
 
       if c.is_a?(Java::JavaParser::MethodBodyContext)
         @methodMagnets.last <<  "{ "
@@ -85,22 +87,29 @@ class MagnetEmitter < Java::JavaBaseListener
   def exitClassBodyDeclaration ctx
   end
 
-  def exitStatement ctx
-    text = getTextWithWhitespace @tokens, ctx
+  def enterBlockStatement ctx
 
-    @statementMagnets << text.strip;
+    @statementLevel += 1
   end
 
-  def getTextWithWhitespace stream, ctx
+  def exitBlockStatement ctx
+    @statementLevel -= 1
+
+    puts ctx.getText
+
+    if (@statementLevel == 0)
+      text = getTextWithWhitespace ctx
+      @statementMagnets << text.strip
+    end
+  end
+
+  def getTextWithWhitespace ctx
     interval = ctx.getSourceInterval
 
     toks = []
     (interval.a .. interval.b).each  do |j|
-      toks << stream.get(j).getText
-      ws =  stream.getHiddenTokensToRight(j, 1)
-      ws.each do |w|
-       toks << w.getText 
-      end if ws
+      tok =  @tokens.get(j)
+      toks << tok.getText if (tok.channel == 0 || tok.channel == 1)
     end
 
     toks.join("")
