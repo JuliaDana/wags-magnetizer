@@ -1,13 +1,24 @@
+class Magnet
+  attr_accessor :token
+  attr_accessor :text
+
+  def initialize token
+    @text = ""
+    @token = token
+  end
+end
+
 class MagnetEmitter < Java::JavaBaseListener
 
   PANEL_STRING = "<br><!-- panel --><br>"
-  MAGNET_SEPARATOR = ".:|:."
+  MAGNET_SEPARATOR = "\n.:|:.\n"
 
   def initialize tokens
     super()
     @classMagnets = []
     @methodMagnets = []
     @statementMagnets = []
+    @magnetsInProgress = []
 
     @statementLevel = 0
 
@@ -87,19 +98,33 @@ class MagnetEmitter < Java::JavaBaseListener
   def exitClassBodyDeclaration ctx
   end
 
-  def enterBlockStatement ctx
+  def enterBlock ctx
+    puts "Entering block #{@magnetsInProgress.size}"
+    puts ctx.getText
+    @magnetsInProgress.last.text << PANEL_STRING if (!@magnetsInProgress.empty?)
+  end
 
-    @statementLevel += 1
+  def exitBlock ctx
+    if (!@magnetsInProgress.empty?)
+      m = @magnetsInProgress.last
+      puts m.text.match(/^#{PANEL_STRING}(.*)$/).inspect
+      @statementMagnets << m.text.slice(/(^#{PANEL_STRING}).*$/, 0)
+    end
+  end
+
+  def enterBlockStatement ctx
+    @magnetsInProgress << Magnet.new(ctx)
   end
 
   def exitBlockStatement ctx
-    @statementLevel -= 1
+    m = @magnetsInProgress.pop
 
-    puts ctx.getText
-
-    if (@statementLevel == 0)
+    puts "Statement in level #{@magnetsInProgress.size}"
+    puts m.inspect
+    if (@magnetsInProgress.empty?)
       text = getTextWithWhitespace ctx
       @statementMagnets << text.strip
+      m.text = text.strip
     end
   end
 
