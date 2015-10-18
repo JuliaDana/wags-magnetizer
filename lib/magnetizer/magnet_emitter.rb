@@ -1,14 +1,15 @@
 class MagnetEmitter < Java::JavaBaseListener
-  attr_accessor :stream
 
   PANEL_STRING = "<br><!-- panel --><br>"
   MAGNET_SEPARATOR = ".:|:."
 
-  def initialize
-    super
+  def initialize tokens
+    super()
     @classMagnets = []
     @methodMagnets = []
     @statementMagnets = []
+
+    @tokens = tokens
   end
 
   def classMagnets
@@ -90,9 +91,13 @@ class MagnetEmitter < Java::JavaBaseListener
     
     interval.length.times do |i|
       j = i + interval.a
-      stmtToks << @stream.get(j).getText
+      stmtToks << @tokens.get(j).getText
+      ws =  @tokens.getHiddenTokensToRight(j, 1)
+      ws.each do |w|
+       stmtToks << w.getText 
+      end if ws
     end
 
-    @statementMagnets << stmtToks.join(" ");
+    @statementMagnets << stmtToks.join("").strip;
   end
 end

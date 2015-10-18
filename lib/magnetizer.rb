@@ -36,16 +36,15 @@ class Magnetizer
   def initialize file
     input = Antlr::ANTLRInputStream.new(java.io.FileInputStream.new(file))
     lexer = Java::JavaLexer.new(input)
-    tokens = Antlr::CommonTokenStream.new(lexer)
-    @parser = Java::JavaParser.new(tokens)
+    @tokens = Antlr::CommonTokenStream.new(lexer)
+    @parser = Java::JavaParser.new(@tokens)
     
     @tree = @parser.compilationUnit
   end
 
   def print_magnets
     walker = Antlr::ParseTreeWalker.new()
-    emitter = MagnetEmitter.new
-    emitter.stream = @parser.getInputStream
+    emitter = MagnetEmitter.new @tokens
     walker.walk(emitter, @tree)
 
     puts "Class Magnets:"
