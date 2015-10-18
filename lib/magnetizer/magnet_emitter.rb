@@ -46,10 +46,10 @@ class MagnetEmitter < Java::JavaBaseListener
 
     num_children.times do |i|
       c = ctx.getChild(i)
-      p = c.getPayload
+      p = getTextWithWhitespace @tokens, c
 
       if c.is_a?(Antlr::TerminalNodeImpl)
-        @classMagnets.last << c.getText
+        @classMagnets.last << p
       else
         @classMagnets.last <<  "{ "
         @classMagnets.last <<  PANEL_STRING
@@ -70,14 +70,14 @@ class MagnetEmitter < Java::JavaBaseListener
 
     num_children.times do |i|
       c = ctx.getChild(i)
-      p = c.getPayload
+      p = getTextWithWhitespace @tokens, c
 
       if c.is_a?(Java::JavaParser::MethodBodyContext)
         @methodMagnets.last <<  "{ "
         @methodMagnets.last <<  PANEL_STRING
         @methodMagnets.last <<  " }"
       else
-        @methodMagnets.last << c.getText
+        @methodMagnets.last << p
       end
     end
   end
@@ -86,14 +86,14 @@ class MagnetEmitter < Java::JavaBaseListener
   end
 
   def exitStatement ctx
-    interval = ctx.getSourceInterval
-    
-    text = get_text_with_whitespace @tokens, interval
+    text = getTextWithWhitespace @tokens, ctx
 
     @statementMagnets << text.strip;
   end
 
-  def get_text_with_whitespace stream, interval
+  def getTextWithWhitespace stream, ctx
+    interval = ctx.getSourceInterval
+
     toks = []
     (interval.a .. interval.b).each  do |j|
       toks << stream.get(j).getText

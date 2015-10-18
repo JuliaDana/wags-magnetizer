@@ -2,7 +2,6 @@ require 'java'
 require "etc/antlr-4.5.1-complete.jar"
 require 'cgi'
 
-require_relative "magnetizer/magnet_emitter.rb"
 
 # Importing entire packages
 module Antlr
@@ -14,6 +13,8 @@ end
 module Swing
   include_package "javax.swing"
 end
+
+require_relative "magnetizer/magnet_emitter.rb"
 
 ## Uncomment the following code to put all the Antlr classes in the main
 ## namespace
