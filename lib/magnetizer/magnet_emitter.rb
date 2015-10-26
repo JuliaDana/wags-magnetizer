@@ -34,7 +34,11 @@ class MagnetEmitter < Java::JavaBaseListener
   end
 
   def statementMagnets
-    return @statementMagnets.map {|m|  m == PANEL_STRING ? m : CGI.escapeHTML(m)}.join(MAGNET_SEPARATOR)
+    return @statementMagnets.map {|m|  
+        escaped = CGI.escapeHTML(m)
+        escapedPanel = Regexp.new(Regexp.quote(CGI.escapeHTML(PANEL_STRING)))
+        escaped.gsub(escapedPanel, PANEL_STRING)
+      }.join(MAGNET_SEPARATOR)
   end
 
   def outputMagnets magnetArray
@@ -115,8 +119,6 @@ class MagnetEmitter < Java::JavaBaseListener
   def getTextWithWhitespace ctx
     interval = ctx.getSourceInterval
 
-    puts "Printing interval #{interval.a} to #{interval.b}"
-    
     blocksInInterval = []
 
     @blockIntervals.each do |blockInterval|
@@ -146,7 +148,7 @@ class MagnetEmitter < Java::JavaBaseListener
         # do nothing
 
       elsif startsBlockInterval
-        toks << PANEL_STRING
+        toks << "{ #{PANEL_STRING} }"
       
       elsif (tok.channel == 0 || tok.channel == 1)
         toks << tok.getText
