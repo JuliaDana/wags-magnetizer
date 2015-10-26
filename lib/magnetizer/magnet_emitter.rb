@@ -18,9 +18,12 @@ class MagnetEmitter < Java::JavaBaseListener
     @classMagnets = []
     @methodMagnets = []
     @statementMagnets = []
+
     @magnetsInProgress = []
 
     @statementLevel = 0
+
+    @blockIntervals = []
 
     @tokens = tokens
   end
@@ -108,7 +111,8 @@ class MagnetEmitter < Java::JavaBaseListener
     if (!@magnetsInProgress.empty?)
       m = @magnetsInProgress.last
       puts m.text.match(/^#{PANEL_STRING}(.*)$/).inspect
-      @statementMagnets << m.text.slice(/(^#{PANEL_STRING}).*$/, 0)
+      #@statementMagnets << m.text.slice(/(^#{PANEL_STRING}).*$/, 0)
+      @blockIntervals << ctx.getSourceInterval
     end
   end
 
@@ -124,17 +128,47 @@ class MagnetEmitter < Java::JavaBaseListener
     if (@magnetsInProgress.empty?)
       text = getTextWithWhitespace ctx
       @statementMagnets << text.strip
-      m.text = text.strip
+      m.text << text.strip
     end
   end
 
   def getTextWithWhitespace ctx
     interval = ctx.getSourceInterval
+    
+    blocksInInterval = []
+
+    @blockIntervals.each do |blockInterval|
+      if (interval.properlyContains(blockInterval))
+        blocksInInterval << blockInterval
+      end
+    end
 
     toks = []
     (interval.a .. interval.b).each  do |j|
       tok =  @tokens.get(j)
-      toks << tok.getText if (tok.channel == 0 || tok.channel == 1)
+
+      startsBlockInterval = false
+      inBlockInterval = false
+
+      blocksInInterval.each do |block|
+        if (block.a == j)
+          startsBlockInterval = true
+        end
+
+        if (block.a < j && block.b >=j)
+          inBlockInterval = true
+        end
+      end
+
+      if inBlockInterval
+        # do nothing
+
+      elsif startsBlockInterval
+        toks << PANEL_STRING
+      
+      elsif (tok.channel == 0 || tok.channel == 1)
+        toks << tok.getText
+      end
     end
 
     toks.join("")
