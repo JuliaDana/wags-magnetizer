@@ -125,7 +125,7 @@ class MagnetEmitter < Java::JavaBaseListener
 
     puts "Statement in level #{@magnetsInProgress.size}"
     puts m.inspect
-    if (@magnetsInProgress.empty?)
+    if true# (@magnetsInProgress.empty?)
       text = getTextWithWhitespace ctx
       @statementMagnets << text.strip
       m.text << text.strip
@@ -134,6 +134,8 @@ class MagnetEmitter < Java::JavaBaseListener
 
   def getTextWithWhitespace ctx
     interval = ctx.getSourceInterval
+
+    puts "Printing interval #{interval.a} to #{interval.b}"
     
     blocksInInterval = []
 
