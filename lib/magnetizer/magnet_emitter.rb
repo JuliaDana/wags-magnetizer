@@ -19,10 +19,6 @@ class MagnetEmitter < Java::JavaBaseListener
     @methodMagnets = []
     @statementMagnets = []
 
-    @magnetsInProgress = []
-
-    @statementLevel = 0
-
     @blockIntervals = []
 
     @tokens = tokens
@@ -102,34 +98,18 @@ class MagnetEmitter < Java::JavaBaseListener
   end
 
   def enterBlock ctx
-    puts "Entering block #{@magnetsInProgress.size}"
-    puts ctx.getText
-    @magnetsInProgress.last.text << PANEL_STRING if (!@magnetsInProgress.empty?)
   end
 
   def exitBlock ctx
-    if (!@magnetsInProgress.empty?)
-      m = @magnetsInProgress.last
-      puts m.text.match(/^#{PANEL_STRING}(.*)$/).inspect
-      #@statementMagnets << m.text.slice(/(^#{PANEL_STRING}).*$/, 0)
-      @blockIntervals << ctx.getSourceInterval
-    end
+    @blockIntervals << ctx.getSourceInterval
   end
 
   def enterBlockStatement ctx
-    @magnetsInProgress << Magnet.new(ctx)
   end
 
   def exitBlockStatement ctx
-    m = @magnetsInProgress.pop
-
-    puts "Statement in level #{@magnetsInProgress.size}"
-    puts m.inspect
-    if true# (@magnetsInProgress.empty?)
-      text = getTextWithWhitespace ctx
-      @statementMagnets << text.strip
-      m.text << text.strip
-    end
+    text = getTextWithWhitespace ctx
+    @statementMagnets << text.strip
   end
 
   def getTextWithWhitespace ctx
