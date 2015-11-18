@@ -27,7 +27,18 @@ class WagsSiteDriver
     visit("")
     puts page.body
   end
+
+  def log_in
+    visit("")
+    page.find(:xpath, '//input[@type="text"]').set("***REMOVED***")
+    page.find(:xpath, '//input[@type="password"]').set("***REMOVED***")
+    click_button("Log in")
+
+    # Force Capybara to wait for login to load.
+    page.find('button', :text=>"Log out")
+    puts page.body
+  end
 end
 
-WagsSiteDriver.new.test
+WagsSiteDriver.new.log_in
 
