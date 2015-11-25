@@ -1,20 +1,32 @@
-require 'capybara/poltergeist'
+require 'capybara'
+include Capybara::DSL
+
 class WagsSiteDriver
-  include Capybara::DSL
 
   WAGS_URL = "http://www.cs.appstate.edu/wags/"
   PATH_TO_PHANTOMJS = File.expand_path("../../etc/phantomjs/bin/phantomjs", 
     __FILE__)
-  
-  def initialize
-    Capybara.javascript_driver = :poltergeist
 
+  def initialize
+    # initialize_selenium
+    initialize_poltergeist
 
     Capybara.configure do |config|
       config.run_server = false
-      config.current_driver = :poltergeist
+      config.current_driver = @current_driver
       config.app_host = WAGS_URL
     end
+  end
+  
+  def initialize_selenium
+    require 'selenium-webdriver'
+    @current_driver = :selenium
+  end
+
+  def initialize_poltergeist
+    require 'capybara/poltergeist'
+    #Capybara.javascript_driver = :poltergeist
+    @current_driver = :poltergeist
 
     Capybara.register_driver :poltergeist do |app|
       options = {}
@@ -24,7 +36,6 @@ class WagsSiteDriver
   end
 
   def test
-    visit("")
     puts page.body
   end
 
@@ -37,8 +48,28 @@ class WagsSiteDriver
     # Force Capybara to wait for login to load.
     page.find('button', :text=>"Log out")
     puts page.body
+  # end
+
+  # def go_to_magnet_creation_problem
+    but = page.find('button', :text=>"Magnet Problem Creation")
+    click_button("Magnet Problem Creation")
+    page.find_field("title");
+  end
+
+  def identifiers
+    ret = {}
+    ret[:right_title] = "name=title"
+    ret[:right_desc] = "name=desc"
+    ret[:class] = "name=class"
+    ret[:function] = "name=functions"
+    ret[:statement] = "name=statements"
+    ret[:left_title] = "css=input.GG5MKVLDML"
+    ret[:right_title] = "css=textarea.GG5MKVLDLL"
   end
 end
 
-WagsSiteDriver.new.log_in
+driver = WagsSiteDriver.new
+driver.log_in
+# driver.go_to_magnet_creation_problem
+driver.test
 
