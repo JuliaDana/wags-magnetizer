@@ -31,6 +31,7 @@ class WagsSiteDriver
     Capybara.register_driver :poltergeist do |app|
       options = {}
       options[:phantomjs] = PATH_TO_PHANTOMJS
+      options[:js_errors] = false
       Capybara::Poltergeist::Driver.new(app, options)
     end
   end
@@ -51,7 +52,6 @@ class WagsSiteDriver
   # end
 
   # def go_to_magnet_creation_problem
-    but = page.find('button', :text=>"Magnet Problem Creation")
     click_button("Magnet Problem Creation")
     page.find_field("title");
   end
