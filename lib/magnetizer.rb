@@ -3,18 +3,17 @@ require "etc/antlr-4.5.1-complete.jar"
 require 'cgi'
 
 
-# Importing entire packages
+# Importing entire packages to Antlr namespace
 module Antlr
   include_package "org.antlr.v4.runtime"
   include_package "org.antlr.v4.runtime.tree"
   include_package "org.antlr.v4.gui"
 end
 
+# Importing entire packages to Swing namespace
 module Swing
   include_package "javax.swing"
 end
-
-require_relative "magnetizer/magnet_emitter.rb"
 
 ## Uncomment the following code to put all the Antlr classes in the main
 ## namespace
@@ -32,6 +31,8 @@ require_relative "magnetizer/magnet_emitter.rb"
 # Importing the needed classes individually
 # java_import org.antlr.v4.runtime.ANTLRInputStream
 # java_import org.antlr.v4.runtime.CommonTokenStream
+
+require_relative "magnetizer/magnet_emitter.rb"
 
 class Magnetizer
   def initialize file
