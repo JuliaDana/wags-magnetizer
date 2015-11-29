@@ -35,12 +35,16 @@ require_relative "magnetizer/magnet_emitter.rb"
 
 class Magnetizer
   def initialize file
-    input = Antlr::ANTLRInputStream.new(java.io.FileInputStream.new(file))
-    lexer = Java::JavaLexer.new(input)
-    @tokens = Antlr::CommonTokenStream.new(lexer)
-    @parser = Java::JavaParser.new(@tokens)
-    
-    @tree = @parser.compilationUnit
+    begin
+      input = Antlr::ANTLRInputStream.new(java.io.FileInputStream.new(file))
+      lexer = Java::JavaLexer.new(input)
+      @tokens = Antlr::CommonTokenStream.new(lexer)
+      @parser = Java::JavaParser.new(@tokens)
+      
+      @tree = @parser.compilationUnit
+    rescue java.io.FileNotFoundException => e
+      raise "Unable to load file #{file}"
+    end
   end
 
   def print_magnets
