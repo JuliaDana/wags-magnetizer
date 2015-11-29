@@ -33,10 +33,9 @@ end
 # java_import org.antlr.v4.runtime.CommonTokenStream
 
 require_relative "magnetizer/magnet_emitter.rb"
+require_relative "magnet_translator.rb"
 
 class Magnetizer
-  MAGNET_SEPARATOR = "\n.:|:.\n"
-  PANEL_STRING = "<br><!-- panel --><br>"
 
   def initialize file
     begin
@@ -55,29 +54,17 @@ class Magnetizer
     walker = Antlr::ParseTreeWalker.new()
     emitter = MagnetEmitter.new @tokens
     walker.walk(emitter, @tree)
+    trans = MagnetTranslator.new
 
     puts "Class Magnets:"
-    puts outputMagnetsToString(emitter.classMagnets)
+    puts trans.translate_to_wags_magnets(emitter.classMagnets)
 
     puts "Method Magnets:"
-    puts outputMagnetsToString(emitter.methodMagnets)
+    puts trans.translate_to_wags_magnets(emitter.methodMagnets)
 
 
     puts "Statement Magnets:"
-    puts statementMagnetsToString(emitter.statementMagnets)
-  end
-
-
-  def statementMagnetsToString statementMagnetArray
-    return statementMagnetArray.map {|m|  
-        escaped = CGI.escapeHTML(m)
-        escapedPanel = Regexp.new(Regexp.quote(CGI.escapeHTML(PANEL_STRING)))
-        escaped.gsub(escapedPanel, PANEL_STRING)
-      }.join(MAGNET_SEPARATOR)
-  end
-
-  def outputMagnetsToString magnetArray
-    return magnetArray.map {|ma| ma.map {|m|  m == PANEL_STRING ? m : CGI.escapeHTML(m)}; ma.join(" ")}.join(MAGNET_SEPARATOR)
+    puts trans.translate_statements_to_wags_magnets(emitter.statementMagnets)
   end
 
   def print_tree

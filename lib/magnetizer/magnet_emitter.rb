@@ -1,15 +1,6 @@
-class Magnet
-  attr_accessor :token
-  attr_accessor :text
-
-  def initialize token
-    @text = ""
-    @token = token
-  end
-end
+require_relative "../magnet.rb"
 
 class MagnetEmitter < Java::JavaBaseListener
-  PANEL_STRING = "<br><!-- panel --><br>"
 
   def initialize tokens
     super()
@@ -36,14 +27,14 @@ class MagnetEmitter < Java::JavaBaseListener
   end
 
   def enterTypeDeclaration ctx
-    @classMagnets << [] 
+    @classMagnets << Magnet.new 
   end
 
   def exitClassOrInterfaceModifier ctx
     if ctx.parent.is_a?(Java::JavaParser::TypeDeclarationContext)
-      @classMagnets.last << ctx.getText
+      @classMagnets.last.contents << MagnetText.new(ctx.getText)
     elsif ctx.parent.is_a?(Java::JavaParser::MethodDeclarationContext)
-      @methodMagnets.last << ctx.getText
+      @methodMagnets.last.contents << MagnetText.new(ctx.getText)
     end
   end
 
@@ -55,11 +46,11 @@ class MagnetEmitter < Java::JavaBaseListener
       p = getTextWithWhitespace c
 
       if c.is_a?(Antlr::TerminalNodeImpl)
-        @classMagnets.last << p
+        @classMagnets.last.contents += p
       else
-        @classMagnets.last <<  "{ "
-        @classMagnets.last <<  PANEL_STRING
-        @classMagnets.last <<  " }"
+        @classMagnets.last.contents <<  MagnetText.new("{ ")
+        @classMagnets.last.contents <<  MagnetDropZone.instance
+        @classMagnets.last.contents <<  MagnetText.new(" }")
       end
     end
   end
@@ -68,7 +59,7 @@ class MagnetEmitter < Java::JavaBaseListener
   end
 
   def enterClassBodyDeclaration ctx
-    @methodMagnets << []
+    @methodMagnets << Magnet.new 
   end
 
   def exitMethodDeclaration ctx
@@ -79,11 +70,11 @@ class MagnetEmitter < Java::JavaBaseListener
       p = getTextWithWhitespace c
 
       if c.is_a?(Java::JavaParser::MethodBodyContext)
-        @methodMagnets.last <<  "{ "
-        @methodMagnets.last <<  PANEL_STRING
-        @methodMagnets.last <<  " }"
+        @methodMagnets.last.contents <<  MagnetText.new("{ ")
+        @methodMagnets.last.contents <<  MagnetDropZone.instance
+        @methodMagnets.last.contents <<  MagnetText.new(" }")
       else
-        @methodMagnets.last << p
+        @methodMagnets.last.contents += p
       end
     end
   end
@@ -103,7 +94,8 @@ class MagnetEmitter < Java::JavaBaseListener
 
   def exitBlockStatement ctx
     text = getTextWithWhitespace ctx
-    @statementMagnets << text.strip
+    @statementMagnets << Magnet.new()
+    @statementMagnets.last.contents += text
   end
 
   def getTextWithWhitespace ctx
@@ -138,13 +130,15 @@ class MagnetEmitter < Java::JavaBaseListener
         # do nothing
 
       elsif startsBlockInterval
-        toks << "{ #{PANEL_STRING} }"
+        toks << MagnetText.new("{ ")
+        toks << MagnetDropZone.instance
+        toks << MagnetText.new(" }")
       
       elsif (tok.channel == 0 || tok.channel == 1)
-        toks << tok.getText
+        toks << MagnetText.new(tok.getText)
       end
     end
 
-    toks.join("")
+    toks
   end
 end

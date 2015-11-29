@@ -1,49 +1,49 @@
-module Magnet
-  class Magnet
-    attr_accessor :contents
+require 'singleton'
 
-    def initialize
-      @contents = []
-    end
+class Magnet
+  attr_accessor :contents
 
-    def import_json
-
-    end
-
-    def import_xml
-
-    end
-
-    def serialize_json
-
-    end
-
-    def serialize_xml
-
-    end
+  def initialize
+    @contents = []
   end
 
-  class MagnetContent
+  def import_json
 
   end
 
-  class MagnetText < MagnetContent
-    attr_accessor :text
-
-    def initialize text
-      @text = text
-    end
-  end
-
-  class MagnetDropZone < MagnetContent
+  def import_xml
 
   end
 
-  class MagnetChoices < MagnetContent
-    attr_accessor :choices
+  def serialize_json
 
-    def initialize
-      @choices = []
-    end
+  end
+
+  def serialize_xml
+
+  end
+end
+
+class MagnetContent
+
+end
+
+class MagnetText < MagnetContent
+  attr_accessor :text
+
+  def initialize text
+    @text = text
+  end
+end
+
+class MagnetDropZone < MagnetContent
+  include Singleton
+end
+
+class MagnetChoices < MagnetContent
+  attr_accessor :choices
+
+  def initialize
+    @choices = []
   end
 end
