@@ -35,6 +35,7 @@ task :tree do
   system "java -cp etc/antlr-4.5.1-complete.jar:java/bin:$CLASSPATH org.antlr.v4.gui.TestRig Java compilationUnit -gui #{ARGV.join(" ")}"
 end
 
+# Needed in order to use extra command line arguments as input to tasks
 def write_empty_tasks
   puts ARGV.join "\n"
   ARGV.shift
