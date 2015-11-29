@@ -35,6 +35,9 @@ end
 require_relative "magnetizer/magnet_emitter.rb"
 
 class Magnetizer
+  MAGNET_SEPARATOR = "\n.:|:.\n"
+  PANEL_STRING = "<br><!-- panel --><br>"
+
   def initialize file
     begin
       input = Antlr::ANTLRInputStream.new(java.io.FileInputStream.new(file))
@@ -54,14 +57,27 @@ class Magnetizer
     walker.walk(emitter, @tree)
 
     puts "Class Magnets:"
-    puts emitter.classMagnets
+    puts outputMagnetsToString(emitter.classMagnets)
 
     puts "Method Magnets:"
-    puts emitter.methodMagnets
+    puts outputMagnetsToString(emitter.methodMagnets)
 
 
     puts "Statement Magnets:"
-    puts emitter.statementMagnets
+    puts statementMagnetsToString(emitter.statementMagnets)
+  end
+
+
+  def statementMagnetsToString statementMagnetArray
+    return statementMagnetArray.map {|m|  
+        escaped = CGI.escapeHTML(m)
+        escapedPanel = Regexp.new(Regexp.quote(CGI.escapeHTML(PANEL_STRING)))
+        escaped.gsub(escapedPanel, PANEL_STRING)
+      }.join(MAGNET_SEPARATOR)
+  end
+
+  def outputMagnetsToString magnetArray
+    return magnetArray.map {|ma| ma.map {|m|  m == PANEL_STRING ? m : CGI.escapeHTML(m)}; ma.join(" ")}.join(MAGNET_SEPARATOR)
   end
 
   def print_tree

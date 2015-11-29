@@ -9,9 +9,7 @@ class Magnet
 end
 
 class MagnetEmitter < Java::JavaBaseListener
-
   PANEL_STRING = "<br><!-- panel --><br>"
-  MAGNET_SEPARATOR = "\n.:|:.\n"
 
   def initialize tokens
     super()
@@ -25,24 +23,16 @@ class MagnetEmitter < Java::JavaBaseListener
   end
 
   def classMagnets
-    return outputMagnets @classMagnets
+    return @classMagnets
   end
 
   def methodMagnets
-    return outputMagnets @methodMagnets
+    return @methodMagnets
 
   end
 
   def statementMagnets
-    return @statementMagnets.map {|m|  
-        escaped = CGI.escapeHTML(m)
-        escapedPanel = Regexp.new(Regexp.quote(CGI.escapeHTML(PANEL_STRING)))
-        escaped.gsub(escapedPanel, PANEL_STRING)
-      }.join(MAGNET_SEPARATOR)
-  end
-
-  def outputMagnets magnetArray
-    return magnetArray.map {|ma| ma.map {|m|  m == PANEL_STRING ? m : CGI.escapeHTML(m)}; ma.join(" ")}.join(MAGNET_SEPARATOR)
+    return @statementMagnets
   end
 
   def enterTypeDeclaration ctx
