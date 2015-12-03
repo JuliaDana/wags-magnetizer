@@ -3,13 +3,13 @@ include Capybara::DSL
 
 class WagsSiteDriver
 
-  WAGS_URL = "http://www.cs.appstate.edu/wags/"
+  WAGS_URL = "http://www.cs.appstate.edu/wags/beta"
   PATH_TO_PHANTOMJS = File.expand_path("../../etc/phantomjs/bin/phantomjs", 
     __FILE__)
 
   def initialize
-    # initialize_selenium
-    initialize_poltergeist
+    initialize_selenium
+    # initialize_poltergeist
 
     Capybara.configure do |config|
       config.run_server = false
@@ -37,24 +37,26 @@ class WagsSiteDriver
   end
 
   def test
-    puts page.body
+    # puts page.body
+    puts page.current_url
   end
 
   def log_in
     visit("")
-    page.find(:xpath, '//input[@type="text"]').set("***REMOVED***")
+    page.find(:xpath, '//input[@placeholder="Username"]').set("***REMOVED***")
     puts "Enter password"
     password = gets.chomp
-    page.find(:xpath, '//input[@type="password"]').set(password)
-    click_button("Log in")
+    page.find(:xpath, '//input[@placeholder="Password"]').set(password)
+    click_link("Sign in")
 
     # Force Capybara to wait for login to load.
-    page.find('button', :text=>"Log out")
-    puts page.body
+    page.find('a', :text=>"Logout")
+    test
   # end
 
   # def go_to_magnet_creation_problem
-    click_button("Magnet Problem Creation")
+    click_link("Admin");
+    click_link("Magnet Creation");
     page.find_field("title");
   end
 
