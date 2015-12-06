@@ -1,9 +1,14 @@
 require_relative "../magnet.rb"
 
 class MagnetEmitter < Java::JavaBaseListener
-
+  attr_reader :preambleMagnets
+  attr_reader :classMagnets
+  attr_reader :methodMagnets
+  attr_reader :statementMagnets
+ 
   def initialize tokens
     super()
+    @preambleMagnets = []
     @classMagnets = []
     @methodMagnets = []
     @statementMagnets = []
@@ -13,28 +18,34 @@ class MagnetEmitter < Java::JavaBaseListener
     @tokens = tokens
   end
 
-  def classMagnets
-    return @classMagnets
+  #------------------------------------
+  # Visitor Methods
+  #------------------------------------
+
+  def enterPackageDeclaration ctx
+    @preambleMagnets << Magnet.new
+    text = getTextWithWhitespace(ctx)
+    @preambleMagnets.last.contents += text;
   end
 
-  def methodMagnets
-    return @methodMagnets
-
-  end
-
-  def statementMagnets
-    return @statementMagnets
+  def enterImportDeclaration ctx
+    @preambleMagnets << Magnet.new
+    text = getTextWithWhitespace(ctx)
+    @preambleMagnets.last.contents += text;
   end
 
   def enterTypeDeclaration ctx
     @classMagnets << Magnet.new 
   end
 
+  def exitTypeDeclaration ctx
+  end
+
   def exitClassOrInterfaceModifier ctx
     if ctx.parent.is_a?(Java::JavaParser::TypeDeclarationContext)
-      @classMagnets.last.contents << MagnetText.new(ctx.getText)
+      @classMagnets.last.contents += getTextWithWhitespace(ctx)
     elsif ctx.parent.is_a?(Java::JavaParser::MethodDeclarationContext)
-      @methodMagnets.last.contents << MagnetText.new(ctx.getText)
+      @methodMagnets.last.contents += getTextWithWhitespace(ctx)
     end
   end
 
@@ -53,9 +64,6 @@ class MagnetEmitter < Java::JavaBaseListener
         @classMagnets.last.contents <<  MagnetText.new(" }")
       end
     end
-  end
-
-  def exitTypeDeclaration ctx
   end
 
   def enterClassBodyDeclaration ctx
@@ -139,6 +147,7 @@ class MagnetEmitter < Java::JavaBaseListener
       end
     end
 
-    toks
+    toks << MagnetText.new(" ")
+    return toks
   end
 end

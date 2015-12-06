@@ -56,6 +56,9 @@ class Magnetizer
     walker.walk(emitter, @tree)
     trans = MagnetTranslator.new
 
+    puts "Preamble Magnets:"
+    puts trans.translate_to_wags_magnets(emitter.preambleMagnets)
+
     puts "Class Magnets:"
     puts trans.translate_to_wags_magnets(emitter.classMagnets)
 
@@ -64,7 +67,7 @@ class Magnetizer
 
 
     puts "Statement Magnets:"
-    puts trans.translate_statements_to_wags_magnets(emitter.statementMagnets)
+    puts trans.translate_to_wags_magnets(emitter.statementMagnets)
   end
 
   def print_tree

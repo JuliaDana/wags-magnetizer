@@ -60,6 +60,23 @@ class WagsSiteDriver
     page.find_field("title");
   end
 
+  def load_class_area text
+
+  end
+
+  def load_functions_area text
+
+  end
+
+  def load_statements_area text
+
+  end
+
+  def load_test_file path_to_file
+    puts page.find_field('testClass')
+    page.attach_file('testClass', path_to_file)
+  end
+
   def identifiers
     ret = {}
     ret[:right_title] = "name=title"
@@ -75,5 +92,8 @@ end
 driver = WagsSiteDriver.new
 driver.log_in
 # driver.go_to_magnet_creation_problem
+driver.load_test_file __FILE__
 driver.test
+puts "Press <ENTER> to close"
+gets # to pause
 

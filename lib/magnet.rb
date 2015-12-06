@@ -2,7 +2,7 @@ require 'singleton'
 
 class Magnet
   attr_accessor :contents
-
+  
   def initialize
     @contents = []
   end
@@ -22,10 +22,36 @@ class Magnet
   def serialize_xml
 
   end
+
+  def add magnet
+    @contents += magnet.contents
+  end
+
+  def coalesce
+    new_contents = []
+
+    @contents.each do |content|
+      case content
+      when MagnetText
+        if (new_contents.last.is_a?(MagnetText))
+          new_contents.last.text << content.text
+        else
+          new_contents << content
+        end
+      when MagnetContent
+        new_contents << content
+      else
+        raise "Magnet content array cannot contain type #{content.class}"
+      end
+    end
+
+    @contents = new_contents
+
+    return @contents
+  end
 end
 
 class MagnetContent
-
 end
 
 class MagnetText < MagnetContent

@@ -18,6 +18,7 @@ describe "The magnetizer" do
 
     it "prints the magnets" do
       magnetizer = Magnetizer.new(file)
+      expect{magnetizer.print_magnets}.not_to raise_error
       expect{magnetizer.print_magnets}.to output(magnet_output).to_stdout
     end
   end
@@ -59,6 +60,14 @@ for (int i = 0; i &lt; str.length() / 2; i++) { <br><!-- panel --><br> }
 return isPalindrome;
 ENDOUT
 }
+
+    it_should_behave_like "a correct magnetizer"
+  end
+
+  context "for file Preamble.java that has package and imports" do
+    let(:file) {"spec/preamble_java/mypackage/Preamble.java"}
+
+    let(:magnet_output) {""}
 
     it_should_behave_like "a correct magnetizer"
   end

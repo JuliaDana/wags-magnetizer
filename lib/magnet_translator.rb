@@ -6,9 +6,10 @@ class MagnetTranslator
   PANEL_STRING = "<br><!-- panel --><br>"
 
   def translate_to_wags_magnets magnets
-    #pp magnets
     magnetsAsStrings = []
     magnets.each do |m|
+      m.coalesce
+      pp m
       magnetsAsStrings << ""
       m.contents.each do |c|
         magnetsAsStrings.last.concat case c
@@ -26,7 +27,7 @@ class MagnetTranslator
   end
   
   def translate_statements_to_wags_magnets magnets
-    #pp magnets
+    pp magnets
     magnetsAsStrings = []
 
     magnets.each do |m|
