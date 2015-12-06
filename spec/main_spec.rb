@@ -18,7 +18,7 @@ describe "The magnetizer" do
 
     it "prints the magnets" do
       magnetizer = Magnetizer.new(file)
-      expect{magnetizer.print_magnets}.not_to raise_error
+      #expect{magnetizer.print_magnets}.not_to raise_error
       expect{magnetizer.print_magnets}.to output(magnet_output).to_stdout
     end
   end
@@ -26,12 +26,14 @@ describe "The magnetizer" do
   context "for file Hello.java" do
     let(:file) {"spec/hello_java/Hello.java"}
     let(:magnet_output) {<<ENDOUT
+Preamble Magnets:
+
 Class Magnets:
-public class Hello {  <br><!-- panel --><br>  }
+public class Hello { <br><!-- panel --><br> }
 Method Magnets:
-String helloWorld () {  <br><!-- panel --><br>  }
+public String helloWorld() { <br><!-- panel --><br> }
 .:|:.
-void main (String[] args) {  <br><!-- panel --><br>  }
+public static void main(String[] args) { <br><!-- panel --><br> }
 Statement Magnets:
 return &quot;Hello World&quot;;
 .:|:.
@@ -46,16 +48,18 @@ ENDOUT
     let(:file) {"spec/palindrome_java/Student.java"}
     
     let(:magnet_output) {<<ENDOUT
+Preamble Magnets:
+
 Class Magnets:
-public class Student {  <br><!-- panel --><br>  }
+public class Student { <br><!-- panel --><br> }
 Method Magnets:
-boolean palindrome (String str) {  <br><!-- panel --><br>  }
+public boolean palindrome(String str) { <br><!-- panel --><br> }
 Statement Magnets:
 boolean isPalindrome = true;
 .:|:.
-isPalindrome &amp;= (str.charAt(i) == str.charAt(str.length() - (i + 1)));
-.:|:.
 for (int i = 0; i &lt; str.length() / 2; i++) { <br><!-- panel --><br> }
+.:|:.
+isPalindrome &amp;= (str.charAt(i) == str.charAt(str.length() - (i + 1)));
 .:|:.
 return isPalindrome;
 ENDOUT
@@ -67,7 +71,23 @@ ENDOUT
   context "for file Preamble.java that has package and imports" do
     let(:file) {"spec/preamble_java/mypackage/Preamble.java"}
 
-    let(:magnet_output) {""}
+    let(:magnet_output) {<<ENDOUT
+Preamble Magnets:
+package mypackage;
+.:|:.
+import java.util.ArrayList;
+.:|:.
+import java.util.List;
+Class Magnets:
+public class Preamble { <br><!-- panel --><br> }
+Method Magnets:
+public void theMethod() {
+
+  }
+Statement Magnets:
+
+ENDOUT
+}
 
     it_should_behave_like "a correct magnetizer"
   end

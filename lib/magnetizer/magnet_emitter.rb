@@ -13,6 +13,9 @@ class MagnetEmitter < Java::JavaBaseListener
     @methodMagnets = []
     @statementMagnets = []
 
+    @magnetStack = []
+    @exclusionIntervalsStack = []
+
     @blockIntervals = []
 
     @tokens = tokens
@@ -35,59 +38,102 @@ class MagnetEmitter < Java::JavaBaseListener
   end
 
   def enterTypeDeclaration ctx
-    @classMagnets << Magnet.new 
+    m = Magnet.new
+    @magnetStack << m
+    @exclusionIntervalsStack << []
+    @classMagnets << m
   end
 
   def exitTypeDeclaration ctx
+    m = @magnetStack.last
+    # This get text should exclude text from any intervals covered 
+    # by other magnets. There should be drop zones at all excluded intervals.
+    m.contents += getTextWithWhitespace ctx
+    @magnetStack.pop
+    @exclusionIntervalsStack.pop
   end
 
-  def exitClassOrInterfaceModifier ctx
-    if ctx.parent.is_a?(Java::JavaParser::TypeDeclarationContext)
-      @classMagnets.last.contents += getTextWithWhitespace(ctx)
-    elsif ctx.parent.is_a?(Java::JavaParser::MethodDeclarationContext)
-      @methodMagnets.last.contents += getTextWithWhitespace(ctx)
-    end
-  end
+  # def exitClassOrInterfaceModifier ctx
+  #   if ctx.parent.is_a?(Java::JavaParser::TypeDeclarationContext)
+  #     @classMagnets.last.contents += getTextWithWhitespace(ctx)
+  #   elsif ctx.parent.is_a?(Java::JavaParser::MethodDeclarationContext)
+  #     @methodMagnets.last.contents += getTextWithWhitespace(ctx)
+  #   end
+  # end
 
-  def exitClassDeclaration ctx
-    num_children = ctx.getChildCount
+  # def exitClassDeclaration ctx
+  #   num_children = ctx.getChildCount
 
-    num_children.times do |i|
-      c = ctx.getChild(i)
-      p = getTextWithWhitespace c
+  #   num_children.times do |i|
+  #     c = ctx.getChild(i)
+  #     p = getTextWithWhitespace c
 
-      if c.is_a?(Antlr::TerminalNodeImpl)
-        @classMagnets.last.contents += p
-      else
-        @classMagnets.last.contents <<  MagnetText.new("{ ")
-        @classMagnets.last.contents <<  MagnetDropZone.instance
-        @classMagnets.last.contents <<  MagnetText.new(" }")
-      end
-    end
-  end
+  #     if c.is_a?(Antlr::TerminalNodeImpl)
+  #       @classMagnets.last.contents += p
+  #     else
+  #       @classMagnets.last.contents <<  MagnetText.new("{ ")
+  #       @classMagnets.last.contents <<  MagnetDropZone.instance
+  #       @classMagnets.last.contents <<  MagnetText.new(" }")
+  #     end
+  #   end
+  # end
 
   def enterClassBodyDeclaration ctx
-    @methodMagnets << Magnet.new 
-  end
+    m = Magnet.new
 
-  def exitMethodDeclaration ctx
-    num_children = ctx.getChildCount
-
-    num_children.times do |i|
-      c = ctx.getChild(i)
-      p = getTextWithWhitespace c
-
-      if c.is_a?(Java::JavaParser::MethodBodyContext)
-        @methodMagnets.last.contents <<  MagnetText.new("{ ")
-        @methodMagnets.last.contents <<  MagnetDropZone.instance
-        @methodMagnets.last.contents <<  MagnetText.new(" }")
-      else
-        @methodMagnets.last.contents += p
-      end
+    if ctxHasChildType(ctx, Java::JavaParser::MethodDeclarationContext, 2)
+      @methodMagnets << m
     end
+
+    @exclusionIntervalsStack.last << ctx.getSourceInterval
+    @magnetStack << m
+    @exclusionIntervalsStack << []
   end
 
   def exitClassBodyDeclaration ctx
+    m = @magnetStack.last
+    # This get text should exclude text from any intervals covered 
+    # by other magnets. There should be drop zones at all excluded intervals.
+    m.contents += getTextWithWhitespace ctx
+    @magnetStack.pop
+    @exclusionIntervalsStack.pop
+  end
+
+  # def exitMethodDeclaration ctx
+  #   num_children = ctx.getChildCount
+
+  #   num_children.times do |i|
+  #     c = ctx.getChild(i)
+  #     p = getTextWithWhitespace c
+
+  #     if c.is_a?(Java::JavaParser::MethodBodyContext)
+  #       @methodMagnets.last.contents <<  MagnetText.new("{ ")
+  #       @methodMagnets.last.contents <<  MagnetDropZone.instance
+  #       @methodMagnets.last.contents <<  MagnetText.new(" }")
+  #     else
+  #       @methodMagnets.last.contents += p
+  #     end
+  #   end
+  # end
+
+
+  def enterBlockStatement ctx
+    m = Magnet.new
+    
+    @statementMagnets << m
+
+    @exclusionIntervalsStack.last << ctx.getSourceInterval
+    @magnetStack << m
+    @exclusionIntervalsStack << []
+  end
+
+  def exitBlockStatement ctx
+    m = @magnetStack.last
+    # This get text should exclude text from any intervals covered 
+    # by other magnets. There should be drop zones at all excluded intervals.
+    m.contents += getTextWithWhitespace ctx
+    @magnetStack.pop
+    @exclusionIntervalsStack.pop
   end
 
   def enterBlock ctx
@@ -97,23 +143,39 @@ class MagnetEmitter < Java::JavaBaseListener
     @blockIntervals << ctx.getSourceInterval
   end
 
-  def enterBlockStatement ctx
-  end
+  ###########################################
+  # Helpers
+  ##########################################
+  def ctxHasChildType ctx, type, depth = 1
+    if depth == 0
+      return false
+    end
+    
+    num_children = ctx.getChildCount
 
-  def exitBlockStatement ctx
-    text = getTextWithWhitespace ctx
-    @statementMagnets << Magnet.new()
-    @statementMagnets.last.contents += text
+    num_children.times do |i|
+      child = ctx.getChild(i)
+
+      if child.is_a?(type)
+        return true
+      elsif ctxHasChildType(child, type, depth - 1)
+        return true
+      end
+    end
+    
+    return false
   end
 
   def getTextWithWhitespace ctx
     interval = ctx.getSourceInterval
 
     blocksInInterval = []
-
-    @blockIntervals.each do |blockInterval|
-      if (interval.properlyContains(blockInterval))
-        blocksInInterval << blockInterval
+    
+    if @exclusionIntervalsStack.last
+      @exclusionIntervalsStack.last.each do |blockInterval|
+        if (interval.properlyContains(blockInterval))
+          blocksInInterval << blockInterval
+        end
       end
     end
 
@@ -138,9 +200,9 @@ class MagnetEmitter < Java::JavaBaseListener
         # do nothing
 
       elsif startsBlockInterval
-        toks << MagnetText.new("{ ")
+        #toks << MagnetText.new("{ ")
         toks << MagnetDropZone.instance
-        toks << MagnetText.new(" }")
+        #toks << MagnetText.new(" }")
       
       elsif (tok.channel == 0 || tok.channel == 1)
         toks << MagnetText.new(tok.getText)

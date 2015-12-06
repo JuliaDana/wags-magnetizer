@@ -3,23 +3,23 @@ require "pp"
 
 class MagnetTranslator
   MAGNET_SEPARATOR = "\n.:|:.\n"
-  PANEL_STRING = "<br><!-- panel --><br>"
+  PANEL_STRING = " <br><!-- panel --><br> "
 
   def translate_to_wags_magnets magnets
     magnetsAsStrings = []
     magnets.each do |m|
       m.coalesce
-      pp m
+      # pp m
       magnetsAsStrings << ""
       m.contents.each do |c|
         magnetsAsStrings.last.concat case c
         when MagnetDropZone
           PANEL_STRING
         when MagnetText
-          CGI.escapeHTML(c.text)
+          CGI.escapeHTML(c.text).strip
         else
             raise "Unsupported magnet type #{m.class}"
-         end.concat(" ")
+         end
        end
     end
 

@@ -36,6 +36,14 @@ class Magnet
         if (new_contents.last.is_a?(MagnetText))
           new_contents.last.text << content.text
         else
+          content.text.lstrip!
+          new_contents << content unless content.text == ""
+        end
+      when MagnetDropZone
+        unless (new_contents.last.is_a?(MagnetDropZone))
+          if new_contents.last.is_a?(MagnetText)
+            new_contents.last.text.rstrip!
+          end
           new_contents << content
         end
       when MagnetContent
