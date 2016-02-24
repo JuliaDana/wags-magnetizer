@@ -7,7 +7,7 @@ end
 require 'optparse'
 
 options = {}
-OptionParser.new do |opts|
+opt_parser = OptionParser.new do |opts|
   opts.banner = "Usage: magnetizer [options] file"
 
   opts.on("-v", "--[no-]verbose", "Run verbosely") do |v|
@@ -18,9 +18,17 @@ OptionParser.new do |opts|
     puts opts
     exit
   end
-end.parse!
+end
+
+opt_parser.parse!
 
 file = ARGV.first
+
+if file.nil? || file.empty? 
+  puts "No file specified"
+  puts opt_parser
+  exit
+end
 
 puts "Running the magnetizer on #{file}"
 
