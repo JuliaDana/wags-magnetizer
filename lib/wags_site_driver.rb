@@ -7,9 +7,8 @@ class WagsSiteDriver
   PATH_TO_PHANTOMJS = File.expand_path("../../etc/phantomjs/bin/phantomjs", 
     __FILE__)
 
-  def initialize
-    initialize_selenium
-    # initialize_poltergeist
+  def initialize driver = :selenium
+    self.send("initialize_#{driver}")
 
     Capybara.configure do |config|
       config.run_server = false
@@ -36,27 +35,15 @@ class WagsSiteDriver
     end
   end
 
-  def test
-    # puts page.body
-    puts page.current_url
+  def log_in credentials
+    visit("")
+    page.find(:xpath, '//input[@placeholder="Username"]').set(credentials[:username])
+    page.find(:xpath, '//input[@placeholder="Password"]').set(credentials[:password])
+    click_link("Sign in")
   end
 
-  def log_in
-    visit("")
-    page.find(:xpath, '//input[@placeholder="Username"]').set("***REMOVED***")
-    puts "Enter password"
-    password = gets.chomp
-    page.find(:xpath, '//input[@placeholder="Password"]').set(password)
-    click_link("Sign in")
-
-    # Force Capybara to wait for login to load.
-    page.find('a', :text=>"Logout")
-    test
-  # end
-
-  # def go_to_magnet_creation_problem
-    click_link("Admin");
-    click_link("Magnet Creation");
+  def go_to_magnet_creation_problem
+    visit("#magnetpc")
     page.find_field("title");
   end
 
@@ -88,12 +75,3 @@ class WagsSiteDriver
     ret[:right_title] = "css=textarea.GG5MKVLDLL"
   end
 end
-
-driver = WagsSiteDriver.new
-driver.log_in
-# driver.go_to_magnet_creation_problem
-driver.load_test_file __FILE__
-driver.test
-puts "Press <ENTER> to close"
-gets # to pause
-

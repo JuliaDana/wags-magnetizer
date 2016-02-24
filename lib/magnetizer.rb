@@ -1,3 +1,4 @@
+$CLASSPATH << "java/bin/"
 require 'java'
 require "etc/antlr-4.5.1-complete.jar"
 require 'cgi'

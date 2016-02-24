@@ -1,4 +1,3 @@
-$CLASSPATH << "java/bin/"
 require "lib/magnetizer.rb"
 
 describe "The magnetizer" do
@@ -92,3 +91,5 @@ ENDOUT
     it_should_behave_like "a correct magnetizer"
   end
 end
+
+
