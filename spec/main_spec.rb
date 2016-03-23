@@ -21,7 +21,11 @@ describe "The magnetizer" do
       expect{magnetizer.print_magnets}.to output(magnet_output).to_stdout
     end
 
-    it "loads the magnets in the new data structure"
+    it "loads the magnets in the new data structure" do
+      magnetizer = Magnetizer.new(file)
+      expect(magnetizer.get_magnets).to eq(magnet_data_structure)
+
+    end
   end
 
   context "for file Hello.java" do
@@ -41,6 +45,25 @@ return &quot;Hello World&quot;;
 System.out.println(&quot;Hello&quot;);
 ENDOUT
 }
+
+    let(:magnet_data_structure) {[
+      Magnet.new([MagnetText.new("public class Hello {"),
+        MagnetDropZone.instance,
+        MagnetText.new("}")
+        ]),
+      Magnet.new([MagnetText.new("public String helloWorld() {"),
+        MagnetDropZone.instance,
+        MagnetText.new("}")
+        ]),
+      Magnet.new([MagnetText.new("public static void main(String[] args) {"),
+        MagnetDropZone.instance,
+        MagnetText.new("}"),
+        ]),
+      Magnet.new([MagnetText.new('return "Hello World";')
+        ]),
+      Magnet.new([MagnetText.new('System.out.println("Hello");')
+        ])
+      ]}
 
     it_should_behave_like "a correct magnetizer"
   end
@@ -65,6 +88,26 @@ isPalindrome &amp;= (str.charAt(i) == str.charAt(str.length() - (i + 1)));
 return isPalindrome;
 ENDOUT
 }
+    let(:magnet_data_structure) {[
+      Magnet.new([MagnetText.new("public class Student {"),
+        MagnetDropZone.instance,
+        MagnetText.new("}")
+        ]),
+      Magnet.new([MagnetText.new("public boolean palindrome(String str) {"),
+        MagnetDropZone.instance,
+        MagnetText.new("}")
+        ]),
+      Magnet.new([MagnetText.new("boolean isPalindrome = true;")
+        ]),
+      Magnet.new([MagnetText.new("for (int i = 0; i < str.length() / 2; i++) {"),
+        MagnetDropZone.instance,
+        MagnetText.new("}"),
+        ]),
+      Magnet.new([MagnetText.new('isPalindrome &= (str.charAt(i) == str.charAt(str.length() - (i + 1)));')
+        ]),
+      Magnet.new([MagnetText.new('return isPalindrome;')
+        ])
+      ]}
 
     it_should_behave_like "a correct magnetizer"
   end
@@ -89,6 +132,20 @@ Statement Magnets:
 
 ENDOUT
 }
+    let(:magnet_data_structure) {[
+      Magnet.new([MagnetText.new('package mypackage;')
+        ]),
+      Magnet.new([MagnetText.new('import java.util.ArrayList;')
+        ]),
+      Magnet.new([MagnetText.new('import java.util.List;')
+        ]),
+      Magnet.new([MagnetText.new("public class Preamble {"),
+        MagnetDropZone.instance,
+        MagnetText.new("}")
+        ]),
+      Magnet.new([MagnetText.new("public void theMethod() {\n\n  }")
+        ]),
+      ]}
 
     it_should_behave_like "a correct magnetizer"
   end

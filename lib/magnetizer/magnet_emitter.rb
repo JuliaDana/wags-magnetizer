@@ -19,6 +19,10 @@ class MagnetEmitter < Java::JavaBaseListener
     @tokens = tokens
   end
 
+  def allMagnets
+    return @preambleMagnets + @classMagnets + @methodMagnets + @statementMagnets
+  end
+
   #------------------------------------
   # Visitor Methods
   #------------------------------------

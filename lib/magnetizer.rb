@@ -42,33 +42,38 @@ class Magnetizer
     begin
       input = Antlr::ANTLRInputStream.new(java.io.FileInputStream.new(file))
       lexer = Java::JavaLexer.new(input)
-      @tokens = Antlr::CommonTokenStream.new(lexer)
-      @parser = Java::JavaParser.new(@tokens)
+      tokens = Antlr::CommonTokenStream.new(lexer)
+      @parser = Java::JavaParser.new(tokens)
       
       @tree = @parser.compilationUnit
+      walker = Antlr::ParseTreeWalker.new()
+      @emitter = MagnetEmitter.new tokens
+      walker.walk(@emitter, @tree)
     rescue java.io.FileNotFoundException => e
       raise "Unable to load file #{file}"
     end
   end
 
+  def get_magnets
+    pp @emitter.allMagnets.map {|m| m.coalesce}
+    return @emitter.allMagnets.map {|m| m.coalesce}
+  end
+
   def print_magnets
-    walker = Antlr::ParseTreeWalker.new()
-    emitter = MagnetEmitter.new @tokens
-    walker.walk(emitter, @tree)
     trans = MagnetTranslator.new
 
     puts "Preamble Magnets:"
-    puts trans.translate_to_wags_magnets(emitter.preambleMagnets)
+    puts trans.translate_to_wags_magnets(@emitter.preambleMagnets)
 
     puts "Class Magnets:"
-    puts trans.translate_to_wags_magnets(emitter.classMagnets)
+    puts trans.translate_to_wags_magnets(@emitter.classMagnets)
 
     puts "Method Magnets:"
-    puts trans.translate_to_wags_magnets(emitter.methodMagnets)
+    puts trans.translate_to_wags_magnets(@emitter.methodMagnets)
 
 
     puts "Statement Magnets:"
-    puts trans.translate_to_wags_magnets(emitter.statementMagnets)
+    puts trans.translate_to_wags_magnets(@emitter.statementMagnets)
   end
 
   def print_tree

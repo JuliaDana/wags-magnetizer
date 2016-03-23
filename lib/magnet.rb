@@ -3,8 +3,8 @@ require 'singleton'
 class Magnet
   attr_accessor :contents
   
-  def initialize
-    @contents = []
+  def initialize contents = []
+    @contents = contents
   end
 
   def import_json
@@ -55,7 +55,11 @@ class Magnet
 
     @contents = new_contents
 
-    return @contents
+    return self
+  end
+
+  def == other
+    return other.is_a?(self.class) && other.contents == self.contents
   end
 end
 
@@ -68,6 +72,10 @@ class MagnetText < MagnetContent
   def initialize text
     @text = text
   end
+
+  def == other
+    return other.is_a?(self.class) && self.text == other.text
+  end
 end
 
 class MagnetDropZone < MagnetContent
@@ -79,5 +87,9 @@ class MagnetChoices < MagnetContent
 
   def initialize
     @choices = []
+  end
+
+  def == other
+    return other.is_a?(self.class) && self.choices == other.choices
   end
 end
