@@ -15,11 +15,13 @@ describe "The magnetizer" do
       expect(Magnetizer.new(file)).to be_a(Magnetizer)
     end
 
-    it "prints the magnets" do
+    it "prints the magnets in the old format" do
       magnetizer = Magnetizer.new(file)
       #expect{magnetizer.print_magnets}.not_to raise_error
       expect{magnetizer.print_magnets}.to output(magnet_output).to_stdout
     end
+
+    it "loads the magnets in the new data structure"
   end
 
   context "for file Hello.java" do

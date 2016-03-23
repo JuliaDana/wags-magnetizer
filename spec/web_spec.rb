@@ -14,4 +14,6 @@ describe "The Web Driver" do
     driver.go_to_magnet_creation_problem
     # driver.load_test_file __FILE__
   end
+
+  it "should load a source file into the magnet creation page"
 end
