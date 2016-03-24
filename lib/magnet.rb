@@ -4,7 +4,7 @@ require 'json'
 class Magnet
   attr_accessor :contents
   
-  def initialize contents = []
+  def initialize *contents
     @contents = contents
   end
 
@@ -16,16 +16,12 @@ class Magnet
   def to_json *a
     {
       "json_class" => self.class.name,
-      "data" => {}
+      "data" => {"contents" => @contents}
     }.to_json(*a)
   end
 
-  def self.from_json o
-    self.new
-  end
-
   def self.json_create o
-    self.new
+    self.new(*o["data"]["contents"])
   end
 
   def serialize_xml
@@ -85,17 +81,50 @@ class MagnetText < MagnetContent
   def == other
     return other.is_a?(self.class) && self.text == other.text
   end
+  
+  def to_json *a
+    {
+      "json_class" => self.class.name,
+      "data" => {"text" => @text}
+    }.to_json(*a)
+  end
+
+  def self.json_create o
+    self.new(o["data"]["text"])
+  end
 end
 
 class MagnetDropZone < MagnetContent
   include Singleton
+  
+  def to_json *a
+    {
+      "json_class" => self.class.name,
+      #"data" => {}
+    }.to_json(*a)
+  end
+
+  def self.json_create o
+    self.instance
+  end
 end
 
 class MagnetChoices < MagnetContent
   attr_accessor :choices
 
-  def initialize
-    @choices = []
+  def initialize *choices
+    @choices = choices
+  end
+
+  def to_json *a
+    {
+      "json_class" => self.class.name,
+      "data" => {"choices" => @choices}
+    }.to_json(*a)
+  end
+
+  def self.json_create o
+    self.new(*o["data"]["choices"])
   end
 
   def == other

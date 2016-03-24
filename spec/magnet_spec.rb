@@ -5,7 +5,6 @@ describe "A magnet" do
     it "should serialize" do
       m = Magnet.new
       m_json = m.to_json
-      puts "JSON is #{m_json}"
       expect {JSON.parse(m_json)}.not_to raise_error
     end
 
@@ -16,7 +15,16 @@ describe "A magnet" do
       expect(deserialized_m).to be_a(Magnet)
     end
 
-    it "should deserialize with data"
+    it "should deserialize with data" do
+      m = Magnet.new([MagnetChoices.new("public", "private", "protected"),
+        MagnetText.new("class Test {"),
+        MagnetDropZone.instance,
+        MagnetText.new("}")
+      ])
+      deserialized_m = JSON.load(m.to_json)
+
+      expect(deserialized_m).to eq(m)
+    end
   end
 end
 
