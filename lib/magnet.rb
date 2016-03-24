@@ -8,17 +8,25 @@ class Magnet
     @contents = contents
   end
 
-  def import_json
-
-  end
 
   def import_xml
 
   end
 
-  #def to_json
-  #  "Magnet"
-  #end
+  def to_json *a
+    {
+      "json_class" => self.class.name,
+      "data" => {}
+    }.to_json(*a)
+  end
+
+  def self.from_json o
+    self.new
+  end
+
+  def self.json_create o
+    self.new
+  end
 
   def serialize_xml
 
