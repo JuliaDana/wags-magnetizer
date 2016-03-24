@@ -1,4 +1,5 @@
 require 'singleton'
+require 'json'
 
 class Magnet
   attr_accessor :contents
@@ -15,9 +16,9 @@ class Magnet
 
   end
 
-  def serialize_json
-
-  end
+  #def to_json
+  #  "Magnet"
+  #end
 
   def serialize_xml
 

@@ -55,7 +55,6 @@ class Magnetizer
   end
 
   def get_magnets
-    pp @emitter.allMagnets.map {|m| m.coalesce}
     return @emitter.allMagnets.map {|m| m.coalesce}
   end
 

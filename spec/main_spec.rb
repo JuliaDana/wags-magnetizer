@@ -24,7 +24,20 @@ describe "The magnetizer" do
     it "loads the magnets in the new data structure" do
       magnetizer = Magnetizer.new(file)
       expect(magnetizer.get_magnets).to eq(magnet_data_structure)
+    end
 
+    it "should serialize to json" do
+      magnetizer = Magnetizer.new(file)
+      
+      #expect(magnetizer.get_magnets.collect{|m| m.serialize_json}).to eq(magnet_json)
+      expect(magnetizer.get_magnets.to_json).to eq(magnet_json)
+    end
+
+    it "should serialize to xml" do
+      pending
+      magnetizer = Magnetizer.new(file)
+      
+      expect(magnetizer.get_magnets.to_xml).to eq(magnet_xml)
     end
   end
 
@@ -65,6 +78,11 @@ ENDOUT
         ])
       ]}
 
+    let(:magnet_json) {<<ENDJSON
+[
+]
+ENDJSON
+}
     it_should_behave_like "a correct magnetizer"
   end
 
@@ -109,6 +127,11 @@ ENDOUT
         ])
       ]}
 
+    let(:magnet_json) {<<ENDJSON
+[
+]
+ENDJSON
+}
     it_should_behave_like "a correct magnetizer"
   end
 
@@ -147,6 +170,11 @@ ENDOUT
         ]),
       ]}
 
+    let(:magnet_json) {<<ENDJSON
+[
+]
+ENDJSON
+}
     it_should_behave_like "a correct magnetizer"
   end
 end
