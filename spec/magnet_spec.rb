@@ -1,6 +1,20 @@
 require "lib/magnet.rb"
 
 describe "A magnet" do
+
+  context "when coalescing" do
+    it "should join adjacent MagnetText pieces"
+
+    #TODO: Define what handling the whitespace means
+    it "should handle whitespace at the ends of MagnetText sections"
+
+    it "should join join adjacent MagnetDropZone pieces"
+
+    it "should not join other type of MagnetContent"
+
+  end
+
+
   context "when serializing to json" do
     it "should serialize" do
       m = Magnet.new
