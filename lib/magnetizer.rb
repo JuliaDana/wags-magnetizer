@@ -2,7 +2,9 @@ $CLASSPATH << "java/bin/"
 require 'java'
 require "etc/antlr-4.5.1-complete.jar"
 require 'cgi'
+require 'yaml'
 
+LANGUAGES = YAML.load_file("data/languages.yaml")
 
 # Importing entire packages to Antlr namespace
 module Antlr
@@ -14,11 +16,6 @@ end
 # Importing entire packages to Swing namespace
 module Swing
   include_package "javax.swing"
-end
-
-# Importing package for JavaParser namespace
-module JavaParserPkg
-  include_package "java_parser"
 end
 
 ## Uncomment the following code to put all the Antlr classes in the main
@@ -38,21 +35,30 @@ end
 # java_import org.antlr.v4.runtime.ANTLRInputStream
 # java_import org.antlr.v4.runtime.CommonTokenStream
 
-require_relative "magnetizer/magnet_emitter.rb"
+require_relative "magnetizer/magnet_emitter_generator.rb"
 require_relative "magnet_translator.rb"
+
+class UnsupportedLanguageError < StandardError; end;
 
 class Magnetizer
 
-  def initialize file
+  def initialize file, language = "Java"
+    unless LANGUAGES.keys.include? language
+      raise UnsupportedLanguageError
+    end
+
+    lexer_class = eval "Java::#{language.downcase}_parser.#{language}Lexer"
+    parser_class = eval "Java::#{language.downcase}_parser.#{language}Parser"
+
     begin
       input = Antlr::ANTLRInputStream.new(java.io.FileInputStream.new(file))
-      lexer = JavaParserPkg::JavaLexer.new(input)
+      lexer = lexer_class.new(input)
       tokens = Antlr::CommonTokenStream.new(lexer)
-      @parser = JavaParserPkg::JavaParser.new(tokens)
+      @parser = parser_class.new(tokens)
       
       @tree = @parser.compilationUnit
       walker = Antlr::ParseTreeWalker.new()
-      @emitter = MagnetEmitter.new tokens
+      @emitter = MagnetEmitterGenerator.generate("Java").new tokens
       walker.walk(@emitter, @tree)
     rescue java.io.FileNotFoundException => e
       raise "Unable to load file #{file}"

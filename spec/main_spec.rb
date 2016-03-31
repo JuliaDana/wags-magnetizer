@@ -8,10 +8,8 @@ describe "The magnetizer" do
     end
 
     it "should error on loading the magnetizer with a file of an unsupported language" do
-      pending "Not yet implemented"
-
-      file = "spec/unsupported_language/hello.py"
-      expect{Magnetizer.new(file)}.to raise_error(UnsupportedLanguageError)
+      file = "spec/unsupported_language/hello.rb"
+      expect{Magnetizer.new(file, "Ruby")}.to raise_error(UnsupportedLanguageError)
     end
   end
 end
