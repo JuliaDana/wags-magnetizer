@@ -1,6 +1,6 @@
 require_relative "../magnet.rb"
 
-class MagnetEmitter < Java::JavaBaseListener
+class MagnetEmitter < JavaParserPkg::JavaBaseListener
   attr_reader :preambleMagnets
   attr_reader :classMagnets
   attr_reader :methodMagnets
@@ -58,7 +58,7 @@ class MagnetEmitter < Java::JavaBaseListener
   def enterClassBodyDeclaration ctx
     m = Magnet.new
 
-    if ctxHasChildType(ctx, Java::JavaParser::MethodDeclarationContext, 2)
+    if ctxHasChildType(ctx, JavaParserPkg::JavaParser::MethodDeclarationContext, 2)
       @methodMagnets << m
     end
 

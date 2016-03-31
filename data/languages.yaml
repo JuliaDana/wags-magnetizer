@@ -1,0 +1,12 @@
+Java:
+  start_rule: compilationUnit
+
+Python3: 
+  start_rule: file_input
+
+Java8:
+  start_rule: compilationUnit
+
+C:
+  start_rule: compilationUnit
+

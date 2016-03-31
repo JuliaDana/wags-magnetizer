@@ -16,6 +16,11 @@ module Swing
   include_package "javax.swing"
 end
 
+# Importing package for JavaParser namespace
+module JavaParserPkg
+  include_package "java_parser"
+end
+
 ## Uncomment the following code to put all the Antlr classes in the main
 ## namespace
 # class Object
@@ -41,9 +46,9 @@ class Magnetizer
   def initialize file
     begin
       input = Antlr::ANTLRInputStream.new(java.io.FileInputStream.new(file))
-      lexer = Java::JavaLexer.new(input)
+      lexer = JavaParserPkg::JavaLexer.new(input)
       tokens = Antlr::CommonTokenStream.new(lexer)
-      @parser = Java::JavaParser.new(tokens)
+      @parser = JavaParserPkg::JavaParser.new(tokens)
       
       @tree = @parser.compilationUnit
       walker = Antlr::ParseTreeWalker.new()
