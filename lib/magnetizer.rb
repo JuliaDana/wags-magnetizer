@@ -58,7 +58,7 @@ class Magnetizer
       
       @tree = @parser.compilationUnit
       walker = Antlr::ParseTreeWalker.new()
-      @emitter = MagnetEmitterGenerator.generate("Java").new tokens
+      @emitter = MagnetEmitterGenerator.generate("Java").new(tokens)
       walker.walk(@emitter, @tree)
     rescue java.io.FileNotFoundException => e
       raise "Unable to load file #{file}"
