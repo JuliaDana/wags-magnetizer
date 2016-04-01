@@ -8,76 +8,78 @@ class MagnetEmitterGenerator
         emitter_class = Class.new(parent_class) do
           include MagnetEmitterBase
 
-          #------------------------------------
-          # Visitor Methods
-          #------------------------------------
+          type1 = ["PackageDeclaration", "ImportDeclaration"]
 
-          def enterPackageDeclaration ctx
-            @preambleMagnets << Magnet.new
-            text = getTextWithWhitespace(ctx)
-            @preambleMagnets.last.contents += text;
+          type1.each do |node|
+            define_method "enter#{node}" do |ctx|
+              @preambleMagnets << Magnet.new
+              text = getTextWithWhitespace(ctx)
+              @preambleMagnets.last.contents += text;
+            end
           end
 
-          def enterImportDeclaration ctx
-            @preambleMagnets << Magnet.new
-            text = getTextWithWhitespace(ctx)
-            @preambleMagnets.last.contents += text;
-          end
 
-          def enterTypeDeclaration ctx
-            m = Magnet.new
-            @magnetStack << m
-            @exclusionIntervalsStack << []
-            @classMagnets << m
-          end
+          type2 = ["TypeDeclaration"]
 
-          def exitTypeDeclaration ctx
-            m = @magnetStack.last
-            # This get text should exclude text from any intervals covered 
-            # by other magnets. There should be drop zones at all excluded intervals.
-            m.contents += getTextWithWhitespace ctx, @exclusionIntervalsStack.last
-            @magnetStack.pop
-            @exclusionIntervalsStack.pop
-          end
-
-          def enterClassBodyDeclaration ctx
-            m = Magnet.new
-
-            if ctxHasChildType(ctx, Java::java_parser.JavaParser::MethodDeclarationContext, 2)
-              @methodMagnets << m
+          type2.each do |node|
+            define_method "enter#{node}" do |ctx|
+              m = Magnet.new
+              @magnetStack << m
+              @exclusionIntervalsStack << []
+              @classMagnets << m
             end
 
-            @exclusionIntervalsStack.last << ctx.getSourceInterval
-            @magnetStack << m
-            @exclusionIntervalsStack << []
+            define_method "exit#{node}" do |ctx|
+              m = @magnetStack.last
+              # This get text should exclude text from any intervals covered 
+              # by other magnets. There should be drop zones at all excluded intervals.
+              m.contents += getTextWithWhitespace ctx, @exclusionIntervalsStack.last
+              @magnetStack.pop
+              @exclusionIntervalsStack.pop
+            end
           end
 
-          def exitClassBodyDeclaration ctx
-            m = @magnetStack.last
-            # This get text should exclude text from any intervals covered 
-            # by other magnets. There should be drop zones at all excluded intervals.
-            m.contents += getTextWithWhitespace ctx, @exclusionIntervalsStack.last
-            @magnetStack.pop
-            @exclusionIntervalsStack.pop
+          type3 = ["ClassBodyDeclaration"]
+
+          type3.each do |node|
+            define_method "enter#{node}" do |ctx|
+              m = Magnet.new
+
+              if ctxHasChildType(ctx, Java::java_parser.JavaParser::MethodDeclarationContext, 2)
+                @methodMagnets << m
+              end
+
+              @exclusionIntervalsStack.last << ctx.getSourceInterval
+              @magnetStack << m
+              @exclusionIntervalsStack << []
+            end
           end
 
-          def enterBlockStatement ctx
-            m = Magnet.new
-            
-            @statementMagnets << m
+          type4 = ["BlockStatement"]
 
-            @exclusionIntervalsStack.last << ctx.getSourceInterval
-            @magnetStack << m
-            @exclusionIntervalsStack << []
+          type4.each do |node|
+            define_method "enter#{node}" do |ctx|
+              m = Magnet.new
+              
+              @statementMagnets << m
+
+              @exclusionIntervalsStack.last << ctx.getSourceInterval
+              @magnetStack << m
+              @exclusionIntervalsStack << []
+            end
           end
 
-          def exitBlockStatement ctx
-            m = @magnetStack.last
-            # This get text should exclude text from any intervals covered 
-            # by other magnets. There should be drop zones at all excluded intervals.
-            m.contents += getTextWithWhitespace ctx, @exclusionIntervalsStack.last
-            @magnetStack.pop
-            @exclusionIntervalsStack.pop
+          type3_and_4 = type3 + type4
+
+          type3_and_4.each do |node|
+            define_method "exit#{node}" do |ctx|
+              m = @magnetStack.last
+              # This get text should exclude text from any intervals covered 
+              # by other magnets. There should be drop zones at all excluded intervals.
+              m.contents += getTextWithWhitespace ctx, @exclusionIntervalsStack.last
+              @magnetStack.pop
+              @exclusionIntervalsStack.pop
+            end
           end
         end
 
