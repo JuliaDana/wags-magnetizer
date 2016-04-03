@@ -1,0 +1,12 @@
+# Dolphin file browser metadata
+**/.directory
+
+# LaTeX generated file
+doc/**/*.aux
+doc/**/*.log
+doc/**/*.tex.backup
+doc/**/*.toc
+
+**/*.vim
+
+**/*.mdzip.bak
