@@ -46,7 +46,7 @@ class Magnetizer
     unless LANGUAGES.keys.include? language
       raise UnsupportedLanguageError
     end
-
+    
     lexer_class = eval "Java::#{language.downcase}_parser.#{language}Lexer"
     parser_class = eval "Java::#{language.downcase}_parser.#{language}Parser"
 
@@ -56,9 +56,9 @@ class Magnetizer
       tokens = Antlr::CommonTokenStream.new(lexer)
       @parser = parser_class.new(tokens)
       
-      @tree = @parser.compilationUnit
+      @tree = @parser.send(LANGUAGES[language]["start_rule"])
       walker = Antlr::ParseTreeWalker.new()
-      @emitter = MagnetEmitterGenerator.generate("Java").new(tokens)
+      @emitter = MagnetEmitterGenerator.generate(language).new(tokens)
       walker.walk(@emitter, @tree)
     rescue java.io.FileNotFoundException => e
       raise "Unable to load file #{file}"
@@ -84,6 +84,10 @@ class Magnetizer
 
     puts "Statement Magnets:"
     puts trans.translate_to_wags_magnets(@emitter.statementMagnets)
+  end
+
+  def print_json
+    puts JSON.pretty_generate(self.get_magnets)
   end
 
   def print_tree

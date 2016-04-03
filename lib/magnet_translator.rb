@@ -23,7 +23,7 @@ class MagnetTranslator
        end
     end
 
-    magnetsAsStrings.join(MAGNET_SEPARATOR)
+    magnetsAsStrings.collect{|m| m.strip}.join(MAGNET_SEPARATOR)
   end
   
   def translate_statements_to_wags_magnets magnets
@@ -45,7 +45,7 @@ class MagnetTranslator
       end
     end
 
-    magnetsAsStrings.join(MAGNET_SEPARATOR)
+    magnetsAsStrings.collect{|m| m.strip}.join(MAGNET_SEPARATOR)
 
   end
 

@@ -867,8 +867,19 @@ RIGHT_SHIFT_ASSIGN : '>>=';
 POWER_ASSIGN : '**=';
 IDIV_ASSIGN : '//=';
 
-SKIP
+/*SKIP
  : ( SPACES | COMMENT | LINE_JOINING ) -> skip
+ ;*/
+SKIP
+ : LINE_JOINING -> skip
+ ;
+
+WS_CHANNEL
+ : SPACES -> channel(1)
+ ;
+
+COMMENT_CHANNEL
+ : COMMENT -> channel(2)
  ;
 
 UNKNOWN_CHAR

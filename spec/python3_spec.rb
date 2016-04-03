@@ -4,6 +4,7 @@ describe "The magnetizer on Python3 files" do
   context "basic python3 file" do
     it_should_behave_like "a correct magnetizer" do
       let(:file) {"spec/python3_hello/hello.py"}
+      let(:language) {"Python3"}
 
       #TODO: Handle script areas outside of the class
       let(:magnet_output) {<<'ENDOUT'
@@ -13,7 +14,7 @@ Class Magnets:
 class HelloWorld(object): <br><!-- panel --><br>
 Method Magnets:
 def say_hello(self): <br><!-- panel --><br>
-StatementMagnets:
+Statement Magnets:
 print(&quot;Hello, World&quot;)
 .:|:.
 h = HelloWorld()
@@ -34,7 +35,82 @@ ENDOUT
         Magnet.new(MagnetText.new("h.say_hello()"))
       ]}
 
-      let(:json_output) {}
+      let(:json_output) {<<'ENDJSON'.rstrip
+[
+  {
+    "json_class": "Magnet",
+    "data": {
+      "contents": [
+        {
+          "json_class": "MagnetText",
+          "data": {
+            "text": "class HelloWorld(object):"
+          }
+        },
+        {
+          "json_class": "MagnetDropZone"
+        }
+      ]
+    }
+  },
+  {
+    "json_class": "Magnet",
+    "data": {
+      "contents": [
+        {
+          "json_class": "MagnetText",
+          "data": {
+            "text": "def say_hello(self):"
+          }
+        },
+        {
+          "json_class": "MagnetDropZone"
+        }
+      ]
+    }
+  },
+  {
+    "json_class": "Magnet",
+    "data": {
+      "contents": [
+        {
+          "json_class": "MagnetText",
+          "data": {
+            "text": "print(\"Hello, World\")"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "json_class": "Magnet",
+    "data": {
+      "contents": [
+        {
+          "json_class": "MagnetText",
+          "data": {
+            "text": "h = HelloWorld()"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "json_class": "Magnet",
+    "data": {
+      "contents": [
+        {
+          "json_class": "MagnetText",
+          "data": {
+            "text": "h.say_hello()"
+          }
+        }
+      ]
+    }
+  }
+]
+ENDJSON
+}
       let(:xml_output) {}
     end
   end

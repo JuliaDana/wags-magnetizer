@@ -58,6 +58,10 @@ class Magnet
       end
     end
 
+    if new_contents.last.is_a? MagnetText
+      new_contents.last.text.rstrip!
+    end
+
     @contents = new_contents
 
     return self

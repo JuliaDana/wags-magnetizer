@@ -5,6 +5,8 @@ describe "The magnetizer on Java files" do
   context "for file Hello.java" do
     it_should_behave_like "a correct magnetizer" do
       let(:file) {"spec/java_hello/Hello.java"}
+      let(:language) {"Java"}
+
       let(:magnet_output) {<<'ENDOUT'
 Preamble Magnets:
 
@@ -143,6 +145,7 @@ ENDJSON
   context "for file Student.java that is palindrome" do
     it_should_behave_like "a correct magnetizer" do
       let(:file) {"spec/java_palindrome/Student.java"}
+      let(:language) {"Java"}
     
       let(:magnet_output) {<<'ENDOUT'
 Preamble Magnets:
@@ -298,6 +301,7 @@ ENDJSON
   context "for file Preamble.java that has package and imports" do
     it_should_behave_like "a correct magnetizer" do
       let(:file) {"spec/java_preamble/mypackage/Preamble.java"}
+      let(:language) {"Java"}
 
       let(:magnet_output) {<<'ENDOUT'
 Preamble Magnets:
