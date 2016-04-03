@@ -55,7 +55,8 @@ class MagnetEmitterGenerator
               if ctxHasChildType(ctx, Java::java_parser.JavaParser::MethodDeclarationContext, 2)
                 @methodMagnets << m
               else
-                raise "ClassBodyDeclaration node found that is not a method"
+                #raise "ClassBodyDeclaration node found that is not a method"
+                @statementMagnets << m
               end
             end
           end

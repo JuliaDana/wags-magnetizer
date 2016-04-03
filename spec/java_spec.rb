@@ -313,7 +313,7 @@ public void theMethod() {
 
   }
 Statement Magnets:
-
+private String theField;
 ENDOUT
 }
       let(:data_structure) {[
@@ -327,7 +327,10 @@ ENDOUT
           MagnetDropZone.instance,
           MagnetText.new("}")
           ),
+        #TODO: Should there be a drop zone in the empty method? 
         Magnet.new(MagnetText.new("public void theMethod() {\n\n  }")
+          ),
+        Magnet.new(MagnetText.new("private String theField;")
           ),
         ]}
 
@@ -402,6 +405,19 @@ ENDOUT
           "json_class": "MagnetText",
           "data": {
             "text": "public void theMethod() {\n\n  }"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "json_class": "Magnet",
+    "data": {
+      "contents": [
+        {
+          "json_class": "MagnetText",
+          "data": {
+            "text": "private String theField;"
           }
         }
       ]
