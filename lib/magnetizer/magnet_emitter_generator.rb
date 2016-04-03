@@ -12,9 +12,11 @@ class MagnetEmitterGenerator
 
           type1.each do |node|
             define_method "enter#{node}" do |ctx|
-              @preambleMagnets << Magnet.new
+              m = Magnet.new
               text = getTextWithWhitespace(ctx)
-              @preambleMagnets.last.contents += text;
+              m.contents += text;
+
+              @preambleMagnets << m
             end
           end
 
@@ -26,6 +28,7 @@ class MagnetEmitterGenerator
               m = Magnet.new
               @magnetStack << m
               @exclusionIntervalsStack << []
+
               @classMagnets << m
             end
 
@@ -45,13 +48,15 @@ class MagnetEmitterGenerator
             define_method "enter#{node}" do |ctx|
               m = Magnet.new
 
-              if ctxHasChildType(ctx, Java::java_parser.JavaParser::MethodDeclarationContext, 2)
-                @methodMagnets << m
-              end
-
               @exclusionIntervalsStack.last << ctx.getSourceInterval
               @magnetStack << m
               @exclusionIntervalsStack << []
+
+              if ctxHasChildType(ctx, Java::java_parser.JavaParser::MethodDeclarationContext, 2)
+                @methodMagnets << m
+              else
+                raise "ClassBodyDeclaration node found that is not a method"
+              end
             end
           end
 
@@ -60,12 +65,12 @@ class MagnetEmitterGenerator
           type4.each do |node|
             define_method "enter#{node}" do |ctx|
               m = Magnet.new
-              
-              @statementMagnets << m
 
               @exclusionIntervalsStack.last << ctx.getSourceInterval
               @magnetStack << m
               @exclusionIntervalsStack << []
+
+              @statementMagnets << m
             end
           end
 
