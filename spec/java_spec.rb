@@ -157,9 +157,9 @@ public boolean palindrome(String str) { <br><!-- panel --><br> }
 Statement Magnets:
 boolean isPalindrome = true;
 .:|:.
-for (int i = 0; i &lt; str.length() / 2; i++) { <br><!-- panel --><br> }
-.:|:.
 isPalindrome &amp;= (str.charAt(i) == str.charAt(str.length() - (i + 1)));
+.:|:.
+for (int i = 0; i &lt; str.length() / 2; i++) { <br><!-- panel --><br> }
 .:|:.
 return isPalindrome;
 ENDOUT
@@ -175,11 +175,11 @@ ENDOUT
           ),
         Magnet.new(MagnetText.new("boolean isPalindrome = true;")
           ),
+        Magnet.new(MagnetText.new('isPalindrome &= (str.charAt(i) == str.charAt(str.length() - (i + 1)));')
+          ),
         Magnet.new(MagnetText.new("for (int i = 0; i < str.length() / 2; i++) {"),
           MagnetDropZone.instance,
           MagnetText.new("}"),
-          ),
-        Magnet.new(MagnetText.new('isPalindrome &= (str.charAt(i) == str.charAt(str.length() - (i + 1)));')
           ),
         Magnet.new(MagnetText.new('return isPalindrome;')
           )
@@ -251,16 +251,7 @@ ENDOUT
         {
           "json_class": "MagnetText",
           "data": {
-            "text": "for (int i = 0; i < str.length() / 2; i++) {"
-          }
-        },
-        {
-          "json_class": "MagnetDropZone"
-        },
-        {
-          "json_class": "MagnetText",
-          "data": {
-            "text": "}"
+            "text": "isPalindrome &= (str.charAt(i) == str.charAt(str.length() - (i + 1)));"
           }
         }
       ]
@@ -273,7 +264,16 @@ ENDOUT
         {
           "json_class": "MagnetText",
           "data": {
-            "text": "isPalindrome &= (str.charAt(i) == str.charAt(str.length() - (i + 1)));"
+            "text": "for (int i = 0; i < str.length() / 2; i++) {"
+          }
+        },
+        {
+          "json_class": "MagnetDropZone"
+        },
+        {
+          "json_class": "MagnetText",
+          "data": {
+            "text": "}"
           }
         }
       ]

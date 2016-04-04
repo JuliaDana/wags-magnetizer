@@ -6,12 +6,12 @@ end
 
 require 'optparse'
 
-options = {}
+options = {:wags => true, :language => "Java"}
 opt_parser = OptionParser.new do |opts|
   opts.banner = "Usage: magnetizer [options] file"
 
-  opts.on("-l", "--language [LANGUAGE]", "Specify a language") do |language|
-    options[:language] = language || "Java"
+  opts.on("-l", "--language LANGUAGE", "Specify a language") do |language|
+    options[:language] = language
   end
 
   opts.on("--json", "Print the JSON output") do

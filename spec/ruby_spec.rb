@@ -1,9 +1,10 @@
 require "spec/main_spec.rb"
 
 describe "The magnetizer on Ruby files" do
-  context "basic ruby file" do
+  xcontext "basic ruby file" do
     it_should_behave_like "a correct magnetizer" do
       let(:file) {"spec/ruby_hello/hello.rb"}
+      let(:language) {"Ruby"}
 
       #TODO: Handle script areas outside of the class
       let(:magnet_output) {<<'ENDOUT'
