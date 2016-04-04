@@ -4,6 +4,10 @@ module MagnetEmitterBase
   attr_reader :methodMagnets
   attr_reader :statementMagnets
 
+  class << self
+    attr_reader :allow_file_statements
+  end
+
   def initialize tokens
     super()
     @preambleMagnets = []
@@ -13,6 +17,10 @@ module MagnetEmitterBase
 
     @magnetStack = []
     @exclusionIntervalsStack = []
+
+    if self.class.allow_file_statements
+      @exclusionIntervalsStack << []
+    end
 
     @tokens = tokens
   end

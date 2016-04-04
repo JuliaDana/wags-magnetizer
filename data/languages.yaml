@@ -1,5 +1,6 @@
 Java:
   start_rule: compilationUnit
+  allow_file_statements: false
   preamble_type:
     - PackageDeclaration
     - ImportDeclaration
@@ -16,13 +17,21 @@ Java:
 
 Python3: 
   start_rule: file_input
-  type1:
+  allow_file_statements: true
+  preamble_type: []
+  class_type: []
+  in_block_type:
     - Simple_stmt
-  type2:
-  type3:
     - Compound_stmt
-  type4:
-    - Suite
+  overrides:
+    - name: Compound_stmt
+      child_node_type: Classdef
+      child_level: 1
+      location: class
+    - name: Compound_stmt
+      child_node_type: Funcdef
+      child_level: 1
+      location: method
 
 #Java8:
 #   start_rule: compilationUnit
