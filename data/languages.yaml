@@ -1,12 +1,32 @@
 Java:
   start_rule: compilationUnit
+  preamble_type:
+    - PackageDeclaration
+    - ImportDeclaration
+  class_type:
+    - TypeDeclaration
+  in_block_type:
+    - ClassBodyDeclaration
+    - BlockStatement
+  overrides:
+    - name: ClassBodyDeclaration
+      child_node_type: MethodDeclaration
+      child_level: 2
+      location: method
 
 Python3: 
   start_rule: file_input
+  type1:
+    - Simple_stmt
+  type2:
+  type3:
+    - Compound_stmt
+  type4:
+    - Suite
 
-Java8:
-  start_rule: compilationUnit
-
-C:
-  start_rule: compilationUnit
+#Java8:
+#   start_rule: compilationUnit
+# 
+# C:
+#   start_rule: compilationUnit
 
