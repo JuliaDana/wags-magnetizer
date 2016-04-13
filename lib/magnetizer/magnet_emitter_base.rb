@@ -4,10 +4,6 @@ module MagnetEmitterBase
   attr_reader :methodMagnets
   attr_reader :statementMagnets
 
-  class << self
-    attr_reader :allow_file_statements
-  end
-
   def initialize tokens
     super()
     @preambleMagnets = []
@@ -15,7 +11,7 @@ module MagnetEmitterBase
     @methodMagnets = []
     @statementMagnets = []
 
-    @magnetStack = []
+    #@magnetStack = []
     @exclusionIntervalsStack = []
 
     if self.class.allow_file_statements
@@ -52,39 +48,44 @@ module MagnetEmitterBase
     return false
   end
 
-  # TODO: Remove indentation up to the level that the first line is at
-  def getTextWithWhitespace ctx, excludedIntervals = []
+  def createMagnetContent ctx, excludedIntervals = []
     interval = ctx.getSourceInterval
+    content = []
 
+    # Assumes excluded intervals are all disjoint and in order
+    # TODO: Handle magnets beginning with drop zone
+    startIndex = interval.a
+    endIndex = excludedIntervals.empty? ? interval.b : (excludedIntervals.first.a - 1)
+    content << MagnetText.new(getAllText(startIndex .. endIndex))
+
+    until excludedIntervals.empty?
+      content << MagnetDropZone.instance
+
+      exInt = excludedIntervals.shift
+
+      startIndex = exInt.b + 1
+      endIndex = excludedIntervals.empty? ? interval.b : (excludedIntervals.first.a - 1)
+      content << MagnetText.new(getAllText(startIndex .. endIndex))
+    end
+
+    return content
+
+  end
+
+  # TODO: Remove indentation up to the level that the first line is at
+  def getAllText intervalRange
     toks = []
-    (interval.a .. interval.b).each  do |j|
+    # Go through the interval token by token. It is indexed by token, 
+    # not by character
+    intervalRange.each  do |j|
       tok =  @tokens.get(j)
 
-      startingExcludedInterval = false
-      inExcludedInterval = false
-
-      excludedIntervals.each do |excludedInterval|
-        if (excludedInterval.a == j)
-          startingExcludedInterval = true
-        end
-
-        if (excludedInterval.a < j && excludedInterval.b >=j)
-          inExcludedInterval = true
-        end
-      end
-
-      if inExcludedInterval
-        # do nothing
-
-      elsif startingExcludedInterval
-        toks << MagnetDropZone.instance
-      
-      elsif (tok.channel == 0 || tok.channel == 1)
-        toks << MagnetText.new(tok.getText)
+      if (tok.channel == 0 || tok.channel == 1)
+        toks << tok.getText
       end
     end
 
-    return toks
+    return toks.join
   end
 end
 

@@ -14,6 +14,7 @@ class MagnetEmitterGenerator
     unless const_defined? generating_class_name
       
       emitter_class = Class.new(parent_class) do
+        # TODO: Check for effeciency from using this in closures
         language_info = LANGUAGES[language]
 
         self.class.class_eval do
@@ -29,8 +30,8 @@ class MagnetEmitterGenerator
           language_info["in_block_type"]
 
         all_types.each do |node|
+          # TODO create more specific method bodies
           define_method "enter#{node}" do |ctx|
-            # TODO: not really needed for simple statements
             if language_info["in_block_type"].include? node
               @exclusionIntervalsStack.last << ctx.getSourceInterval
             end
@@ -38,11 +39,12 @@ class MagnetEmitterGenerator
             @exclusionIntervalsStack << []
           end
 
+          # TODO create more specific method bodies
           define_method "exit#{node}" do |ctx|
             m = Magnet.new
             # This get text should exclude text from any intervals covered 
             # by other magnets. There should be drop zones at all excluded intervals.
-            m.contents += getTextWithWhitespace ctx, @exclusionIntervalsStack.last
+            m.contents += createMagnetContent ctx, @exclusionIntervalsStack.last
 
             used_override = false
             if (o = language_info["overrides"]) && !o.empty?

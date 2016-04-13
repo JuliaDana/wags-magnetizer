@@ -1,3 +1,4 @@
+# TODO: Trace and test all paths from the start rule
 Java:
   start_rule: compilationUnit
   allow_file_statements: false
