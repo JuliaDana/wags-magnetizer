@@ -36,7 +36,7 @@ end
 # java_import org.antlr.v4.runtime.CommonTokenStream
 
 require_relative "magnetizer/magnet_emitter_generator.rb"
-require_relative "magnet_translator.rb"
+require_relative "wags_interaction/magnet_translator.rb"
 
 class UnsupportedLanguageError < StandardError; end;
 

@@ -1,4 +1,4 @@
-require "lib/magnet.rb"
+require "lib/magnetizer/magnet.rb"
 
 describe "A magnet" do
 

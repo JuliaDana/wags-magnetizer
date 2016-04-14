@@ -1,5 +1,5 @@
 require "lib/magnetizer.rb"
-require "lib/wags_site_driver.rb"
+require "lib/wags_interaction/wags_site_driver.rb"
 
 describe "The Web Driver" do
   it "should log in to the website" do

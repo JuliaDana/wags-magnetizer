@@ -1,4 +1,4 @@
-require_relative 'magnet.rb'
+require_relative '../magnetizer/magnet.rb'
 require "pp"
 
 class MagnetTranslator
