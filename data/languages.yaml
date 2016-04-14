@@ -1,5 +1,7 @@
 # TODO: Trace and test all paths from the start rule
-Java:
+--- 
+- !customObject/LanguageConfig
+  name: Java
   start_rule: compilationUnit
   allow_file_statements: false
   preamble_type:
@@ -16,7 +18,8 @@ Java:
       child_level: 2
       location: method
 
-Python3: 
+- !customObject/LanguageConfig
+  name: Python3 
   start_rule: file_input
   allow_file_statements: true
   preamble_type: []

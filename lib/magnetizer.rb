@@ -4,7 +4,6 @@ require "etc/antlr-4.5.1-complete.jar"
 require 'cgi'
 require 'yaml'
 
-LANGUAGES = YAML.load_file("data/languages.yaml")
 
 # Importing entire packages to Antlr namespace
 module Antlr
@@ -37,13 +36,15 @@ end
 
 require_relative "magnetizer/magnet_emitter_generator.rb"
 require_relative "wags_interaction/magnet_translator.rb"
+require_relative "magnetizer/language_config.rb"
+YAML.load_file("data/languages.yaml")
 
 class UnsupportedLanguageError < StandardError; end;
 
 class Magnetizer
 
   def initialize file, language = "Java"
-    unless LANGUAGES.keys.include? language
+    unless LOADED_LANGUAGES.keys.include? language
       raise UnsupportedLanguageError
     end
     
@@ -56,7 +57,7 @@ class Magnetizer
       tokens = Antlr::CommonTokenStream.new(lexer)
       @parser = parser_class.new(tokens)
       
-      @tree = @parser.send(LANGUAGES[language]["start_rule"])
+      @tree = @parser.send(LOADED_LANGUAGES[language].start_rule)
       walker = Antlr::ParseTreeWalker.new()
       @emitter = MagnetEmitterGenerator.generate(language).new(tokens)
       walker.walk(@emitter, @tree)
