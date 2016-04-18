@@ -1,5 +1,19 @@
 \documentclass[letter,10pt]{article}
 \usepackage[utf8]{inputenc}
+\usepackage{todonotes}
+\usepackage{graphicx}
+
+%http://tex.stackexchange.com/questions/60209/how-to-add-an-extra-level-
+%of-sections-with-headings-below-subsubsection
+\makeatletter
+\renewcommand\paragraph{\@startsection{paragraph}{4}{\z@}%
+            {-2.5ex\@plus -1ex \@minus -.25ex}%
+            {1.25ex \@plus .25ex}%
+            {\normalfont\normalsize\bfseries}}
+\makeatother
+\setcounter{secnumdepth}{4} % how many sectioning levels to assign 
+%numbers to
+\setcounter{tocdepth}{4}    % how many sectioning levels to show in ToC
 
 %opening
 \title{Automating Code Magnet Generation}
@@ -20,19 +34,82 @@
 
 \section{Introduction}
 
+\subsection{The Overview: Easier Creation of Code Magnet Microlabs}
+
+The purpose of this project is to assist in the creation of code magnet 
+microlab assignments for WAGS by creating magnets from a completed 
+solution file. This is accomplished in a manner that supports multiple 
+programming languages, and allows additional languages to be added with 
+minimal configuration. Additional tools that support this idea of 
+easier creation of assignments are also included, such as an automated
+interaction with the WAGS website to create assignments. Also, this 
+project defines new formats for the specification of magnets, including 
+object and JSON. \todo{Improve this sentence, implement XML}
+
 \subsection{The Context: What is WAGS?}
+
+WAGS (Web Automated Grading System) is an ongoing project of 
+Appalachian State University. It is an online tool for microlabs. 
+Microlabs are short, 5-10 minutes hands-on activities that are 
+intended to be done as a part of a regular (i.e. not lab) class session 
+to reinforce the concepts that are currently being covered. There 
+are multiple types of microlabs provided by WAGS, but the one that 
+this project is interested in is code magnet microlabs. These are 
+microlabs where the student is given pieces of code (code magnets) and 
+has to choose the correct ones and order them correctly to “write” a 
+solution to the microlab.
+
+~
+
+~
+
+\missingfigure{Add figure of in progress magnet microlab}
+%\begin{figure}
+% \centering
+% \includegraphics[width=3in]{./images/missing-image.png}
+% \caption{An in-progress magnet microlab}
+% \label{fig:magnets}
+% %\todo{Add figure of in progress magnet microlab}
+% %\todo{Make sure picture is in a good location in the text}
+%\end{figure}
 
 \subsection{The Problem: Brittle Input}
 
+The problem is that creating these magnet microlab assignments on the 
+WAGS website is a somewhat painful process. The current parser creates 
+a magnet per line, and this can result in having to format the input 
+file so that is no longer the same as a solution file, and is indeed no 
+longer valid for its language.
+
+\missingfigure{Parser example}
+
+If your input cannot be handled by this brittle parser. WAGS does 
+provide a manual input for magnets. However, using this manual input 
+requires magnets to either be entered one at a time to the magnet 
+creation wizard, or for the user to directly type the final magnet 
+(including HTML escape sequences) to the parsed output section. 
+
+\missingfigure{magnet assignment creation page}
+
 \subsection{The Solution: Parsing by Grammar}
 
+The solution to this is to use a more robust parser that is based on 
+the grammar of a language, rather than simply splitting on newlines. 
+This project will be using the ANTLR4 parser 
+generator\cite{antlr-reference} and grammars for common 
+languages\cite{antlr-grammars-project}.
 
+\todo{Discuss grammars}
+
+\todo{Describe ANTLR4}
 
 \section{Development results and future extensions}
 
 \subsection{What It Does: Internal Functions}
 
 \subsubsection{Parses by Grammar}
+\paragraph{Java}
+\paragraph{Python}
 
 \subsubsection{Improved Represention of Magnets}
 
@@ -84,5 +161,11 @@
 A new G4 file can be added to the system. However, whitespace is
 require to go on channel 1, or your magnets will not have any
 whitespace, and you might get things like ``publicclassMyClass''.
+
+
+\todo{Final export of bibliography from Mendeley and link it}
+\todo{Make sure citations and bibliography are styled correctly}
+\bibliography{bibliography}{}
+\bibliographystyle{plain}
 
 \end{document}

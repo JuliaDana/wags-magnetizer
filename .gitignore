@@ -6,6 +6,8 @@ doc/**/*.aux
 doc/**/*.log
 doc/**/*.tex.backup
 doc/**/*.toc
+doc/**/*.bbl
+doc/**/*.blg
 
 **/*.vim
 
