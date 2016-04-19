@@ -25,7 +25,7 @@ languages_info = YAML.load_file("data/languages.yaml")
 task :generate do
   write_empty_tasks
   if ARGV.empty?
-    languages = languages_info.keys
+    languages = languages_info.map {|l| l["name"]}
   else
     languages = ARG
   end
