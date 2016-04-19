@@ -10,7 +10,7 @@ options = {:wags => true, :language => "Java"}
 opt_parser = OptionParser.new do |opts|
   opts.banner = "Usage: magnetizer [options] file"
 
-  opts.on("-l", "--language LANGUAGE", "Specify a language") do |language|
+  opts.on("-l", "--language LANGUAGE", "Specify a language (default: Java)") do |language|
     options[:language] = language
   end
 
@@ -18,12 +18,16 @@ opt_parser = OptionParser.new do |opts|
     options[:json] = true
   end
 
-  opts.on("--[no-]wags", "Print the output as WAGS magnets") do |wags|
+  opts.on("--[no-]wags", "Print the output as WAGS magnets (default)") do |wags|
     options[:wags] = wags
   end
 
-  opts.on("-v", "--[no-]verbose", "Run verbosely") do |v|
-    options[:verbose] = v
+  # opts.on("-v", "--[no-]verbose", "Run verbosely") do |v|
+  #   options[:verbose] = v
+  # end
+
+  opts.on("-o", "--output-file BASE_FILENAME", "Output to a file") do |filename|
+    options[:output] = filename
   end
 
   opts.on_tail("-h", "--help", "Show this message") do
@@ -49,12 +53,27 @@ $CLASSPATH << "java/bin/"
 require "lib/magnetizer.rb"
 magnetizer = Magnetizer.new(file, options[:language])
 # magnetizer.show_gui_tree
+print_to = options[:output] ? File.new(options[:output], "w") : STDOUT
+
 if options[:wags]
-  magnetizer.print_magnets
+  if options[:output]
+    File.new("#{options[:output]}.wags", "w") do |print_to|
+      magnetizer.print_magnets print_to
+    end
+  else
+    magnetizer.print_magnets
+  end
 end
 
 if options[:json]
-  magnetizer.print_json
+  if options[:output]
+    File.new("#{options[:output]}.json", "w") do |print_to|
+      magnetizer.print_json print_to
+    end
+  else
+    magnetizer.print_json print_to
+  end
 end
 
-puts "After running"
+
+puts "Magnetizer finished."

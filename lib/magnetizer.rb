@@ -70,25 +70,25 @@ class Magnetizer
     return @emitter.allMagnets.map {|m| m.coalesce}
   end
 
-  def print_magnets
+  def print_magnets print_to = $stdout
     trans = MagnetTranslator.new
 
-    puts "Preamble Magnets:"
-    puts trans.translate_to_wags_magnets(@emitter.preambleMagnets)
+    print_to.puts "Preamble Magnets:"
+    print_to.puts trans.translate_to_wags_magnets(@emitter.preambleMagnets)
 
-    puts "Class Magnets:"
-    puts trans.translate_to_wags_magnets(@emitter.classMagnets)
+    print_to.puts "Class Magnets:"
+    print_to.puts trans.translate_to_wags_magnets(@emitter.classMagnets)
 
-    puts "Method Magnets:"
-    puts trans.translate_to_wags_magnets(@emitter.methodMagnets)
+    print_to.puts "Method Magnets:"
+    print_to.puts trans.translate_to_wags_magnets(@emitter.methodMagnets)
 
 
-    puts "Statement Magnets:"
-    puts trans.translate_to_wags_magnets(@emitter.statementMagnets)
+    print_to.puts "Statement Magnets:"
+    print_to.puts trans.translate_to_wags_magnets(@emitter.statementMagnets)
   end
 
-  def print_json
-    puts JSON.pretty_generate(self.get_magnets)
+  def print_json print_to = $stdout
+    print_to.puts JSON.pretty_generate(self.get_magnets)
   end
 
   def print_tree
