@@ -35,6 +35,7 @@ end
 # java_import org.antlr.v4.runtime.CommonTokenStream
 
 require_relative "magnetizer/magnet_emitter_generator.rb"
+require_relative "magnetizer/magnet_visitor_generator.rb"
 require_relative "wags_interaction/magnet_translator.rb"
 require_relative "magnetizer/language_config.rb"
 YAML.load_file("data/languages.yaml")
@@ -58,9 +59,16 @@ class Magnetizer
       @parser = parser_class.new(tokens)
       
       @tree = @parser.send(LOADED_LANGUAGES[language].start_rule)
-      walker = Antlr::ParseTreeWalker.new()
-      @emitter = MagnetEmitterGenerator.generate(language).new(tokens)
-      walker.walk(@emitter, @tree)
+      
+      # Using the listener method
+      # walker = Antlr::ParseTreeWalker.new()
+      # @emitter = MagnetEmitterGenerator.generate(language).new(tokens)
+      # walker.walk(@emitter, @tree)
+
+      # Using the visitor method
+      @emitter = MagnetVisitorGenerator.generate(language).new(tokens)
+      @emitter.visit(@tree)
+      
     rescue java.io.FileNotFoundException => e
       raise "Unable to load file #{file}"
     end
