@@ -38,7 +38,6 @@ ENDOUT
       ]}
 
       let(:json_output) {}
-      let(:xml_output) {}
     end
   end
 end

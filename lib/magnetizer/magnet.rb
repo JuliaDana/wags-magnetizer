@@ -8,11 +8,6 @@ class Magnet
     @contents = contents
   end
 
-
-  def import_xml
-
-  end
-
   def to_json *a
     {
       "json_class" => self.class.name,
@@ -22,10 +17,6 @@ class Magnet
 
   def self.json_create o
     self.new(*o["data"]["contents"])
-  end
-
-  def serialize_xml
-
   end
 
   def add magnet

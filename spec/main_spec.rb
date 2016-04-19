@@ -34,11 +34,5 @@ shared_examples "a correct magnetizer" do
   it "should serialize to json" do
     expect(JSON.pretty_generate(@magnetizer.get_magnets)).to eq(json_output)
   end
-
-  it "should serialize to xml" do
-    pending "Not yet implemented"
-
-    expect(@magnetizer.get_magnets.to_xml).to eq(xml_output)
-  end
 end 
 

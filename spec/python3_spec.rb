@@ -111,7 +111,6 @@ ENDOUT
 ]
 ENDJSON
 }
-      let(:xml_output) {}
     end
   end
 end
