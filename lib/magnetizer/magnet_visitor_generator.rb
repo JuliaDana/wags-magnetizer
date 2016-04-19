@@ -30,6 +30,8 @@ class MagnetVisitorGenerator
         all_types.each do |node|
           # TODO create more specific method bodies
           define_method "visit#{node.name}" do |ctx|
+            get_directives ctx
+
             if node.list == "in_block_type"
               @exclusionIntervalsStack.last << ctx.getSourceInterval
             end

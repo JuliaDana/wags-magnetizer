@@ -27,7 +27,7 @@ task :generate do
   if ARGV.empty?
     languages = languages_info.map {|l| l["name"]}
   else
-    languages = ARG
+    languages = ARGV
   end
 
   languages.each do |language|

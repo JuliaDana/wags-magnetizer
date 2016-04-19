@@ -1011,10 +1011,15 @@ ELLIPSIS : '...';
 WS  :  [ \t\r\n\u000C]+ -> channel(1)
     ;
 
+INSTRUCTOR_DIRECTIVE
+    :   '/*#' .*? '*/' -> channel(2)
+    ;
+
 COMMENT
-    :   '/*' .*? '*/' -> channel(2)
+    :   '/*' .*? '*/' -> channel(3)
     ;
 
 LINE_COMMENT
-    :   '//' ~[\r\n]* -> channel(2)
+    :   '//' ~[\r\n]* -> channel(3)
     ;
+
