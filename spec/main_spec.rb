@@ -34,5 +34,9 @@ shared_examples "a correct magnetizer" do
   it "should serialize to json" do
     expect(JSON.pretty_generate(@magnetizer.get_magnets)).to eq(json_output)
   end
+
+  it "should serialize to yaml" do
+    expect(YAML.dump(@magnetizer.get_magnets)).to eq(yaml_output)
+  end
 end 
 

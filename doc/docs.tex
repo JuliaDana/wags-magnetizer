@@ -52,7 +52,7 @@ minimal configuration. Additional tools that support this idea of
 easier creation of assignments are also included, such as an automated
 interaction with the WAGS website to create assignments. Also, this 
 project defines new formats for the specification of magnets, including 
-object and JSON. \todo{Improve this sentence}
+object, JSON and YAML. \todo{Improve this sentence}
 
 \subsection{The Context: What is WAGS?}
 
@@ -156,7 +156,7 @@ This project creates an underlying data structure for magnets, as
 shown in figure \todo{link figure of class diagram}. This structure can 
 then be serialized as desired. Currently, serialization to the old 
 magnet format is supported for backward compatibility, as well as JSON 
-and YAML \todo{Make sure YAML is working} for more robust usages.
+and YAML for more robust usages.
 
 \missingfigure{Class diagram of Magnets}
 
@@ -215,13 +215,14 @@ as XML) could easily be added.
 The primary interface to this project is the magnetizer command line 
 tool. This tool is capable of outputing to WAGS-style magnets that can 
 be copy-pasted into the parsed sections of the WAGS website or to a 
-JSON representation of the magnets.
+JSON or YAML representation of the magnets.
 
 \todo{Make sure usage is the latest version.}
 \begin{verbatim}
 Usage: magnetizer [options] file
     -l, --language LANGUAGE          Specify a language (default: Java)
         --json                       Print the JSON output
+        --yaml                       Print the YAML output
         --[no-]wags                  Print the output as WAGS magnets 
 (default)
     -o, --output-file BASE_FILENAME  Output to a file

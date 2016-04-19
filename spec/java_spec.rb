@@ -139,6 +139,40 @@ ENDOUT
 ]
 ENDJSON
 }
+
+      let(:yaml_output) {<<'ENDYAML'
+---
+- !ruby/object:Magnet
+  contents:
+  - !ruby/object:MagnetText
+    text: public class Hello {
+  - &1 !ruby/object:MagnetDropZone {}
+  - !ruby/object:MagnetText
+    text: '}'
+- !ruby/object:Magnet
+  contents:
+  - !ruby/object:MagnetText
+    text: public String helloWorld() {
+  - *1
+  - !ruby/object:MagnetText
+    text: '}'
+- !ruby/object:Magnet
+  contents:
+  - !ruby/object:MagnetText
+    text: public static void main(String[] args) {
+  - *1
+  - !ruby/object:MagnetText
+    text: '}'
+- !ruby/object:Magnet
+  contents:
+  - !ruby/object:MagnetText
+    text: return "Hello World";
+- !ruby/object:Magnet
+  contents:
+  - !ruby/object:MagnetText
+    text: System.out.println("Hello");
+ENDYAML
+}
     end
   end
 
@@ -295,6 +329,44 @@ ENDOUT
 ]
 ENDJSON
 }
+
+      let(:yaml_output) {<<'ENDYAML'
+---
+- !ruby/object:Magnet
+  contents:
+  - !ruby/object:MagnetText
+    text: public class Student {
+  - &1 !ruby/object:MagnetDropZone {}
+  - !ruby/object:MagnetText
+    text: '}'
+- !ruby/object:Magnet
+  contents:
+  - !ruby/object:MagnetText
+    text: public boolean palindrome(String str) {
+  - *1
+  - !ruby/object:MagnetText
+    text: '}'
+- !ruby/object:Magnet
+  contents:
+  - !ruby/object:MagnetText
+    text: boolean isPalindrome = true;
+- !ruby/object:Magnet
+  contents:
+  - !ruby/object:MagnetText
+    text: isPalindrome &= (str.charAt(i) == str.charAt(str.length() - (i + 1)));
+- !ruby/object:Magnet
+  contents:
+  - !ruby/object:MagnetText
+    text: for (int i = 0; i < str.length() / 2; i++) {
+  - *1
+  - !ruby/object:MagnetText
+    text: '}'
+- !ruby/object:Magnet
+  contents:
+  - !ruby/object:MagnetText
+    text: return isPalindrome;
+ENDYAML
+}
     end
   end
 
@@ -429,6 +501,41 @@ ENDOUT
   }
 ]
 ENDJSON
+}
+
+      let(:yaml_output) {<<'ENDYAML'
+---
+- !ruby/object:Magnet
+  contents:
+  - !ruby/object:MagnetText
+    text: package mypackage;
+- !ruby/object:Magnet
+  contents:
+  - !ruby/object:MagnetText
+    text: import java.util.ArrayList;
+- !ruby/object:Magnet
+  contents:
+  - !ruby/object:MagnetText
+    text: import java.util.List;
+- !ruby/object:Magnet
+  contents:
+  - !ruby/object:MagnetText
+    text: public class Preamble {
+  - !ruby/object:MagnetDropZone {}
+  - !ruby/object:MagnetText
+    text: '}'
+- !ruby/object:Magnet
+  contents:
+  - !ruby/object:MagnetText
+    text: |-
+      public void theMethod() {
+
+        }
+- !ruby/object:Magnet
+  contents:
+  - !ruby/object:MagnetText
+    text: private String theField;
+ENDYAML
 }
     end
   end

@@ -18,6 +18,10 @@ opt_parser = OptionParser.new do |opts|
     options[:json] = true
   end
 
+  opts.on("--yaml", "Print the YAML output") do
+    options[:yaml] = true
+  end
+
   opts.on("--[no-]wags", "Print the output as WAGS magnets (default)") do |wags|
     options[:wags] = wags
   end
@@ -72,6 +76,16 @@ if options[:json]
     end
   else
     magnetizer.print_json print_to
+  end
+end
+
+if options[:yaml]
+  if options[:output]
+    File.new("#{options[:output]}.yaml", "w") do |print_to|
+      magnetizer.print_yaml print_to
+    end
+  else
+    magnetizer.print_yaml print_to
   end
 end
 

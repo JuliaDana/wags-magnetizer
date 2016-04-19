@@ -87,6 +87,10 @@ class Magnetizer
     print_to.puts trans.translate_to_wags_magnets(@emitter.statementMagnets)
   end
 
+  def print_yaml print_to=$stdout
+    print_to.puts YAML.dump(self.get_magnets)
+  end
+
   def print_json print_to = $stdout
     print_to.puts JSON.pretty_generate(self.get_magnets)
   end

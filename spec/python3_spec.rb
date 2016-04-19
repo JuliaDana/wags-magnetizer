@@ -111,6 +111,33 @@ ENDOUT
 ]
 ENDJSON
 }
+
+      let(:yaml_output) {<<'ENDYAML'
+---
+- !ruby/object:Magnet
+  contents:
+  - !ruby/object:MagnetText
+    text: 'class HelloWorld(object):'
+  - &1 !ruby/object:MagnetDropZone {}
+- !ruby/object:Magnet
+  contents:
+  - !ruby/object:MagnetText
+    text: 'def say_hello(self):'
+  - *1
+- !ruby/object:Magnet
+  contents:
+  - !ruby/object:MagnetText
+    text: print("Hello, World")
+- !ruby/object:Magnet
+  contents:
+  - !ruby/object:MagnetText
+    text: h = HelloWorld()
+- !ruby/object:Magnet
+  contents:
+  - !ruby/object:MagnetText
+    text: h.say_hello()
+ENDYAML
+}
     end
   end
 end
