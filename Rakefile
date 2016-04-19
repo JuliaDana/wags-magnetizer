@@ -32,7 +32,7 @@ task :generate do
 
   languages.each do |language|
     package = "#{language.downcase}_parser"
-    system "cd data; java -cp ../etc/antlr-4.5.1-complete.jar:$CLASSPATH org.antlr.v4.Tool -no-visitor -o ../java/src/#{package} -package #{package} #{language}.g4"
+    system "cd data; java -cp ../etc/antlr-4.5.1-complete.jar:$CLASSPATH org.antlr.v4.Tool -listener -visitor -o ../java/src/#{package} -package #{package} #{language}.g4"
   end
 end
 
