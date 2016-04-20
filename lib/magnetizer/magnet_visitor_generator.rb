@@ -41,6 +41,7 @@ class MagnetVisitorGenerator
           define_method "visit#{node.name}" do |ctx|
             directives = get_directives ctx
             no_drop = false
+            alt_at_beginning = nil
 
             directives.each do |d|
               command, info = d.split(' ', 2)
@@ -51,7 +52,9 @@ class MagnetVisitorGenerator
               when "NODROP"
                 no_drop = true
               when "ALT"
+                alt_at_beginning = info
               when "ENDALT"
+                raise "This shouldn't happen"
               end
             end
 
@@ -67,9 +70,25 @@ class MagnetVisitorGenerator
             end
 
             m = Magnet.new
+            alt_ms = []
             # This get text should exclude text from any intervals covered 
             # by other magnets. There should be drop zones at all excluded intervals.
-            m.contents += createMagnetContent ctx, @exclusionIntervalsStack.last
+            c = createMagnetContent ctx, @exclusionIntervalsStack.last
+            first_c = true
+            if c.first.is_a? Array
+              c.each do |content|
+                alt_m = Magnet.new
+                if alt_at_beginning && !first_c
+                  content.unshift MagnetText.new(alt_at_beginning) 
+                end
+                alt_m.contents += content
+                alt_ms << alt_m
+                first_c = false
+              end
+            else
+              m.contents += c
+            end
+
 
             used_override = false
             node.overrides.each do |override|
@@ -87,7 +106,11 @@ class MagnetVisitorGenerator
             elsif node.list == "preamble_type"
               @preambleMagnets << m
             elsif node.list == "in_block_type"
-              @statementMagnets << m
+              if alt_ms.empty?
+                @statementMagnets << m
+              else
+                @statementMagnets += alt_ms
+              end
             end
             @exclusionIntervalsStack.pop
           end

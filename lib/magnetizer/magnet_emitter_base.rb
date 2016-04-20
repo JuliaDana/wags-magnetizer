@@ -73,41 +73,107 @@ module MagnetEmitterBase
   def createMagnetContent ctx, excludedIntervals = []
     interval = ctx.getSourceInterval
     content = []
+    alt_contents = []
 
     # Assumes excluded intervals are all disjoint and in order
     # TODO: Handle magnets beginning with drop zone
     startIndex = interval.a
     endIndex = excludedIntervals.empty? ? interval.b : (excludedIntervals.first.a - 1)
-    content << MagnetText.new(getAllText(startIndex .. endIndex))
+    # TODO: fix this ugliness
+    t = getAllText(startIndex .. endIndex)
+    if t. is_a? Array
+      # TODO: I don't think this will handle combinations of alt texts
+      t.each do |text|
+        alt_contents << Array.new(content)
+        alt_contents.last << MagnetText.new(text)
+      end
+
+      content << MagnetText.new(t.first)
+    else
+      content << MagnetText.new(t)
+    end
+      
 
     until excludedIntervals.empty?
       content << MagnetDropZone.instance
+      alt_contents.each do |a_c|
+        a_c << MagnetDropZone.instance
+      end
 
       exInt = excludedIntervals.shift
 
       startIndex = exInt.b + 1
       endIndex = excludedIntervals.empty? ? interval.b : (excludedIntervals.first.a - 1)
-      content << MagnetText.new(getAllText(startIndex .. endIndex))
+      # TODO: fix this duplication
+      t = getAllText(startIndex .. endIndex)
+      if t. is_a? Array
+        # TODO: I don't think this will handle combinations of alt texts
+        t.each do |text|
+          if alt_contents.empty?
+            alt_contents << Array.new(content)
+            alt_contents.last << MagnetText.new(text)
+          else
+            alt_contents.each do |a_c|
+              alt_contents << Array.new(a_c)
+              alt_contents.last << MagnetText.new(text)
+            end
+          end
+        end
+
+        content << MagnetText.new(t.first)
+      else
+        content << MagnetText.new(t)
+        alt_contents.each do |a_c|
+          a_c << MagnetText.new(t)
+        end
+      end
     end
 
-    return content
+    return alt_contents.empty? ? content : alt_contents
 
   end
 
   # TODO: Remove indentation up to the level that the first line is at
   def getAllText intervalRange
-    toks = []
+    text = []
+    curr_alt = []
+    alt_texts = []
     # Go through the interval token by token. It is indexed by token, 
     # not by character
     intervalRange.each  do |j|
       tok =  @tokens.get(j)
 
       if (tok.channel == 0 || tok.channel == 1)
-        toks << tok.getText
+        text << tok.getText
+        alt_texts.each do |alt_text|
+          alt_text << tok.getText
+        end
+
+      # Get directives
+      # TODO Cannot handle alttext specified before first token in rule
+      elsif (tok.channel == 2)
+        command, info = strip_directive(tok).split(' ', 2)
+        # TODO handle combinations of alt texts
+        case command
+        when"ALT"
+          puts "Found alt text: #{info}"
+          # Trigger creation of alternative magnet
+          curr_alt = Array.new(text)
+          curr_alt << info
+        when "ENDALT"
+          alt_texts << curr_alt
+        end
       end
     end
 
-    return toks.join
+    if alt_texts.empty?
+      return text.join
+    else
+      ret = [text.join] + alt_texts.map {|t| t.join}
+      puts "Returning multiple texts"
+      pp ret
+      return ret
+    end
   end
 end
 
