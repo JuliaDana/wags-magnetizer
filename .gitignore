@@ -9,6 +9,7 @@ doc/**/*.toc
 doc/**/*.bbl
 doc/**/*.blg
 doc/**/*.out
+doc/**/*.tdo
 
 **/*.vim
 

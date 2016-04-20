@@ -1,7 +1,9 @@
+%\documentclass[letter,10pt,final]{article}
 \documentclass[letter,10pt]{article}
 \usepackage[utf8]{inputenc}
-\usepackage{todonotes}
 \usepackage{graphicx}
+\usepackage[obeyFinal,color=blue!20!white,figwidth=.8\textwidth]{
+todonotes}
 \usepackage{hyperref}
 \hypersetup{
     colorlinks,
@@ -35,11 +37,13 @@
 %\begin{abstract}
 %\end{abstract}
 
-\pagebreak
+\clearpage
 \tableofcontents
 
-\pagebreak
+\clearpage
+\listoftodos
 
+\clearpage
 \section{Introduction}
 
 \subsection{The Overview: Easier Creation of Code Magnet Microlabs}
@@ -100,12 +104,23 @@ creation wizard, or for the user to directly type the final magnet
 The solution to this is to use a more robust parser that is based on 
 the grammar of a language, rather than simply splitting on line breaks. 
 This project does this by using the ANTLR4 parser 
-generator\cite{antlr-reference} and grammars for common 
-languages\cite{antlr-grammars-project}.
+generator\cite{antlr-reference} and freely available grammars for 
+common languages\cite{antlr-grammars-project}.
 
 \todo{Discuss grammars}
+tokens - words
+grammar rules - phrases - match an ID with one or more productions (pp 
+65 and 66)
+
+\todo{Discuss parsing and syntax trees}
+One of the types of output from a parser is a parse tree
 
 \todo{Describe parser generators (using ANTLR4 as example)}
+A parser generator takes the description of the language given in a 
+grammar, and creates the parser for that language. There are many such 
+parser generators, including \todo{list and cite parser generators}. 
+This project uses ANTLR4, which generates parsers in Java. It is an 
+LL(*) \todo{expand on LL(star)} parser generator. 
 
 \section{Development results and future extensions}
 
@@ -235,6 +250,8 @@ Usage: magnetizer [options] file
 
 %\subsection{Quick Start - GUI Tool (tent.)}
 
+\subsection{Installation for Use}
+
 % An overview of how a file is split into magnets.
 \subsection{Explanation of Output}
 
@@ -267,11 +284,43 @@ The current configuration for Python creates magnets for
 
 \subsection{Automatic Upload to WAGS Website}
 
-% Instructor directives p. 1
-\subsection{Creating Alternative Magnets}
+\subsection{Modifying the Output: Instructor Directives}
+Instructor directives are information that can be put in the input file 
+that change how the magnets are created. They are a special version of 
+comments. The triggering syntax varies per language, but the directives 
+are the same for all languages.
 
-% All the other instructor directives
-\subsection{Controlling the Output (tent.)}
+\begin{description}
+ \item [Java] \verb~ /*# <directive> */~
+ \item [Python3] \verb~ ## <directive>~
+\end{description}
+
+
+
+Note that directives in python are somewhat limited because comments 
+cannot occur in a line. \todo{Verify that there are no inline comments 
+in python}
+
+\subsubsection{Creating Alternative Magnets: ALT and ENDALT}
+
+The ALT and ENDALT directives are used to create alternatives with 
+different text for a magnet. The ALT directive also takes the desired 
+alternative text, and the ENDALT directive is used to indicate where 
+the end of the alternative text is. These directives should always be 
+used as a pair, and encompass the text that should be replaced. They 
+cannot go around anything that would trigger the creation of a new 
+magnet or drop zone.draft
+
+\todo{Concrete example of ALT}
+
+\subsubsection{Supressing Drop Zones: NODROP}
+
+The NODROP directive suppresses the creation of drop zones for the 
+following magnet. An example of when this would be used is to put an 
+entire loop on a single magnet, rather than having the individual 
+statements in the body be on their own magnets.
+
+\todo{Concrete example of NODROP}
 
 
 
@@ -294,6 +343,9 @@ tool functionality.
 
 RSpec is used to handle testing
 
+\subsubsection{Installation for Development}
+\todo{Consider if this section should be on its own}
+
 \subsection{The Testing}
 
 \subsection{The Design}
@@ -308,9 +360,10 @@ A new G4 file can be added to the system. However, whitespace is
 require to go on channel 1, or your magnets will not have any
 whitespace, and you might get things like ``publicclassMyClass''.
 
-
+\clearpage
 \todo{Final export of bibliography from Mendeley and link it}
 \todo{Make sure citations and bibliography are styled correctly}
+\addcontentsline{toc}{section}{References}
 \bibliography{bibliography}{}
 \bibliographystyle{plain}
 
