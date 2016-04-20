@@ -40,6 +40,20 @@ class MagnetVisitorGenerator
           # TODO create more specific method bodies
           define_method "visit#{node.name}" do |ctx|
             directives = get_directives ctx
+            no_drop = false
+
+            directives.each do |d|
+              command, info = d.split(' ', 2)
+              puts "COMMAND: #{command}"
+              puts "INFO: #{info}"
+
+              case command
+              when "NODROP"
+                no_drop = true
+              when "ALT"
+              when "ENDALT"
+              end
+            end
 
             # TODO handle directives
 
@@ -48,8 +62,9 @@ class MagnetVisitorGenerator
             end
 
             @exclusionIntervalsStack << []
-
-            visitChildren(ctx)
+            unless no_drop
+              visitChildren(ctx)
+            end
 
             m = Magnet.new
             # This get text should exclude text from any intervals covered 

@@ -66,6 +66,8 @@ module MagnetEmitterBase
       i -= 1
       curr_tok = i > 0 ? @tokens.get(i) : nil
     end
+
+    return directives
   end
 
   def createMagnetContent ctx, excludedIntervals = []

@@ -9,19 +9,19 @@ public class Hello {
 
   /* Multiline. */
   public static void main(String[] args) {
-    /*# NODROP a */
+    /*# NODROP */
     while (true) {
       System.out.println("Hello");
     }
 
-    /*# NODROP b*/
+    /*# NODROP */
     // Singleline
     /*# ALT while(false) */
     while (true) /*# ENDALT 1*/ {
-      System.out.println("Hello");
+      System.out.println("Hello again");
     }
     
-    for (int i = /*# ALTTEXT 1 */ 0 /*# ENDALT 2*/; i < 10; i++) {
+    for (int i = /*# ALT 1 */ 0 /*# ENDALT 2*/; i < 10; i++) {
       System.out.println("Thing " + i);
     }
   }
