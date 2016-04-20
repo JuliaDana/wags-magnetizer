@@ -7,6 +7,9 @@ class LanguageConfig
   attr_accessor :start_rule
   attr_accessor :magnet_nodes
   attr_accessor :allow_file_statements
+  attr_accessor :directive_start
+  attr_accessor :directive_end
+   
 
   def initialize name, start_rule
     if LOADED_LANGUAGES.key? name
@@ -52,6 +55,9 @@ class LanguageConfig
   def encode_with coder
     coder['name'] = @name
     coder['start_rule'] = @start_rule
+    coder['directives'] = {}
+    coder['directives']['start'] = @directive_start
+    coder['directives']['end'] = @directive_end
 
     overrides = []
 
@@ -87,6 +93,8 @@ class LanguageConfig
     end
     @start_rule = data.delete('start_rule')
     @allow_file_statements = data.delete('allow_file_statements') || false
+    @directive_start = data['directives']['start']
+    @directive_end = data.delete('directives')['end']
 
     overrides = data.delete('overrides') || []
 

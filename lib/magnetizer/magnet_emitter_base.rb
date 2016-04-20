@@ -48,6 +48,26 @@ module MagnetEmitterBase
     return false
   end
 
+  # Get all directives that affect this context. This is defined as any
+  # directives (things on channel 2) since the last thing on the parser
+  # channel (channel 0)
+  def get_directives ctx
+    directives = []
+    this_starting_tok = ctx.getSourceInterval.a
+
+    i = this_starting_tok - 1
+    curr_tok = i > 0 ? @tokens.get(i) : nil
+    while curr_tok && curr_tok.channel != 0
+      if curr_tok.channel == 2
+        directives << strip_directive(curr_tok)
+        puts "DIRECTIVE #{directives.last}"
+      end
+
+      i -= 1
+      curr_tok = i > 0 ? @tokens.get(i) : nil
+    end
+  end
+
   def createMagnetContent ctx, excludedIntervals = []
     interval = ctx.getSourceInterval
     content = []
@@ -70,25 +90,6 @@ module MagnetEmitterBase
 
     return content
 
-  end
-
-  # Get all directives that affect this context. This is defined as any
-  # directives (things on channel 2) since the last thing on the parser
-  # channel (channel 0)
-  def get_directives ctx
-    this_starting_tok = ctx.getSourceInterval.a
-
-    i = this_starting_tok - 1
-    curr_tok = @tokens.get(i)
-    while curr_tok.channel != 0 && i > 0
-      if curr_tok.channel == 2
-        # Handle directive
-        puts "DIRECTIVE #{curr_tok.getText}"
-      end
-
-      i -= 1
-      curr_tok = @tokens.get(i)
-    end
   end
 
   # TODO: Remove indentation up to the level that the first line is at

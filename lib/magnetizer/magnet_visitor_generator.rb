@@ -17,20 +17,31 @@ class MagnetVisitorGenerator
         # TODO: Check for effeciency from using this in closures
         language_info = LOADED_LANGUAGES[language]
 
+        include MagnetEmitterBase
+
+        @language_info = language_info
+
         self.class.class_eval do
           define_method("allow_file_statements") do
             language_info.allow_file_statements
           end
+
         end
 
-        include MagnetEmitterBase
+        define_method :strip_directive do |tok|
+          # Using sub to get rid of the beginning assumes that the language config
+          # correctly matches what is defined in the grammar
+          return tok.getText.chomp(language_info.directive_end).sub(language_info.directive_start, '')
+        end
 
         all_types = language_info.magnet_nodes
 
         all_types.each do |node|
           # TODO create more specific method bodies
           define_method "visit#{node.name}" do |ctx|
-            get_directives ctx
+            directives = get_directives ctx
+
+            # TODO handle directives
 
             if node.list == "in_block_type"
               @exclusionIntervalsStack.last << ctx.getSourceInterval

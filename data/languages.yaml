@@ -4,6 +4,9 @@
   name: Java
   start_rule: compilationUnit
   allow_file_statements: false
+  directives:
+    start: '/*#'
+    end: '*/'
   preamble_type:
     - PackageDeclaration
     - ImportDeclaration
@@ -22,6 +25,9 @@
   name: Python3 
   start_rule: file_input
   allow_file_statements: true
+  directives:
+    start: '##'
+    end: ''
   preamble_type: []
   class_type: []
   in_block_type:
