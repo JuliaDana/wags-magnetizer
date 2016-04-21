@@ -63,8 +63,6 @@ class MagnetVisitorGenerator
               end
             end
 
-            # TODO handle directives
-
             if node.list == "in_block_type"
               @exclusionIntervalsStack.last << ctx.getSourceInterval
             end
