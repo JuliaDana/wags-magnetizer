@@ -1,11 +1,6 @@
 require 'singleton'
 require 'json'
 
-require_relative 'magnet/magnet_content.rb'
-require_relative 'magnet/magnet_text.rb'
-require_relative 'magnet/magnet_drop_zone.rb'
-require_relative 'magnet/magnet_choices.rb'
-
 class Magnet
   attr_accessor :contents
   
@@ -65,5 +60,69 @@ class Magnet
 
   def == other
     return other.is_a?(self.class) && other.contents == self.contents
+  end
+end
+
+class MagnetContent
+end
+
+class MagnetText < MagnetContent
+  attr_accessor :text
+
+  def initialize text
+    @text = text
+  end
+
+  def == other
+    return other.is_a?(self.class) && self.text == other.text
+  end
+  
+  def to_json *a
+    {
+      "json_class" => self.class.name,
+      "data" => {"text" => @text}
+    }.to_json(*a)
+  end
+
+  def self.json_create o
+    self.new(o["data"]["text"])
+  end
+end
+
+class MagnetDropZone < MagnetContent
+  include Singleton
+  
+  def to_json *a
+    {
+      "json_class" => self.class.name,
+      #"data" => {}
+    }.to_json(*a)
+  end
+
+  def self.json_create o
+    self.instance
+  end
+end
+
+class MagnetChoices < MagnetContent
+  attr_accessor :choices
+
+  def initialize *choices
+    @choices = choices
+  end
+
+  def to_json *a
+    {
+      "json_class" => self.class.name,
+      "data" => {"choices" => @choices}
+    }.to_json(*a)
+  end
+
+  def self.json_create o
+    self.new(*o["data"]["choices"])
+  end
+
+  def == other
+    return other.is_a?(self.class) && self.choices == other.choices
   end
 end
