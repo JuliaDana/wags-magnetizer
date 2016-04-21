@@ -22,6 +22,7 @@ public class Hello {
     }
     
     for (int i = /*# ALT 1 */ 0 /*# ENDALT 2*/; i < 10; i++) {
+      /*# EXTRAMAG return "not in code" */
       System.out.println("Thing " + i);
     }
   }

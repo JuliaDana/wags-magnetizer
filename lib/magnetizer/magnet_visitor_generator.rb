@@ -51,6 +51,11 @@ class MagnetVisitorGenerator
               case command
               when "NODROP"
                 no_drop = true
+              # TODO make sure EXTRAMAG works when not immediately before a new magnet
+              when "EXTRAMAG"
+                extra_mag = Magnet.new
+                extra_mag.contents << MagnetText.new(info)
+                @statementMagnets << extra_mag
               when "ALT"
                 alt_at_beginning = info
               when "ENDALT"
