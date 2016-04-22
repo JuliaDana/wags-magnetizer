@@ -1,0 +1,13 @@
+Class Magnets:
+class HelloWorld(object): <br><!-- panel --><br>
+Method Magnets:
+def say_hello(self): <br><!-- panel --><br>
+.:|:.
+def no_drop_method(self):
+  print(&quot;Hello, World&quot;)
+Statement Magnets:
+print(&quot;Hello, World&quot;)
+.:|:.
+h = HelloWorld()
+.:|:.
+h.say_hello()

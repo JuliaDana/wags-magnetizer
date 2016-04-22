@@ -36,7 +36,7 @@ module MagnetEmitterBase
     num_tokens = @tokens.size
     prev_i = -1
     i = @tokens.nextTokenOnChannel(0, 2)
-    while i < num_tokens && prev_i != i do
+    while i < num_tokens - 1 && prev_i != i do
       t = @tokens.get(i)
       d = strip_directive t
       if d.command == "EXTRAMAG"
@@ -48,6 +48,27 @@ module MagnetEmitterBase
       prev_i = i
       i = @tokens.nextTokenOnChannel(prev_i + 1, 2)
     end
+  end
+
+  # Get all directives that affect this context. This is defined as any
+  # directives (things on channel 2) since the last thing on the parser
+  # channel (channel 0)
+  def get_directives ctx
+    directives = []
+    this_starting_tok = ctx.getSourceInterval.a
+
+    i = this_starting_tok - 1
+    curr_tok = i > 0 ? @tokens.get(i) : nil
+    while curr_tok && curr_tok.channel != 0
+      if curr_tok.channel == 2
+        directives << curr_tok
+      end
+
+      i -= 1
+      curr_tok = i > 0 ? @tokens.get(i) : nil
+    end
+
+    return directives
   end
 
   def ctxHasChildType ctx, type, depth = 1

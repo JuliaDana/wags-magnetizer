@@ -878,8 +878,12 @@ WS_CHANNEL
  : SPACES -> channel(1)
  ;
 
+DIRECTIVE_CHANNEL
+ : DIRECTIVE_COMMENT -> channel(2)
+ ;
+
 COMMENT_CHANNEL
- : COMMENT -> channel(2)
+ : COMMENT -> channel(3)
  ;
 
 UNKNOWN_CHAR
@@ -1020,6 +1024,10 @@ fragment BYTES_ESCAPE_SEQ
 
 fragment SPACES
  : [ \t]+
+ ;
+
+fragment DIRECTIVE_COMMENT
+ : '##' ~[\r\n]*
  ;
 
 fragment COMMENT

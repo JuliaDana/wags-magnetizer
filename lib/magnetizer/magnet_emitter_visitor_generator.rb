@@ -48,8 +48,8 @@ class MagnetEmitterVisitorGenerator
 
 
             # Get directive tokens that affect this context
-            directive_toks = @tokens.getHiddenTokensToLeft(ctx.getSourceInterval.a, 2)
-            if directive_toks
+            directive_toks = get_directives ctx
+            unless directive_toks.empty?
               directives = directive_toks.map{|t| strip_directive(t)}
               content_interval.a = directive_toks.first.getTokenIndex
 

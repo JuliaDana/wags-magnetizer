@@ -26,4 +26,24 @@ describe "The magnetizer on Python3 files" do
       let(:yaml_output) {File.read("spec/python3_hello/hello.yaml")}
     end
   end
+
+  context "basic python3 file with directives" do
+    it_should_behave_like "a correct magnetizer" do
+      let(:file) {"spec/python3_directives/hello.py"}
+      let(:language) {"Python3"}
+
+      #TODO: Handle script areas outside of the class
+      let(:magnet_output) {File.read("spec/python3_directives/hello.mag")}
+
+      let(:data_structure) {}
+
+      let(:json_output) {
+        #File.read("spec/python3_directives/hello.json").rstrip
+      }
+
+      let(:yaml_output) {
+        #File.read("spec/python3_directives/hello.yaml");
+      }
+    end
+  end
 end
