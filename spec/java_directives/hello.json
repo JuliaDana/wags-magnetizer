@@ -1,0 +1,190 @@
+[
+  {
+    "json_class": "Magnet",
+    "data": {
+      "contents": [
+        {
+          "json_class": "MagnetText",
+          "data": {
+            "text": "public class Hello {"
+          }
+        },
+        {
+          "json_class": "MagnetDropZone"
+        },
+        {
+          "json_class": "MagnetText",
+          "data": {
+            "text": "}"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "json_class": "Magnet",
+    "data": {
+      "contents": [
+        {
+          "json_class": "MagnetText",
+          "data": {
+            "text": "public String helloWorld() {"
+          }
+        },
+        {
+          "json_class": "MagnetDropZone"
+        },
+        {
+          "json_class": "MagnetText",
+          "data": {
+            "text": "}"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "json_class": "Magnet",
+    "data": {
+      "contents": [
+        {
+          "json_class": "MagnetText",
+          "data": {
+            "text": "public static void main(String[] args) {"
+          }
+        },
+        {
+          "json_class": "MagnetDropZone"
+        },
+        {
+          "json_class": "MagnetText",
+          "data": {
+            "text": "}"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "json_class": "Magnet",
+    "data": {
+      "contents": [
+        {
+          "json_class": "MagnetText",
+          "data": {
+            "text": "return \"not in code\""
+          }
+        }
+      ]
+    }
+  },
+  {
+    "json_class": "Magnet",
+    "data": {
+      "contents": [
+        {
+          "json_class": "MagnetText",
+          "data": {
+            "text": "return \"Hello World\";"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "json_class": "Magnet",
+    "data": {
+      "contents": [
+        {
+          "json_class": "MagnetText",
+          "data": {
+            "text": "while (true) {\n      System.out.println(\"Hello\");\n    }"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "json_class": "Magnet",
+    "data": {
+      "contents": [
+        {
+          "json_class": "MagnetText",
+          "data": {
+            "text": "while(false)  {\n      System.out.println(\"Hello again\");\n    }"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "json_class": "Magnet",
+    "data": {
+      "contents": [
+        {
+          "json_class": "MagnetText",
+          "data": {
+            "text": "while (true)  {\n      System.out.println(\"Hello again\");\n    }"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "json_class": "Magnet",
+    "data": {
+      "contents": [
+        {
+          "json_class": "MagnetText",
+          "data": {
+            "text": "System.out.println(\"Thing \" + i);"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "json_class": "Magnet",
+    "data": {
+      "contents": [
+        {
+          "json_class": "MagnetText",
+          "data": {
+            "text": "for (int i = 1 ; i < 10; i++) {"
+          }
+        },
+        {
+          "json_class": "MagnetDropZone"
+        },
+        {
+          "json_class": "MagnetText",
+          "data": {
+            "text": "}"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "json_class": "Magnet",
+    "data": {
+      "contents": [
+        {
+          "json_class": "MagnetText",
+          "data": {
+            "text": "for (int i =  0 ; i < 10; i++) {"
+          }
+        },
+        {
+          "json_class": "MagnetDropZone"
+        },
+        {
+          "json_class": "MagnetText",
+          "data": {
+            "text": "}"
+          }
+        }
+      ]
+    }
+  }
+]

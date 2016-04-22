@@ -98,6 +98,20 @@ describe "The magnetizer on Java files" do
       let(:yaml_output) {File.read("spec/java_preamble/preamble.yaml")}
     end
   end
-end
+  
+  context "for file Hello.java with directives" do
+    it_should_behave_like "a correct magnetizer" do
+      let(:file) {"spec/java_directives/Hello.java"}
+      let(:language) {"Java"}
 
+      let(:magnet_output) {File.read("spec/java_directives/hello.mag")}
+
+      let(:data_structure) {}
+
+      let(:json_output) {File.read("spec/java_directives/hello.json").rstrip}
+
+      let(:yaml_output) {File.read("spec/java_directives/hello.yaml")}
+    end
+  end
+end
 

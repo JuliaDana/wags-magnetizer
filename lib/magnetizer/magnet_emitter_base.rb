@@ -43,7 +43,6 @@ module MagnetEmitterBase
         m = Magnet.new
         m.contents << MagnetText.new(d.arg)
         @statementMagnets << m
-        puts "Added to statement #{m.inspect}"
       end
 
       prev_i = i

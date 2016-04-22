@@ -1,0 +1,69 @@
+---
+- !ruby/object:Magnet
+  contents:
+  - !ruby/object:MagnetText
+    text: public class Hello {
+  - &1 !ruby/object:MagnetDropZone {}
+  - !ruby/object:MagnetText
+    text: '}'
+- !ruby/object:Magnet
+  contents:
+  - !ruby/object:MagnetText
+    text: public String helloWorld() {
+  - *1
+  - !ruby/object:MagnetText
+    text: '}'
+- !ruby/object:Magnet
+  contents:
+  - !ruby/object:MagnetText
+    text: public static void main(String[] args) {
+  - *1
+  - !ruby/object:MagnetText
+    text: '}'
+- !ruby/object:Magnet
+  contents:
+  - !ruby/object:MagnetText
+    text: return "not in code"
+- !ruby/object:Magnet
+  contents:
+  - !ruby/object:MagnetText
+    text: return "Hello World";
+- !ruby/object:Magnet
+  contents:
+  - !ruby/object:MagnetText
+    text: |-
+      while (true) {
+            System.out.println("Hello");
+          }
+- !ruby/object:Magnet
+  contents:
+  - !ruby/object:MagnetText
+    text: |-
+      while(false)  {
+            System.out.println("Hello again");
+          }
+- !ruby/object:Magnet
+  contents:
+  - !ruby/object:MagnetText
+    text: |-
+      while (true)  {
+            System.out.println("Hello again");
+          }
+- !ruby/object:Magnet
+  contents:
+  - !ruby/object:MagnetText
+    text: System.out.println("Thing " + i);
+- !ruby/object:Magnet
+  contents:
+  - !ruby/object:MagnetText
+    text: for (int i = 1 ; i < 10; i++) {
+  - *1
+  - !ruby/object:MagnetText
+    text: '}'
+- !ruby/object:Magnet
+  contents:
+  - !ruby/object:MagnetText
+    text: for (int i =  0 ; i < 10; i++) {
+  - *1
+  - !ruby/object:MagnetText
+    text: '}'
