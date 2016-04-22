@@ -1,0 +1,73 @@
+[
+  {
+    "json_class": "Magnet",
+    "data": {
+      "contents": [
+        {
+          "json_class": "MagnetText",
+          "data": {
+            "text": "class HelloWorld(object):"
+          }
+        },
+        {
+          "json_class": "MagnetDropZone"
+        }
+      ]
+    }
+  },
+  {
+    "json_class": "Magnet",
+    "data": {
+      "contents": [
+        {
+          "json_class": "MagnetText",
+          "data": {
+            "text": "def say_hello(self):"
+          }
+        },
+        {
+          "json_class": "MagnetDropZone"
+        }
+      ]
+    }
+  },
+  {
+    "json_class": "Magnet",
+    "data": {
+      "contents": [
+        {
+          "json_class": "MagnetText",
+          "data": {
+            "text": "print(\"Hello, World\")"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "json_class": "Magnet",
+    "data": {
+      "contents": [
+        {
+          "json_class": "MagnetText",
+          "data": {
+            "text": "h = HelloWorld()"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "json_class": "Magnet",
+    "data": {
+      "contents": [
+        {
+          "json_class": "MagnetText",
+          "data": {
+            "text": "h.say_hello()"
+          }
+        }
+      ]
+    }
+  }
+]

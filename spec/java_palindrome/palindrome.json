@@ -1,0 +1,107 @@
+[
+  {
+    "json_class": "Magnet",
+    "data": {
+      "contents": [
+        {
+          "json_class": "MagnetText",
+          "data": {
+            "text": "public class Student {"
+          }
+        },
+        {
+          "json_class": "MagnetDropZone"
+        },
+        {
+          "json_class": "MagnetText",
+          "data": {
+            "text": "}"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "json_class": "Magnet",
+    "data": {
+      "contents": [
+        {
+          "json_class": "MagnetText",
+          "data": {
+            "text": "public boolean palindrome(String str) {"
+          }
+        },
+        {
+          "json_class": "MagnetDropZone"
+        },
+        {
+          "json_class": "MagnetText",
+          "data": {
+            "text": "}"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "json_class": "Magnet",
+    "data": {
+      "contents": [
+        {
+          "json_class": "MagnetText",
+          "data": {
+            "text": "boolean isPalindrome = true;"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "json_class": "Magnet",
+    "data": {
+      "contents": [
+        {
+          "json_class": "MagnetText",
+          "data": {
+            "text": "isPalindrome &= (str.charAt(i) == str.charAt(str.length() - (i + 1)));"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "json_class": "Magnet",
+    "data": {
+      "contents": [
+        {
+          "json_class": "MagnetText",
+          "data": {
+            "text": "for (int i = 0; i < str.length() / 2; i++) {"
+          }
+        },
+        {
+          "json_class": "MagnetDropZone"
+        },
+        {
+          "json_class": "MagnetText",
+          "data": {
+            "text": "}"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "json_class": "Magnet",
+    "data": {
+      "contents": [
+        {
+          "json_class": "MagnetText",
+          "data": {
+            "text": "return isPalindrome;"
+          }
+        }
+      ]
+    }
+  }
+]

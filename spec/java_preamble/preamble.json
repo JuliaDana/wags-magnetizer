@@ -1,0 +1,89 @@
+[
+  {
+    "json_class": "Magnet",
+    "data": {
+      "contents": [
+        {
+          "json_class": "MagnetText",
+          "data": {
+            "text": "package mypackage;"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "json_class": "Magnet",
+    "data": {
+      "contents": [
+        {
+          "json_class": "MagnetText",
+          "data": {
+            "text": "import java.util.ArrayList;"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "json_class": "Magnet",
+    "data": {
+      "contents": [
+        {
+          "json_class": "MagnetText",
+          "data": {
+            "text": "import java.util.List;"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "json_class": "Magnet",
+    "data": {
+      "contents": [
+        {
+          "json_class": "MagnetText",
+          "data": {
+            "text": "public class Preamble {"
+          }
+        },
+        {
+          "json_class": "MagnetDropZone"
+        },
+        {
+          "json_class": "MagnetText",
+          "data": {
+            "text": "}"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "json_class": "Magnet",
+    "data": {
+      "contents": [
+        {
+          "json_class": "MagnetText",
+          "data": {
+            "text": "public void theMethod() {\n\n  }"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "json_class": "Magnet",
+    "data": {
+      "contents": [
+        {
+          "json_class": "MagnetText",
+          "data": {
+            "text": "private String theField;"
+          }
+        }
+      ]
+    }
+  }
+]

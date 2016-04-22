@@ -1,0 +1,31 @@
+---
+- !ruby/object:Magnet
+  contents:
+  - !ruby/object:MagnetText
+    text: package mypackage;
+- !ruby/object:Magnet
+  contents:
+  - !ruby/object:MagnetText
+    text: import java.util.ArrayList;
+- !ruby/object:Magnet
+  contents:
+  - !ruby/object:MagnetText
+    text: import java.util.List;
+- !ruby/object:Magnet
+  contents:
+  - !ruby/object:MagnetText
+    text: public class Preamble {
+  - !ruby/object:MagnetDropZone {}
+  - !ruby/object:MagnetText
+    text: '}'
+- !ruby/object:Magnet
+  contents:
+  - !ruby/object:MagnetText
+    text: |-
+      public void theMethod() {
+
+        }
+- !ruby/object:Magnet
+  contents:
+  - !ruby/object:MagnetText
+    text: private String theField;

@@ -1,0 +1,30 @@
+---
+- !ruby/object:Magnet
+  contents:
+  - !ruby/object:MagnetText
+    text: public class Hello {
+  - &1 !ruby/object:MagnetDropZone {}
+  - !ruby/object:MagnetText
+    text: '}'
+- !ruby/object:Magnet
+  contents:
+  - !ruby/object:MagnetText
+    text: public String helloWorld() {
+  - *1
+  - !ruby/object:MagnetText
+    text: '}'
+- !ruby/object:Magnet
+  contents:
+  - !ruby/object:MagnetText
+    text: public static void main(String[] args) {
+  - *1
+  - !ruby/object:MagnetText
+    text: '}'
+- !ruby/object:Magnet
+  contents:
+  - !ruby/object:MagnetText
+    text: return "Hello World";
+- !ruby/object:Magnet
+  contents:
+  - !ruby/object:MagnetText
+    text: System.out.println("Hello");

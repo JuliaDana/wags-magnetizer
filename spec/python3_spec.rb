@@ -7,21 +7,7 @@ describe "The magnetizer on Python3 files" do
       let(:language) {"Python3"}
 
       #TODO: Handle script areas outside of the class
-      let(:magnet_output) {<<'ENDOUT'
-Preamble Magnets:
-
-Class Magnets:
-class HelloWorld(object): <br><!-- panel --><br>
-Method Magnets:
-def say_hello(self): <br><!-- panel --><br>
-Statement Magnets:
-print(&quot;Hello, World&quot;)
-.:|:.
-h = HelloWorld()
-.:|:.
-h.say_hello()
-ENDOUT
-      }
+      let(:magnet_output) {File.read("spec/python3_hello/hello.mag")}
 
       let(:data_structure) {[
         Magnet.new(MagnetText.new("class HelloWorld(object):"),
@@ -35,109 +21,9 @@ ENDOUT
         Magnet.new(MagnetText.new("h.say_hello()"))
       ]}
 
-      let(:json_output) {<<'ENDJSON'.rstrip
-[
-  {
-    "json_class": "Magnet",
-    "data": {
-      "contents": [
-        {
-          "json_class": "MagnetText",
-          "data": {
-            "text": "class HelloWorld(object):"
-          }
-        },
-        {
-          "json_class": "MagnetDropZone"
-        }
-      ]
-    }
-  },
-  {
-    "json_class": "Magnet",
-    "data": {
-      "contents": [
-        {
-          "json_class": "MagnetText",
-          "data": {
-            "text": "def say_hello(self):"
-          }
-        },
-        {
-          "json_class": "MagnetDropZone"
-        }
-      ]
-    }
-  },
-  {
-    "json_class": "Magnet",
-    "data": {
-      "contents": [
-        {
-          "json_class": "MagnetText",
-          "data": {
-            "text": "print(\"Hello, World\")"
-          }
-        }
-      ]
-    }
-  },
-  {
-    "json_class": "Magnet",
-    "data": {
-      "contents": [
-        {
-          "json_class": "MagnetText",
-          "data": {
-            "text": "h = HelloWorld()"
-          }
-        }
-      ]
-    }
-  },
-  {
-    "json_class": "Magnet",
-    "data": {
-      "contents": [
-        {
-          "json_class": "MagnetText",
-          "data": {
-            "text": "h.say_hello()"
-          }
-        }
-      ]
-    }
-  }
-]
-ENDJSON
-}
+      let(:json_output) {File.read("spec/python3_hello/hello.json").rstrip}
 
-      let(:yaml_output) {<<'ENDYAML'
----
-- !ruby/object:Magnet
-  contents:
-  - !ruby/object:MagnetText
-    text: 'class HelloWorld(object):'
-  - &1 !ruby/object:MagnetDropZone {}
-- !ruby/object:Magnet
-  contents:
-  - !ruby/object:MagnetText
-    text: 'def say_hello(self):'
-  - *1
-- !ruby/object:Magnet
-  contents:
-  - !ruby/object:MagnetText
-    text: print("Hello, World")
-- !ruby/object:Magnet
-  contents:
-  - !ruby/object:MagnetText
-    text: h = HelloWorld()
-- !ruby/object:Magnet
-  contents:
-  - !ruby/object:MagnetText
-    text: h.say_hello()
-ENDYAML
-}
+      let(:yaml_output) {File.read("spec/python3_hello/hello.yaml")}
     end
   end
 end

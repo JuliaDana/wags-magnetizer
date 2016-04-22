@@ -1,0 +1,12 @@
+Preamble Magnets:
+
+Class Magnets:
+class HelloWorld(object): <br><!-- panel --><br>
+Method Magnets:
+def say_hello(self): <br><!-- panel --><br>
+Statement Magnets:
+print(&quot;Hello, World&quot;)
+.:|:.
+h = HelloWorld()
+.:|:.
+h.say_hello()

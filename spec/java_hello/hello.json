@@ -1,0 +1,94 @@
+[
+  {
+    "json_class": "Magnet",
+    "data": {
+      "contents": [
+        {
+          "json_class": "MagnetText",
+          "data": {
+            "text": "public class Hello {"
+          }
+        },
+        {
+          "json_class": "MagnetDropZone"
+        },
+        {
+          "json_class": "MagnetText",
+          "data": {
+            "text": "}"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "json_class": "Magnet",
+    "data": {
+      "contents": [
+        {
+          "json_class": "MagnetText",
+          "data": {
+            "text": "public String helloWorld() {"
+          }
+        },
+        {
+          "json_class": "MagnetDropZone"
+        },
+        {
+          "json_class": "MagnetText",
+          "data": {
+            "text": "}"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "json_class": "Magnet",
+    "data": {
+      "contents": [
+        {
+          "json_class": "MagnetText",
+          "data": {
+            "text": "public static void main(String[] args) {"
+          }
+        },
+        {
+          "json_class": "MagnetDropZone"
+        },
+        {
+          "json_class": "MagnetText",
+          "data": {
+            "text": "}"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "json_class": "Magnet",
+    "data": {
+      "contents": [
+        {
+          "json_class": "MagnetText",
+          "data": {
+            "text": "return \"Hello World\";"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "json_class": "Magnet",
+    "data": {
+      "contents": [
+        {
+          "json_class": "MagnetText",
+          "data": {
+            "text": "System.out.println(\"Hello\");"
+          }
+        }
+      ]
+    }
+  }
+]

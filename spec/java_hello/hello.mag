@@ -1,0 +1,12 @@
+Preamble Magnets:
+
+Class Magnets:
+public class Hello { <br><!-- panel --><br> }
+Method Magnets:
+public String helloWorld() { <br><!-- panel --><br> }
+.:|:.
+public static void main(String[] args) { <br><!-- panel --><br> }
+Statement Magnets:
+return &quot;Hello World&quot;;
+.:|:.
+System.out.println(&quot;Hello&quot;);

@@ -1,0 +1,14 @@
+Preamble Magnets:
+
+Class Magnets:
+public class Student { <br><!-- panel --><br> }
+Method Magnets:
+public boolean palindrome(String str) { <br><!-- panel --><br> }
+Statement Magnets:
+boolean isPalindrome = true;
+.:|:.
+isPalindrome &amp;= (str.charAt(i) == str.charAt(str.length() - (i + 1)));
+.:|:.
+for (int i = 0; i &lt; str.length() / 2; i++) { <br><!-- panel --><br> }
+.:|:.
+return isPalindrome;

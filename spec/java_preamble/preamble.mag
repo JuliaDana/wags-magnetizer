@@ -1,0 +1,14 @@
+Preamble Magnets:
+package mypackage;
+.:|:.
+import java.util.ArrayList;
+.:|:.
+import java.util.List;
+Class Magnets:
+public class Preamble { <br><!-- panel --><br> }
+Method Magnets:
+public void theMethod() {
+
+  }
+Statement Magnets:
+private String theField;
