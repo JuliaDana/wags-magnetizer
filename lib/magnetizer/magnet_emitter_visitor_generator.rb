@@ -21,13 +21,10 @@ class MagnetEmitterVisitorGenerator
 
         include MagnetEmitterBase
 
-        @language_info = language_info
-
         self.class.class_eval do
           define_method("allow_file_statements") do
             language_info.allow_file_statements
           end
-
         end
 
         define_method :strip_directive do |tok|
@@ -39,26 +36,28 @@ class MagnetEmitterVisitorGenerator
           return Directive.new(command, arg)
         end
 
-        all_types = language_info.magnet_nodes
+        magnet_types = language_info.magnet_nodes
 
         # Create the visit methods for each of the types of nodes
         # that triggers the creation of a magnet
-        all_types.each do |node|
+        magnet_types.each do |node|
           define_method "visit#{node.name}" do |ctx|
-            directives = get_directives ctx
-
-            # Default for options that can come from directives
+            # Default for options that can be affected by directives
             no_drop = false
-            alt_at_beginning = nil
+            content_interval = ctx.getSourceInterval
 
-            directives.each do |d|
-              case d.command
-              when "NODROP"
-                no_drop = true
-              when "ALT"
-                alt_at_beginning = d.arg
-              when "ENDALT"
-                raise "This shouldn't happen"
+
+            # Get directive tokens that affect this context
+            directive_toks = @tokens.getHiddenTokensToLeft(ctx.getSourceInterval.a, 2)
+            if directive_toks
+              directives = directive_toks.map{|t| strip_directive(t)}
+              content_interval.a = directive_toks.first.getTokenIndex
+
+              directives.each do |d|
+                case d.command
+                when "NODROP"
+                  no_drop = true
+                end
               end
             end
 
@@ -82,14 +81,11 @@ class MagnetEmitterVisitorGenerator
             alt_ms = []
             # This get text should exclude text from any intervals covered 
             # by other magnets. There should be drop zones at all excluded intervals.
-            c = createMagnetContent ctx, @exclusionIntervalsStack.last
+            c = createMagnetContent content_interval, @exclusionIntervalsStack.last
             first_c = true
             if c.first.is_a? Array
               c.each do |content|
                 alt_m = Magnet.new
-                if alt_at_beginning && !first_c
-                  content.unshift MagnetText.new(alt_at_beginning) 
-                end
                 alt_m.contents += content
                 alt_ms << alt_m
                 first_c = false
@@ -99,6 +95,7 @@ class MagnetEmitterVisitorGenerator
             end
 
 
+            # Put the newly created magnet(s) in the correct list
             used_override = false
             node.overrides.each do |override|
               if ctxHasChildType(ctx,
@@ -121,6 +118,10 @@ class MagnetEmitterVisitorGenerator
                 @statementMagnets += alt_ms
               end
             end
+
+
+            # At the end of visiting, we need to clean what we put on the
+            # exclusion intervals stack
             @exclusionIntervalsStack.pop
           end
         end

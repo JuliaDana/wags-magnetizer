@@ -71,30 +71,7 @@ module MagnetEmitterBase
     return false
   end
 
-  # Get all directives that affect this context. This is defined as any
-  # directives (things on channel 2) since the last thing on the parser
-  # channel (channel 0)
-  def get_directives ctx
-    directives = []
-    this_starting_tok = ctx.getSourceInterval.a
-
-    i = this_starting_tok - 1
-    curr_tok = i > 0 ? @tokens.get(i) : nil
-    while curr_tok && curr_tok.channel != 0
-      if curr_tok.channel == 2
-        directives << strip_directive(curr_tok)
-        puts "DIRECTIVE #{directives.last}"
-      end
-
-      i -= 1
-      curr_tok = i > 0 ? @tokens.get(i) : nil
-    end
-
-    return directives
-  end
-
-  def createMagnetContent ctx, excludedIntervals = []
-    interval = ctx.getSourceInterval
+  def createMagnetContent interval, excludedIntervals = []
     content = []
     alt_contents = []
 
@@ -156,6 +133,10 @@ module MagnetEmitterBase
 
   end
 
+  # Gets the text and whitespace for a given interval range
+  # Returns an array. The first element in the array is the 
+  # text in the code, the others come from any ALT directives
+  # given. ALT directives 
   # TODO: Remove indentation up to the level that the first line is at
   def getAllText intervalRange
     text = []
