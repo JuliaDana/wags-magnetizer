@@ -72,65 +72,59 @@ module MagnetEmitterBase
   end
 
   def createMagnetContent interval, excludedIntervals = []
-    content = []
-    alt_contents = []
+    contents = [[]]
 
     # Assumes excluded intervals are all disjoint and in order
     # TODO: Handle magnets beginning with drop zone
     startIndex = interval.a
     endIndex = excludedIntervals.empty? ? interval.b : (excludedIntervals.first.a - 1)
-    # TODO: fix this ugliness
-    t = getAllText(startIndex .. endIndex)
-    if t. is_a? Array
-      # TODO: I don't think this will handle combinations of alt texts
-      t.each do |text|
-        alt_contents << Array.new(content)
-        alt_contents.last << MagnetText.new(text)
-      end
 
-      content << MagnetText.new(t.first)
-    else
-      content << MagnetText.new(t)
+    texts = getAllTexts(startIndex .. endIndex)
+    additional_contents = []
+    texts.each_with_index do |text, i| 
+      contents.each do |content|
+        # Duplicate the content unless this is the last text, which
+        # can update the original
+        unless i == texts.size - 1
+          content = Array.new(content)
+          additional_contents << content
+        end
+
+        content << MagnetText.new(text)
+      end
     end
+
+    contents += additional_contents
       
 
     until excludedIntervals.empty?
-      content << MagnetDropZone.instance
-      alt_contents.each do |a_c|
-        a_c << MagnetDropZone.instance
+      contents.each do |c|
+        c << MagnetDropZone.instance
       end
 
       exInt = excludedIntervals.shift
 
       startIndex = exInt.b + 1
       endIndex = excludedIntervals.empty? ? interval.b : (excludedIntervals.first.a - 1)
-      # TODO: fix this duplication
-      t = getAllText(startIndex .. endIndex)
-      if t. is_a? Array
-        # TODO: I don't think this will handle combinations of alt texts
-        t.each do |text|
-          if alt_contents.empty?
-            alt_contents << Array.new(content)
-            alt_contents.last << MagnetText.new(text)
-          else
-            alt_contents.each do |a_c|
-              alt_contents << Array.new(a_c)
-              alt_contents.last << MagnetText.new(text)
-            end
-          end
-        end
 
-        content << MagnetText.new(t.first)
-      else
-        content << MagnetText.new(t)
-        alt_contents.each do |a_c|
-          a_c << MagnetText.new(t)
+      # TODO: fix this duplication
+      texts = getAllTexts(startIndex .. endIndex)
+      additional_contents = []
+      texts.each_with_index do |text, i| 
+        contents.each do |content|
+          # Duplicate the content unless this is the last text, which
+          # can update the original
+          unless i == texts.size - 1
+            content = Array.new(content)
+            additional_contents << content
+          end
+
+          content << MagnetText.new(text)
         end
       end
     end
 
-    return alt_contents.empty? ? content : alt_contents
-
+    return contents
   end
 
   # Gets the text and whitespace for a given interval range
@@ -138,46 +132,43 @@ module MagnetEmitterBase
   # text in the code, the others come from any ALT directives
   # given. ALT directives 
   # TODO: Remove indentation up to the level that the first line is at
-  def getAllText intervalRange
-    text = []
-    curr_alt = []
-    alt_texts = []
+  def getAllTexts intervalRange
+    texts = [[]]
+    curr_alts = []
     # Go through the interval token by token. It is indexed by token, 
     # not by character
     intervalRange.each  do |j|
       tok =  @tokens.get(j)
 
+      # If the text is parsed code or whitespace
       if (tok.channel == 0 || tok.channel == 1)
-        text << tok.getText
-        alt_texts.each do |alt_text|
-          alt_text << tok.getText
+        texts.each do |text|
+          text << tok.getText
         end
 
       # Get directives
-      # TODO Cannot handle alttext specified before first token in rule
       elsif (tok.channel == 2)
         d = strip_directive(tok)
-        # TODO handle combinations of alt texts
+        # TODO make sure combinations of alts are handled
         case d.command
         when"ALT"
-          puts "Found alt text: #{d.arg}"
           # Trigger creation of alternative magnet
-          curr_alt = Array.new(text)
-          curr_alt << d.arg
+          curr_alts << []
+          texts.each do |text|
+            curr_alt = Array.new(text)
+            curr_alt << d.arg
+            curr_alts.last << curr_alt
+          end
         when "ENDALT"
-          alt_texts << curr_alt
+          texts << curr_alts.pop
         end
       end
     end
 
-    if alt_texts.empty?
-      return text.join
-    else
-      ret = [text.join] + alt_texts.map {|t| t.join}
-      puts "Returning multiple texts"
-      pp ret
-      return ret
-    end
+    ret = texts.map {|t| t.join}
+    # puts "Ret"
+    # pp ret
+    return ret
   end
 end
 

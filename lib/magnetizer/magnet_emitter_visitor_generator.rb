@@ -77,21 +77,15 @@ class MagnetEmitterVisitorGenerator
               visitChildren(ctx)
             end
 
-            m = Magnet.new
-            alt_ms = []
             # This get text should exclude text from any intervals covered 
             # by other magnets. There should be drop zones at all excluded intervals.
             c = createMagnetContent content_interval, @exclusionIntervalsStack.last
-            first_c = true
-            if c.first.is_a? Array
-              c.each do |content|
-                alt_m = Magnet.new
-                alt_m.contents += content
-                alt_ms << alt_m
-                first_c = false
-              end
-            else
-              m.contents += c
+            magnets = []
+
+            c.each do |content|
+              m = Magnet.new
+              m.contents += content
+              magnets << m
             end
 
 
@@ -101,22 +95,20 @@ class MagnetEmitterVisitorGenerator
               if ctxHasChildType(ctx,
                   eval("#{parser_class}::#{override[0]}Context"),
                   override[1])
-                instance_variable_get("@#{override[2]}Magnets") << m
+                magnets.each do |m|
+                  instance_variable_get("@#{override[2]}Magnets") << m
+                end
                 used_override = true
               end
             end
             if used_override
               # Do nothing
             elsif node.list == "class_type"
-              @classMagnets << m
+              @classMagnets += magnets
             elsif node.list == "preamble_type"
-              @preambleMagnets << m
+              @preambleMagnets += magnets
             elsif node.list == "in_block_type"
-              if alt_ms.empty?
-                @statementMagnets << m
-              else
-                @statementMagnets += alt_ms
-              end
+              @statementMagnets += magnets
             end
 
 
