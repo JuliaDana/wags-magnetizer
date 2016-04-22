@@ -1,6 +1,6 @@
 require_relative "magnet_emitter_base.rb"
 
-class MagnetEmitterGenerator
+class MagnetEmitterListenerGenerator
   def self.generate language = "Java"
     unless LOADED_LANGUAGES.keys.include? language
         raise UnsupportedLanguageError, "#{language} not supported by this #{self.name}"
@@ -8,7 +8,7 @@ class MagnetEmitterGenerator
 
     parent_class = eval "Java::#{language.downcase}_parser.#{language}BaseListener"
     parser_class = eval  "Java::#{language.downcase}_parser.#{language}Parser"
-    generating_class_name = "Generated#{language}MagnetEmitter"
+    generating_class_name = "Generated#{language}MagnetEmitterListener"
 
 
     unless const_defined? generating_class_name

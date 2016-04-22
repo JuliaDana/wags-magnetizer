@@ -34,10 +34,11 @@ end
 # java_import org.antlr.v4.runtime.ANTLRInputStream
 # java_import org.antlr.v4.runtime.CommonTokenStream
 
-require_relative "magnetizer/magnet_emitter_generator.rb"
-require_relative "magnetizer/magnet_visitor_generator.rb"
+#require_relative "magnetizer/magnet_emitter_listener_generator.rb"
+require_relative "magnetizer/magnet_emitter_visitor_generator.rb"
 require_relative "wags_interaction/magnet_translator.rb"
 require_relative "magnetizer/language_config.rb"
+require_relative "magnetizer/directive.rb"
 YAML.load_file("data/languages.yaml")
 
 class UnsupportedLanguageError < StandardError; end;
@@ -66,7 +67,7 @@ class Magnetizer
       # walker.walk(@emitter, @tree)
 
       # Using the visitor method
-      @emitter = MagnetVisitorGenerator.generate(language).new(tokens)
+      @emitter = MagnetEmitterVisitorGenerator.generate(language).new(tokens)
       @emitter.visit(@tree)
       
     rescue java.io.FileNotFoundException => e

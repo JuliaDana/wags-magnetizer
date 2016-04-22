@@ -1,6 +1,6 @@
 require_relative "magnet_emitter_base.rb"
 
-class MagnetVisitorGenerator
+class MagnetEmitterVisitorGenerator
   def self.generate language = "Java"
     unless LOADED_LANGUAGES.keys.include? language
         raise UnsupportedLanguageError, "#{language} not supported by this #{self.name}"
@@ -8,9 +8,11 @@ class MagnetVisitorGenerator
 
     parent_class = eval "Java::#{language.downcase}_parser.#{language}BaseVisitor"
     parser_class = eval  "Java::#{language.downcase}_parser.#{language}Parser"
-    generating_class_name = "Generated#{language}MagnetVisitor"
+    generating_class_name = "Generated#{language}MagnetEmitterVisitor"
 
 
+    # Only run the class generation if it has not been defined. 
+    # Return the existing class if it is defined.
     unless const_defined? generating_class_name
       
       emitter_class = Class.new(parent_class) do
@@ -29,45 +31,49 @@ class MagnetVisitorGenerator
         end
 
         define_method :strip_directive do |tok|
-          # Using sub to get rid of the beginning assumes that the language config
-          # correctly matches what is defined in the grammar
-          return tok.getText.chomp(language_info.directive_end).sub(language_info.directive_start, '')
+          # Using sub to get rid of the beginning assumes that the 
+          # language config correctly matches what is defined in 
+          # the grammar
+          text = tok.getText.chomp(language_info.directive_end).sub(language_info.directive_start, '')
+          command, arg = text.split(' ', 2)
+          return Directive.new(command, arg)
         end
 
         all_types = language_info.magnet_nodes
 
+        # Create the visit methods for each of the types of nodes
+        # that triggers the creation of a magnet
         all_types.each do |node|
-          # TODO create more specific method bodies
           define_method "visit#{node.name}" do |ctx|
             directives = get_directives ctx
+
+            # Default for options that can come from directives
             no_drop = false
             alt_at_beginning = nil
 
             directives.each do |d|
-              command, info = d.split(' ', 2)
-              puts "COMMAND: #{command}"
-              puts "INFO: #{info}"
-
-              case command
+              case d.command
               when "NODROP"
                 no_drop = true
-              # TODO make sure EXTRAMAG works when not immediately before a new magnet
-              when "EXTRAMAG"
-                extra_mag = Magnet.new
-                extra_mag.contents << MagnetText.new(info)
-                @statementMagnets << extra_mag
               when "ALT"
-                alt_at_beginning = info
+                alt_at_beginning = d.arg
               when "ENDALT"
                 raise "This shouldn't happen"
               end
             end
 
             if node.list == "in_block_type"
+              # Record that the text that creates this magnet
+              # should be excluded from its enclosing magnet.
               @exclusionIntervalsStack.last << ctx.getSourceInterval
             end
 
+            # Set up array to hold intervals that will be excluded
+            # from this magnet by its children.
             @exclusionIntervalsStack << []
+
+            # If we have recieved the NODROP directive, do not visit
+            # the children, their text should be included in this magnet.
             unless no_drop
               visitChildren(ctx)
             end

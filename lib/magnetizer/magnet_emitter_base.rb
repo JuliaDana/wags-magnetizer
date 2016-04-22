@@ -19,6 +19,8 @@ module MagnetEmitterBase
     end
 
     @tokens = tokens
+
+    self.create_extra_magnets
   end
 
   def allMagnets
@@ -28,6 +30,27 @@ module MagnetEmitterBase
   ###########################################
   # Helpers
   ##########################################
+
+  # Check the directive channel for any commands to create extra magnets.
+  def create_extra_magnets
+    num_tokens = @tokens.size
+    prev_i = -1
+    i = @tokens.nextTokenOnChannel(0, 2)
+    while i < num_tokens && prev_i != i do
+      t = @tokens.get(i)
+      d = strip_directive t
+      if d.command == "EXTRAMAG"
+        m = Magnet.new
+        m.contents << MagnetText.new(d.arg)
+        @statementMagnets << m
+        puts "Added to statement #{m.inspect}"
+      end
+
+      prev_i = i
+      i = @tokens.nextTokenOnChannel(prev_i + 1, 2)
+    end
+  end
+
   def ctxHasChildType ctx, type, depth = 1
     if depth == 0
       return false
@@ -152,14 +175,14 @@ module MagnetEmitterBase
       # Get directives
       # TODO Cannot handle alttext specified before first token in rule
       elsif (tok.channel == 2)
-        command, info = strip_directive(tok).split(' ', 2)
+        d = strip_directive(tok)
         # TODO handle combinations of alt texts
-        case command
+        case d.command
         when"ALT"
-          puts "Found alt text: #{info}"
+          puts "Found alt text: #{d.arg}"
           # Trigger creation of alternative magnet
           curr_alt = Array.new(text)
-          curr_alt << info
+          curr_alt << d.arg
         when "ENDALT"
           alt_texts << curr_alt
         end
