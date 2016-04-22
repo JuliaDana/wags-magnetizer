@@ -36,12 +36,7 @@ task :generate do
   end
 end
 
-task :antlr do
-  write_empty_tasks
-  system "java -cp etc/antlr-4.5.1-complete.jar:java/bin:$CLASSPATH org.antlr.v4.Tool #{ARGV.join(" ")}"
-end
-
-task :grun do
+task :tokens do
   write_empty_tasks
   
   if File.exists? ARGV.first
@@ -49,11 +44,17 @@ task :grun do
   else
     language = ARGV.shift
   end
-  language_info = languages_info[language]
+
+  language_info = nil
+  languages_info.each do |l|
+    if l['name'] == language
+      language_info = l
+    end
+  end
   input_filenames = ARGV.join(" ")
   package = "#{language.downcase}_parser"
   
-  system "java -cp etc/antlr-4.5.1-complete.jar:java/bin:$CLASSPATH org.antlr.v4.gui.TestRig #{package}.#{language} #{language_info['start_rule']} #{input_filenames}"
+  system "java -cp etc/antlr-4.5.1-complete.jar:java/bin:$CLASSPATH org.antlr.v4.gui.TestRig #{package}.#{language} #{language_info['start_rule']} -tokens #{input_filenames}"
 end
 
 task :tree do
@@ -64,7 +65,12 @@ task :tree do
   else
     language = ARGV.shift
   end
-  language_info = languages_info[language]
+  language_info = nil
+  languages_info.each do |l|
+    if l['name'] == language
+      language_info = l
+    end
+  end
   input_filenames = ARGV.join(" ")
   package = "#{language.downcase}_parser"
 
@@ -73,7 +79,6 @@ end
 
 # Needed in order to use extra command line arguments as input to tasks
 def write_empty_tasks
-  puts ARGV.join "\n"
   ARGV.shift
   ARGV.each {|a| task a.to_sym do ; end}
 end
