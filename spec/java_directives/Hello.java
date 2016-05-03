@@ -17,11 +17,11 @@ public class Hello {
     /*# NODROP */
     // Singleline
     /*# ALT while(false) */
-    while (true) /*# ENDALT 1*/ {
+    while (true) /*# ENDALT */ {
       System.out.println("Hello again");
     }
     
-    for (int i = /*# ALT 1 */ 0 /*# ENDALT 2*/; i < 10; i++) {
+    for (int i = /*# ALT 1 */ 0 /*# ENDALT*/; i < 10; i++) {
       /*# EXTRAMAG return "not in code" */
       System.out.println("Thing " + i);
     }
