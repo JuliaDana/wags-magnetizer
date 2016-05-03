@@ -4,7 +4,7 @@ include Capybara::DSL
 class WagsSiteDriver
 
   WAGS_URL = "http://www.cs.appstate.edu/wags/beta"
-  PATH_TO_PHANTOMJS = File.expand_path("../../etc/phantomjs/bin/phantomjs", 
+  PATH_TO_PHANTOMJS = File.expand_path("../../../etc/phantomjs/bin/phantomjs", 
     __FILE__)
 
   def initialize driver = :selenium
@@ -20,6 +20,7 @@ class WagsSiteDriver
   def initialize_selenium
     require 'selenium-webdriver'
     @current_driver = :selenium
+    @current_driver = :javascript_driver
   end
 
   def initialize_poltergeist
@@ -39,29 +40,49 @@ class WagsSiteDriver
     visit("")
     page.find(:xpath, '//input[@placeholder="Username"]').set(credentials[:username])
     page.find(:xpath, '//input[@placeholder="Password"]').set(credentials[:password])
-    click_link("Sign in")
+      
+    n = page.find_all(:xpath, '//form//a[@href="javascript:;"]').first
+    # n.each do |e|
+    #   puts e.inspect
+    #   puts e.text
+    # end
+
+    n.click
+    n.find_all(:xpath, "/div")
   end
 
-  def go_to_magnet_creation_problem
-    visit("#magnetpc")
+  def go_to_magnet_problem_creation
+    visit("/#magnetpc")
     page.find_field("title");
   end
 
-  def load_class_area text
+  def load_title text
+    page.fill_in("title", :with=>text)
+  end
 
+  def load_description text
+    page.fill_in("desc", :with=>text)
+  end
+
+  def load_class_area text
+    page.fill_in("class", :with=>text)
   end
 
   def load_functions_area text
-
+    page.fill_in("functions", :with=>text)
   end
 
   def load_statements_area text
-
+    page.fill_in("statements", :with=>text)
   end
 
   def load_test_file path_to_file
     puts page.find_field('testClass')
     page.attach_file('testClass', path_to_file)
+  end
+
+  def submit_magnet_problem
+    page.click_button('Create')
   end
 
   def identifiers

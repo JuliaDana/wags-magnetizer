@@ -44,6 +44,7 @@ YAML.load_file("data/languages.yaml")
 class UnsupportedLanguageError < StandardError; end;
 
 class Magnetizer
+  attr_reader :emitter
 
   def initialize file, language = "Java"
     unless LOADED_LANGUAGES.keys.include? language
