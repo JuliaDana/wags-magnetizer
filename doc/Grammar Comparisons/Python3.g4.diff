@@ -1,0 +1,25 @@
+870c870
+< /*SKIP
+---
+> SKIP_
+872,886d871
+<  ;*/
+< SKIP
+<  : LINE_JOINING -> skip
+<  ;
+< 
+< WS_CHANNEL
+<  : SPACES -> channel(1)
+<  ;
+< 
+< DIRECTIVE_CHANNEL
+<  : DIRECTIVE_COMMENT -> channel(2)
+<  ;
+< 
+< COMMENT_CHANNEL
+<  : COMMENT -> channel(3)
+1027,1030d1011
+<  ;
+< 
+< fragment DIRECTIVE_COMMENT
+<  : '##' ~[\r\n]*

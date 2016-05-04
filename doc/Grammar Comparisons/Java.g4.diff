@@ -1,0 +1,34 @@
+980,982c980,982
+<     :   [a-zA-Z$_] // these are the "java letters" below 0xFF
+<     |   // covers all characters above 0xFF which are not a surrogate
+<         ~[\u0000-\u00FF\uD800-\uDBFF]
+---
+>     :   [a-zA-Z$_] // these are the "java letters" below 0x7F
+>     |   // covers all characters above 0x7F which are not a surrogate
+>         ~[\u0000-\u007F\uD800-\uDBFF]
+991,993c991,993
+<     :   [a-zA-Z0-9$_] // these are the "java letters or digits" below 0xFF
+<     |   // covers all characters above 0xFF which are not a surrogate
+<         ~[\u0000-\u00FF\uD800-\uDBFF]
+---
+>     :   [a-zA-Z0-9$_] // these are the "java letters or digits" below 0x7F
+>     |   // covers all characters above 0x7F which are not a surrogate
+>         ~[\u0000-\u007F\uD800-\uDBFF]
+1011,1015c1011
+< WS  :  [ \t\r\n\u000C]+ -> channel(1)
+<     ;
+< 
+< INSTRUCTOR_DIRECTIVE
+<     :   '/*#' .*? '*/' -> channel(2)
+---
+> WS  :  [ \t\r\n\u000C]+ -> skip
+1019c1015
+<     :   '/*' .*? '*/' -> channel(3)
+---
+>     :   '/*' .*? '*/' -> skip
+1023c1019
+<     :   '//' ~[\r\n]* -> channel(3)
+---
+>     :   '//' ~[\r\n]* -> skip
+1025d1020
+< 

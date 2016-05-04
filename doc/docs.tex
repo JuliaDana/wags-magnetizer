@@ -38,9 +38,6 @@ todonotes}
 
 \maketitle
 
-%\begin{abstract}
-%\end{abstract}
-
 \clearpage
 \tableofcontents
 
@@ -92,11 +89,39 @@ microlab.
 
 The problem is that creating these magnet microlab assignments on the 
 WAGS website is a somewhat painful process. The current parser creates 
-a magnet per line, and this can result in having to format the input 
-file so that is no longer the same as a solution file, and is indeed no 
-longer valid for its language.
+magnets based on whitespace (line breaks and indentation). This limits 
+the style of code that can be used. For example, opening curly braces 
+in Java must be on the same line as the class/method/loop they are 
+associated with. Also, statements have to be on a single line, 
+regardless of length. See Figure \ref{fig:old_parser_style} for an 
+example \cite{icer_pres_4_creating_lab}. These sylistic limitations, 
+while limiting, do not force your input to the microlab creation to 
+become an invalid solution file. However, to create alternative magnets 
+for the existing parser, one adds extra lines to the input file. This 
+does change the input file to no longer be a correct solution, and can 
+even change it to no longer be a valid file for its language. This 
+means that the instructor now has to maintain and keep in sync both a 
+proper solution and the WAGS input file. See Figure 
+\ref{fig:old_parser_alts} to see how adding alternative magnets 
+can change an input file\cite{icer_pres_4_creating_lab}.
 
-\missingfigure{Parser example}
+\begin{figure}
+ \centering
+ 
+\includegraphics[width=.8\linewidth, keepaspectratio=true
+  ]{./images/CreatingCodeMagnetLab/old_parser_presentation-07.png}
+ \caption{Putting an Input File In Standard Format}
+ \label{fig:old_parser_style}
+\end{figure}
+
+\begin{figure}
+ \centering
+ 
+\includegraphics[width=.8\linewidth,keepaspectratio=true
+  ]{./images/CreatingCodeMagnetLab/old_parser_presentation-09.png}
+ \caption{Adding Alternative Magnets}
+ \label{fig:old_parser_alts}
+\end{figure}
 
 If your input cannot be handled by this brittle parser. WAGS does 
 provide a manual input for magnets. However, using this manual input 
@@ -108,23 +133,25 @@ creation wizard, or for the user to directly type the final magnet
 
 \subsection{The Solution: Parsing by Grammar}
 
-The solution to this is to use a more robust parser that is based on 
-the grammar of a language, rather than simply splitting on line breaks. 
-This project does this by using the ANTLR4 parser 
-generator\cite{antlr-reference} and freely available grammars for 
-common languages\cite{antlr-grammars-project}.
+The solution to the problems raised by the old, brittle parser is to 
+use a more robust parser that is based on the grammar of the language, 
+rather than the formatting of the input file. This project does this by 
+using the ANTLR4 parser generator\cite{antlr-reference} and freely 
+available grammars for common languages\cite{antlr-grammars-project}.
 
-Roughly speaking, using a grammar-based parser to break code into 
-magnets is like breaking apart a paragraph based on sentences or 
-phrases, rather than on every period (Which commonly indicates the end 
-of a sentence, but also has other uses, such as abbreviations). This 
-type of parser will create tokens from the input, which are loosely the 
-equivalent of words, and then break them into (sometimes nested) 
-phrases and sentences according to rules called productions. Rules are 
-named, and will sometimes contain more than one production as 
-alternatives that provide the same function in a language. 
-\todo[color=refinementColor]{Create magnets from certain types of 
-``phrases''}
+As a rough comparison, using a grammar-based parser to 
+break code into magnets is like breaking apart a paragraph based on 
+sentences or phrases, rather than on every period (Which commonly 
+indicates the end of a sentence, but also has other uses, such as 
+abbreviations). This type of parser will create tokens from the input, 
+which are loosely the equivalent of words, and then break them into 
+(sometimes nested) phrases and sentences according to rules called 
+productions. Rules are named, and will sometimes contain more than one 
+production as alternatives that provide the same function in a 
+language. 
+
+\todo[color=refinementColor]{Create magnets from certain types 
+of ``phrases''}
 
 One of the outputs available from a parser is a parse tree. This is 
 similar to a sentence diagram. \todo[color=refinementColor]{configure 
@@ -179,6 +206,8 @@ directives implemented all instructors to suppress drop zones, to
 indicate that a duplicate magnet with a section of alternate text 
 should be created, and to create an unrelated magnet.
 
+\todo{Discuss limitations in Python due to Indent/Dedent tokens}
+
 \subsubsection{Improved Representation of Magnets}
 
 The old format for describing magnets is difficult to read and worse to 
@@ -214,6 +243,9 @@ exposing the internal API functions to the command line.
 %\subsubsection{GUI Tool}
 
 \subsubsection{Automated Interaction With WAGS Website}
+
+\todo{Get information about Selenium using the wrong JS trigger from 
+Sam}
 
 
 \subsection{What It Could Do: Future Extensions}
@@ -281,7 +313,7 @@ Usage: magnetizer [options] file
 \subsection{Installation for Use}
 
 % An overview of how a file is split into magnets.
-\subsection{Explanation of Output}
+\subsection{Explanation of Magnet Creation}
 
 \todo{explain these in a way that doesn't require 
 deep understanding of the ANTLR grammar.}
@@ -306,7 +338,7 @@ The current configuration for Python creates magnets for
 \end{itemize}
 
 
-\subsection{Modifying the Output: Instructor Directives}
+\subsection{Modifying the Magnet Creation: Instructor Directives}
 Instructor directives are information that can be put in the input file 
 that change how the magnets are created. They are a special version of 
 comments. The triggering syntax varies per language, but the directives 
@@ -322,6 +354,7 @@ are the same for all languages.
 Note that directives in python are somewhat limited because comments 
 cannot occur in a line. \todo{Verify that there are no inline comments 
 in python}
+\todo{explain which directives work in python}
 
 \subsubsection{ALT and ENDALT: Creating Alternative Magnets}
 
@@ -412,7 +445,9 @@ spec tests.
 \end{description}
 
 
-\subsubsection{Description of Classes}
+\subsubsection{JRuby / Java Integration}
+
+\subsubsection{Key Classes}
 
 \begin{description}
  \item [MagnetEmitterBase] A mix-in that contains methods that have the 
