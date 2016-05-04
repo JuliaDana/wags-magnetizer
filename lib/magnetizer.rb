@@ -1,3 +1,7 @@
+unless defined? JRUBY_VERSION
+  raise "This application must be run under JRuby"
+end
+
 $CLASSPATH << "java/bin/"
 require 'java'
 require "etc/antlr-4.5.1-complete.jar"
