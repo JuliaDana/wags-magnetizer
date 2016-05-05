@@ -46,8 +46,8 @@ todonotes}
 
 \clearpage
 
+% Defense of the choice of problem
 \section{Introduction} 
-\todo[color=infoColor]{Defense of the problem definition}
 
 \subsection{The Overview: Easier Creation of Code Magnet Microlabs}
 
@@ -182,8 +182,8 @@ Java.
 \todo[color=refinementColor]{expand on ANTLR - LL(star) - other 
 features} 
 
+% Defense of solution
 \section{Development results and future extensions}
-\todo[color=infoColor]{Defense of solution}
 
 \subsection{What It Does: Internal Functions}
 
@@ -203,17 +203,55 @@ The resulting parse tree is:
 \label{fig:parseTree}
 
 ANTLR provides two mechanisms for traversing this tree once it is 
-created. One is a walker, that triggers enter and exit methods for each 
-type of internal node, and the other is a visitor.
+created. One is a walker, which triggers enter and exit methods in a 
+listener for each type of internal node, and the other is a visitor, 
+which has methods for visiting each type of internal node. For 
+both mechanisms, ANTLR provides a Java class which is a base version of 
+the listener or visitor, with stubs of the methods containing minimal 
+functionality. The programmer can then subclass these base 
+versions to perform their project-specific actions at certain nodes. 
+This project initially used the listener mechanism, but later switched 
+to using the visitor to make it easier to implement the NODROP 
+instructor directive. One key difference between the mechanisms is that 
+the walker/listener method will always visit every node in the tree. 
+With the visitor method, the base (ANTLR-generated) visitor visits 
+every node by default, but the specific visitor can choose to not visit 
+some or all of the children of a node, because the visit method is 
+responsible for chosing when to visit children.
 
-Each language supported by the magnetizer has an entry in a 
-configuration file that specifies which nodes in the parse tree should 
-trigger the creation of a magnet. Whenever a child node triggers its 
-own magnet, the parent is given a drop zone for that section, and that 
-section of text is not directly included in the parent magnet.
+The visitors for this project are dynamically created JRuby subclasses 
+of the ANTLR-generated base visitors. There is an ANTLR-generated base 
+visitor per supported language. There is a single JRuby generator that 
+creates a subclass of the Java base visitor for any language. The 
+generation of the subclass is controlled by an entry in a configuration 
+file which specifies the name of the grammar used (language name), and 
+which rules (which become internal nodes in the parse tree) trigger the 
+creation of a magnet. This dynamic generation prevents repeated code 
+because we want to perform the same types of actions at every node that 
+triggers a magnet, but the structure that ANTLR expects requires 
+separate methods.
 
+\todo{Show Java configuration file}
 
-\todo{Multiple channels to preserve whitespace.}
+\todo{Show subclass generating code}
+
+One difficulties encountered in creating magnets from the parse tree 
+is that the ANTLR-generated parser (like most parsers) discards 
+whitespace once the parse tree has been built. By default, only the 
+tokens themselves are kept. So, although the nodes in the tree 
+provide a getText() method, the result of this is something 
+like \verb~publicclassMyClass~ rather than the expected 
+\verb~public class MyClass~. However, ANTLR provides a way to keep extra
+information such as whitespace and comments around for later use if they 
+are needed called hidden channels \ref{fig:channels}. This splits the 
+incoming token stream into a channel for use by the parser, and hidden 
+channels that can later be accessed to recreate the original text (with 
+formatting) for the magnet. This hidden channel mechanism is also used 
+to implement instructor directives.
+
+\missingfigure{diagam of text going to hidden channels}
+%\caption{Diagram of tokens being split into channels}
+\label{fig:channels}
 
 
 \subsubsection{Alternative Magnets and Other Instructor Directives}
@@ -223,10 +261,19 @@ created. They are implemented as special comments that go to a
 special token channel. The content of directives are the same across all 
 languages, but the triggering comment syntax is specific to each input 
 language. Current directives implemented all instructors to suppress 
-drop zones, to indicate that a duplicate magnet with a section of 
-alternate text should be created, and to create an unrelated magnet.
+drop zones (NODROP), to indicate that a duplicate magnet with a section 
+of alternate text should be created (ALT and ENDALT), and to create an 
+unrelated magnet (EXTRAMAG).
 
 \todo{Discuss limitations in Python due to Indent/Dedent tokens}
+All the directives currently work with Java input file. However, there 
+are some limitations with directives in Python. Because comments in 
+Python always go to the end of a line, creating a magnet with alternate 
+text does not work, since the original text cannot be surrounded by 
+comments. Also because of line-based comments, unrelated magnets must 
+be created in a single line. There are also some cases where directives 
+do not properly get connected to the expected node in the tree because 
+indentation is not considered discardable whitespace in Python.
 
 \subsubsection{Improved Representation of Magnets}
 
@@ -260,12 +307,21 @@ as JSON and YAML for more robust usages.
 This project provides a command line tool, which is a thin wrapper 
 exposing the internal API functions to the command line.
 
-%\subsubsection{GUI Tool}
 
 \subsubsection{Automated Interaction With WAGS Website}
 
-\todo{Get information about Selenium using the wrong JS trigger from 
-Sam}
+This project contains a proof-of-concept automated interaction with the 
+WAGS website, which is capable of logging in to the site, and creating 
+an assignment with magnets from a specified input file. The assignment 
+that is created has the magnets loaded, but it does not have any of the 
+other files that the WAGS system needs to automatically provide 
+feedback to the students. The automated interaction is provided using 
+libraries commonly used in Ruby for automated testing of websites. It 
+uses the Capybara acceptance test framework (which provides a 
+convienient, cross web driver DSL for interacting with websites), the 
+Poltergeist web driver, and the PhantomJS headless browser. Support for 
+Capybara, the Selenium web driver, and Firefox browser is coded, but 
+Selenium will not trigger the log in button on the current web site.
 
 
 \subsection{What It Could Do: Future Extensions}
@@ -287,6 +343,17 @@ A GUI tool that can open an input file, perform the actions of the CLI
 tool on it, and also has an editor to assist in the addition of any 
 instructor directives desired would be a nice addition to this project.
 
+\subsubsection{Further Automated Interaction With WAGS Website}
+It would be nice if this project could completely and reliably upload 
+new magnet assignments to the WAGS website. The current interaction 
+with the website does not upload the test file or any information other 
+than the magnets. It also does not support the advanced Java magnet 
+upload page. It also only works with the headless web driver 
+(Poltergeist), not the one that shows the user what is happening 
+(Selenium). However the limiting factor is that the functionality of 
+the WAGS site is split between two versions of the website, and that 
+the site has not been designed with programmatic interaction in mind.
+
 \subsubsection{Supporting New Languages}
 
 This project currently can create magnets for Python3 and Java, however 
@@ -305,20 +372,27 @@ as XML) could easily be added.
 
 
 
+% Targeted to a CIS 1 instructor
 \section{User Guide}
-\todo[color=infoColor]{Targeted to a CIS 1 instructor}
 
 \subsection{Quick Start - CLI Tool}
 
 The primary interface to this project is the magnetizer command line 
-tool. This tool is capable of outputting to WAGS-style magnets that can 
-be copy-pasted into the parsed sections of the WAGS website or to a 
-JSON or YAML representation of the magnets.
+tool.  This tool is packaged as a stand-alone executable JAR file. 
 
-\todo{Make sure usage is the latest version.}
+It takes as input a file name, and outputs the magnets created 
+from the input file. By default it assumes the input file is in Java. 
+If it is in Python, the language options needs to be specified as 
+Python3. 
+
+By default, it prints the magnets in WAGS format to the console. It can 
+also or instead print the magnets to JSON or YAML. It also can 
+send the magnets to a specified output file, rather than the console. 
+
 \begin{verbatim}
 Usage: magnetizer [options] file
-    -l, --language LANGUAGE          Specify a language (default: Java)
+    -l, --language LANGUAGE          Specify a language (default: Java, 
+                                       other: Python3)
         --json                       Print the JSON output
         --yaml                       Print the YAML output
         --[no-]wags                  Print the output as WAGS magnets 
@@ -328,9 +402,10 @@ Usage: magnetizer [options] file
 \end{verbatim}
 
 
-%\subsection{Quick Start - GUI Tool (tent.)}
-
 \subsection{Installation for Use}
+This tool is packaged as a stand-alone JAR file. It does not need to be 
+installed before running. Its only dependency is that Java needs to be 
+installed, and it has been tested with Java ?? \todo{test Java versions}
 
 % An overview of how a file is split into magnets.
 \subsection{Explanation of Magnet Creation}
@@ -404,8 +479,6 @@ of the magnets in the input file.
 
 \todo{Concrete example of EXTRAMAG}
 
-
-\subsection{Automatic Upload to WAGS Website}
 
 \section{Developer Notes}
 \todo[color=infoColor]{Targeted to someone expanding on this project}
