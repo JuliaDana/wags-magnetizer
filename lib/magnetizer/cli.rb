@@ -14,7 +14,8 @@ class CLI
     @parser = OptionParser.new do |opts|
       opts.banner = "Usage: magnetizer [options] file"
 
-      opts.on("-l", "--language LANGUAGE", "Specify a language (default: Java)") do |language|
+      opts.on("-l", "--language LANGUAGE",
+          "Specify a language (default: Java, other: Python3)") do |language|
         @options[:language] = language
       end
 
