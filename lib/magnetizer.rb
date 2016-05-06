@@ -2,9 +2,9 @@ unless defined? JRUBY_VERSION
   raise "This application must be run under JRuby"
 end
 
-$CLASSPATH << "java/bin/"
+$CLASSPATH << File.expand_path("../../java/bin/", __FILE__)
 require 'java'
-require "etc/antlr-4.5.1-complete.jar"
+require_relative "../etc/antlr-4.5.1-complete.jar"
 require 'cgi'
 require 'yaml'
 
@@ -43,7 +43,7 @@ require_relative "magnetizer/magnet_emitter_visitor_generator.rb"
 require_relative "wags_interaction/magnet_translator.rb"
 require_relative "magnetizer/language_config.rb"
 require_relative "magnetizer/directive.rb"
-YAML.load_file("data/languages.yaml")
+YAML.load_file(File.expand_path("../../data/languages.yaml", __FILE__))
 
 class UnsupportedLanguageError < StandardError; end;
 

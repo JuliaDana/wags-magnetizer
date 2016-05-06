@@ -4,7 +4,7 @@ unless defined? JRUBY_VERSION
   raise "This application must be run under JRuby"
 end
 
-require "lib/magnetizer/cli.rb"
+require "magnetizer/cli.rb"
 
 cli = CLI.new
 cli.parse ARGV
