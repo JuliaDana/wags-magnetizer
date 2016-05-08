@@ -1,0 +1,20 @@
+- !customObject/LanguageConfig
+  name: Java
+  start_rule: compilationUnit
+  allow_file_statements: false
+  directives:
+    start: '/*#'
+    end: '*/'
+  preamble_type:
+    - PackageDeclaration
+    - ImportDeclaration
+  class_type:
+    - TypeDeclaration
+  in_block_type:
+    - ClassBodyDeclaration
+    - BlockStatement
+  overrides:
+    - name: ClassBodyDeclaration
+      child_node_type: MethodDeclaration
+      child_level: 2
+      location: method

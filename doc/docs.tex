@@ -1,7 +1,23 @@
 %\documentclass[letter,10pt,final]{article}
 \documentclass[letter,10pt]{article}
 \usepackage[utf8]{inputenc}
+
+\usepackage{listings}
+\usepackage{lstautogobble}
+\usepackage{textcomp}	% To get straight quotes
+\usepackage[T1]{fontenc}	% To get straight double quotes
+%\lstset{language=HTML}
+\lstset{breaklines=true}
+\lstset{showstringspaces=false}
+\lstset{numbers=left}
+\lstset{autogobble}
+\lstset{upquote=true} % To get straight quotes
+\lstset{captionpos=b} % Set caption position to bottom
+%\lstset{caption=\lstname}
+
 \usepackage{graphicx}
+\setkeys{Gin}{width=.8\linewidth}
+
 \usepackage{xcolor}
 \definecolor{criticalColor}{HTML}{FF3333}
 \definecolor{refinementColor}{HTML}{B3FFCC}
@@ -75,15 +91,12 @@ Then the student must choose the correct magnets to use and drag
 and drop them into the correct order to “write” a solution to the 
 microlab.
 
-\missingfigure{Add figure of in progress magnet microlab}
-%\begin{figure}
-% \centering
-% \includegraphics[width=3in]{./images/missing-image.png}
-% \caption{An in-progress magnet microlab}
-% \label{fig:magnets}
-% %\todo{Add figure of in progress magnet microlab}
-% %\todo{Make sure picture is in a good location in the text}
-%\end{figure}
+\begin{figure}
+ \centering
+ \includegraphics{./images/magnet-lab.png}
+ \caption{An in-progress magnet microlab}
+ \label{fig:magnet-lab}
+\end{figure}
 
 \subsection{The Problem: Brittle Input}
 
@@ -108,8 +121,8 @@ can change an input file\cite{icer_pres_4_creating_lab}.
 \begin{figure}
  \centering
  
-\includegraphics[width=.8\linewidth, keepaspectratio=true
-  ]{./images/CreatingCodeMagnetLab/old_parser_presentation-07.png}
+  \includegraphics{%    
+./images/CreatingCodeMagnetLab/old_parser_presentation-07.png}
  \caption{Putting an Input File In Standard Format}
  \label{fig:old_parser_style}
 \end{figure}
@@ -117,8 +130,8 @@ can change an input file\cite{icer_pres_4_creating_lab}.
 \begin{figure}
  \centering
  
-\includegraphics[width=.8\linewidth,keepaspectratio=true
-  ]{./images/CreatingCodeMagnetLab/old_parser_presentation-09.png}
+ \includegraphics{%
+./images/CreatingCodeMagnetLab/old_parser_presentation-09.png}
  \caption{Adding Alternative Magnets}
  \label{fig:old_parser_alts}
 \end{figure}
@@ -129,7 +142,13 @@ requires magnets to either be entered one at a time to the magnet
 creation wizard, or for the user to directly type the final magnet 
 (including HTML escape sequences) to the parsed output section. 
 
-\missingfigure{magnet assignment creation page}
+\begin{figure}
+ \centering
+ \includegraphics{./images/wags-magnet-creation.png}
+ \caption{WAGS Magnet Assignment Creation Page}
+ \label{fig:wags-magnet-creation}
+\end{figure}
+
 
 \subsection{The Solution: Parsing by Grammar}
 
@@ -195,12 +214,16 @@ parsing is a parse tree, which is then used to create magnets. ANTLR
 can show us a graphical representation of this tree, as follows.
 
 For this simple Java file, Hello.java
-\missingfigure{Listing: Hello.java}
+\lstinputlisting[language=Java, caption={Hello.java}]{./code/Hello.java}
 
 The resulting parse tree is:
 
-\missingfigure{Show a simple parse tree}
-\label{fig:parseTree}
+\begin{figure}
+ \centering
+ \includegraphics[width=\linewidth]{./images/hello_parse_tree.png}
+ \caption{The parse tree from Hello.java}
+ \label{fig:hello_parse_tree}
+\end{figure}
 
 ANTLR provides two mechanisms for traversing this tree once it is 
 created. One is a walker, which triggers enter and exit methods in a 
@@ -231,7 +254,8 @@ because we want to perform the same types of actions at every node that
 triggers a magnet, but the structure that ANTLR expects requires 
 separate methods.
 
-\todo{Show Java configuration file}
+\lstinputlisting[caption={The section of the configuration file that 
+sets up Java magnetization}]{./code/java_config.yaml}
 
 \todo{Show subclass generating code}
 
