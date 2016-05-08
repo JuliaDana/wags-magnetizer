@@ -57,8 +57,8 @@ todonotes}
 \clearpage
 \tableofcontents
 
-%\clearpage
-%\listoftodos
+\clearpage
+\listoftodos
 
 \clearpage
 
@@ -91,7 +91,7 @@ Then the student must choose the correct magnets to use and drag
 and drop them into the correct order to “write” a solution to the 
 microlab.
 
-\begin{figure}
+\begin{figure}[h!]
  \centering
  \includegraphics{./images/magnet-lab.png}
  \caption{An in-progress magnet microlab}
@@ -118,7 +118,7 @@ proper solution and the WAGS input file. See Figure
 \ref{fig:old_parser_alts} to see how adding alternative magnets 
 can change an input file\cite{icer_pres_4_creating_lab}.
 
-\begin{figure}
+\begin{figure}[h!]
  \centering
  
   \includegraphics{%    
@@ -127,7 +127,7 @@ can change an input file\cite{icer_pres_4_creating_lab}.
  \label{fig:old_parser_style}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[h!]
  \centering
  
  \includegraphics{%
@@ -142,7 +142,7 @@ requires magnets to either be entered one at a time to the magnet
 creation wizard, or for the user to directly type the final magnet 
 (including HTML escape sequences) to the parsed output section. 
 
-\begin{figure}
+\begin{figure}[h!]
  \centering
  \includegraphics{./images/wags-magnet-creation.png}
  \caption{WAGS Magnet Assignment Creation Page}
@@ -218,7 +218,7 @@ For this simple Java file, Hello.java
 
 The resulting parse tree is:
 
-\begin{figure}
+\begin{figure}[h!]
  \centering
  \includegraphics[width=\linewidth]{./images/hello_parse_tree.png}
  \caption{The parse tree from Hello.java}
@@ -273,9 +273,14 @@ channels that can later be accessed to recreate the original text (with
 formatting) for the magnet. This hidden channel mechanism is also used 
 to implement instructor directives.
 
-\missingfigure{diagam of text going to hidden channels}
-%\caption{Diagram of tokens being split into channels}
-\label{fig:channels}
+\begin{figure}
+ \centering
+ \includegraphics{./images/antlr-hidden-channels.png}
+ \caption{Diagram of tokens being split into %
+channel\cite[207]{antlr-reference}}
+ \label{fig:channels}
+\end{figure}
+
 
 
 \subsubsection{Alternative Magnets and Other Instructor Directives}
@@ -313,15 +318,28 @@ system addresses this problem by adding more form fields when adding
 ``advanced Java magnets'', but this does not work well for adding 
 additional languages.
 
-\missingfigure{Creating a magnet assignment with advanced magnets}
+\begin{figure}[h!]
+ \centering
+ \includegraphics{./images/wags-adv-magnet-creation.png}
+ \caption{Creating a magnet assignment with advanced magnets}
+ \label{fig:wags-adv-magnet-creation}
+\end{figure}
+
 
 This project creates an underlying object based data structure for 
-magnets, as shown in figure \todo{link figure of class diagram}. This 
-structure can then be serialized as desired. Currently, serialization to 
-the old magnet format is supported for backward compatibility, as well 
-as JSON and YAML for more robust usages.
+magnets, as shown in figure \cite{fig:magnet-diagram}. This structure 
+can then be serialized as desired. Currently, serialization to the old 
+magnet format is supported for backward compatibility, as well as JSON 
+and YAML for more robust usages.
 
-\missingfigure{Class diagram of Magnets}
+\begin{figure}[h!]
+ \centering
+ \includegraphics[width=.95\linewidth]{%
+./images/FinalMagnetStructure.png}
+ \caption{The classes of the magnet data structure}
+ \label{fig:magnet-diagram}
+\end{figure}
+
 
 
 \subsection{What It Does: External Functions}
@@ -483,23 +501,45 @@ alternative text, and the ENDALT directive is used to indicate where
 the end of the alternative text is. These directives should always be 
 used as a pair, and encompass the text that should be replaced. They 
 cannot go around anything that would trigger the creation of a new 
-magnet or drop zone.
+magnet or drop zone. This directive has only been tested in 
+Java. \todo{Check state of ALT directive in Python} 
 
 \todo{Concrete example of ALT}
+Example: To provide an alternative condition for a loop in Java.
+
+\begin{lstlisting}[language=Java]
+while(/*# ALT altCondition */ realCondition /*# ENDALT */) 
+{
+  System.out.println("Hello");
+}
+\end{lstlisting}
+
 
 \subsubsection{NODROP: Suppressing Drop Zones}
 
 The NODROP directive suppresses the creation of drop zones for the 
 following magnet. An example of when this would be used is to put an 
 entire loop on a single magnet, rather than having the individual 
-statements in the body be on their own magnets.
+statements in the body be on their own magnets. This directive has only 
+been tested in Java.\todo{Check state of NODROP directive in Python} 
 
 \todo{Concrete example of NODROP}
+Example: To create a loop whose body is contained on the main magnet in 
+Java. Used when creating the body of a loop/method/etc. is not the 
+focus of the microlab.
+
+\begin{lstlisting}[language=Java]
+/*# NODROP */
+for (int i = 0; i < 10; i++) {
+  System.out.println(i);
+}
+\end{lstlisting}
 
 \subsubsection{EXTRAMAG: Creating an Extra Magnet}
 
 The EXTRAMAG directive is used to add a magnet that is unrelated to any 
-of the magnets in the input file. 
+of the magnets in the input file. This directive is tested in Java and 
+Python. \todo{Check state of EXTRAMAG directive in Python} 
 
 \todo{Concrete example of EXTRAMAG}
 
