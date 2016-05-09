@@ -1,4 +1,4 @@
-require "lib/magnetizer/magnet.rb"
+require_relative "../lib/magnetizer/magnet.rb"
 
 include Magnetizer
 

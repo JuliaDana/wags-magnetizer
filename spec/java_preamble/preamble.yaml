@@ -17,7 +17,7 @@
     text: public class Preamble {
   - !ruby/object:Magnetizer::Magnet::DropZone {}
   - !ruby/object:Magnetizer::Magnet::Text
-    text: '}'
+    text: "}"
 - !ruby/object:Magnetizer::Magnet
   contents:
   - !ruby/object:Magnetizer::Magnet::Text

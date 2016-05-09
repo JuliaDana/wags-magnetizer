@@ -1,4 +1,4 @@
-require "spec/main_spec.rb"
+require_relative "./main_spec.rb"
 
 describe "The magnetizer on Python3 files" do
   context "basic python3 file" do

@@ -5,14 +5,14 @@
     text: public class Student {
   - &1 !ruby/object:Magnetizer::Magnet::DropZone {}
   - !ruby/object:Magnetizer::Magnet::Text
-    text: '}'
+    text: "}"
 - !ruby/object:Magnetizer::Magnet
   contents:
   - !ruby/object:Magnetizer::Magnet::Text
     text: public boolean palindrome(String str) {
   - *1
   - !ruby/object:Magnetizer::Magnet::Text
-    text: '}'
+    text: "}"
 - !ruby/object:Magnetizer::Magnet
   contents:
   - !ruby/object:Magnetizer::Magnet::Text
@@ -27,7 +27,7 @@
     text: for (int i = 0; i < str.length() / 2; i++) {
   - *1
   - !ruby/object:Magnetizer::Magnet::Text
-    text: '}'
+    text: "}"
 - !ruby/object:Magnetizer::Magnet
   contents:
   - !ruby/object:Magnetizer::Magnet::Text
