@@ -1,42 +1,42 @@
 [
   {
-    "json_class": "Magnet",
+    "json_class": "Magnetizer::Magnet",
     "data": {
       "contents": [
         {
-          "json_class": "MagnetText",
+          "json_class": "Magnetizer::Magnet::Text",
           "data": {
             "text": "class HelloWorld(object):"
           }
         },
         {
-          "json_class": "MagnetDropZone"
+          "json_class": "Magnetizer::Magnet::DropZone"
         }
       ]
     }
   },
   {
-    "json_class": "Magnet",
+    "json_class": "Magnetizer::Magnet",
     "data": {
       "contents": [
         {
-          "json_class": "MagnetText",
+          "json_class": "Magnetizer::Magnet::Text",
           "data": {
             "text": "def say_hello(self):"
           }
         },
         {
-          "json_class": "MagnetDropZone"
+          "json_class": "Magnetizer::Magnet::DropZone"
         }
       ]
     }
   },
   {
-    "json_class": "Magnet",
+    "json_class": "Magnetizer::Magnet",
     "data": {
       "contents": [
         {
-          "json_class": "MagnetText",
+          "json_class": "Magnetizer::Magnet::Text",
           "data": {
             "text": "print(\"Hello, World\")"
           }
@@ -45,11 +45,11 @@
     }
   },
   {
-    "json_class": "Magnet",
+    "json_class": "Magnetizer::Magnet",
     "data": {
       "contents": [
         {
-          "json_class": "MagnetText",
+          "json_class": "Magnetizer::Magnet::Text",
           "data": {
             "text": "h = HelloWorld()"
           }
@@ -58,11 +58,11 @@
     }
   },
   {
-    "json_class": "Magnet",
+    "json_class": "Magnetizer::Magnet",
     "data": {
       "contents": [
         {
-          "json_class": "MagnetText",
+          "json_class": "Magnetizer::Magnet::Text",
           "data": {
             "text": "h.say_hello()"
           }

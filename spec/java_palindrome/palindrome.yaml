@@ -1,34 +1,34 @@
 ---
-- !ruby/object:Magnet
+- !ruby/object:Magnetizer::Magnet
   contents:
-  - !ruby/object:MagnetText
+  - !ruby/object:Magnetizer::Magnet::Text
     text: public class Student {
-  - &1 !ruby/object:MagnetDropZone {}
-  - !ruby/object:MagnetText
+  - &1 !ruby/object:Magnetizer::Magnet::DropZone {}
+  - !ruby/object:Magnetizer::Magnet::Text
     text: '}'
-- !ruby/object:Magnet
+- !ruby/object:Magnetizer::Magnet
   contents:
-  - !ruby/object:MagnetText
+  - !ruby/object:Magnetizer::Magnet::Text
     text: public boolean palindrome(String str) {
   - *1
-  - !ruby/object:MagnetText
+  - !ruby/object:Magnetizer::Magnet::Text
     text: '}'
-- !ruby/object:Magnet
+- !ruby/object:Magnetizer::Magnet
   contents:
-  - !ruby/object:MagnetText
+  - !ruby/object:Magnetizer::Magnet::Text
     text: boolean isPalindrome = true;
-- !ruby/object:Magnet
+- !ruby/object:Magnetizer::Magnet
   contents:
-  - !ruby/object:MagnetText
+  - !ruby/object:Magnetizer::Magnet::Text
     text: isPalindrome &= (str.charAt(i) == str.charAt(str.length() - (i + 1)));
-- !ruby/object:Magnet
+- !ruby/object:Magnetizer::Magnet
   contents:
-  - !ruby/object:MagnetText
+  - !ruby/object:Magnetizer::Magnet::Text
     text: for (int i = 0; i < str.length() / 2; i++) {
   - *1
-  - !ruby/object:MagnetText
+  - !ruby/object:Magnetizer::Magnet::Text
     text: '}'
-- !ruby/object:Magnet
+- !ruby/object:Magnetizer::Magnet
   contents:
-  - !ruby/object:MagnetText
+  - !ruby/object:Magnetizer::Magnet::Text
     text: return isPalindrome;

@@ -1,23 +1,23 @@
 ---
-- !ruby/object:Magnet
+- !ruby/object:Magnetizer::Magnet
   contents:
-  - !ruby/object:MagnetText
+  - !ruby/object:Magnetizer::Magnet::Text
     text: 'class HelloWorld(object):'
-  - &1 !ruby/object:MagnetDropZone {}
-- !ruby/object:Magnet
+  - &1 !ruby/object:Magnetizer::Magnet::DropZone {}
+- !ruby/object:Magnetizer::Magnet
   contents:
-  - !ruby/object:MagnetText
+  - !ruby/object:Magnetizer::Magnet::Text
     text: 'def say_hello(self):'
   - *1
-- !ruby/object:Magnet
+- !ruby/object:Magnetizer::Magnet
   contents:
-  - !ruby/object:MagnetText
+  - !ruby/object:Magnetizer::Magnet::Text
     text: print("Hello, World")
-- !ruby/object:Magnet
+- !ruby/object:Magnetizer::Magnet
   contents:
-  - !ruby/object:MagnetText
+  - !ruby/object:Magnetizer::Magnet::Text
     text: h = HelloWorld()
-- !ruby/object:Magnet
+- !ruby/object:Magnetizer::Magnet
   contents:
-  - !ruby/object:MagnetText
+  - !ruby/object:Magnetizer::Magnet::Text
     text: h.say_hello()

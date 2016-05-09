@@ -8,13 +8,13 @@ describe "The magnetizer on Ruby files" do
 
       #TODO: Handle script areas outside of the class
       let(:magnet_output) {<<'ENDOUT'
-Preamble Magnets:
+Preamble Magnetizer::Magnets:
 
-Class Magnets:
+Class Magnetizer::Magnets:
 class HelloWorld <br><!-- panel --><br> end
-Method Magnets:
+Method Magnetizer::Magnets:
 def say_hello <br><!-- panel --><br> end
-StatementMagnets:
+StatementMagnetizer::Magnets:
 puts &quot;Hello, World&quot;
 .:|:.
 h = HelloWorld.new
@@ -24,17 +24,17 @@ ENDOUT
       }
 
       let(:data_structure) {[
-        Magnet.new(MagnetText.new("class HelloWorld"),
-          MagnetDropZone.instance,
-          MagnetText.new("end")
+        Magnetizer::Magnet.new(Magnetizer::Magnet::Text.new("class HelloWorld"),
+          Magnetizer::Magnet::DropZone.instance,
+          Magnetizer::Magnet::Text.new("end")
         ),
-        Magnet.new(MagnetText.new("def say_hello"),
-          MagnetDropZone.instance,
-          MagnetText.new("end")
+        Magnetizer::Magnet.new(Magnetizer::Magnet::Text.new("def say_hello"),
+          Magnetizer::Magnet::DropZone.instance,
+          Magnetizer::Magnet::Text.new("end")
         ),
-        Magnet.new(MagnetText.new('puts "Hello, World"')),
-        Magnet.new(MagnetText.new("HelloWorld.new")),
-        Magnet.new(MagnetText.new("h.say_hello"))
+        Magnetizer::Magnet.new(Magnetizer::Magnet::Text.new('puts "Hello, World"')),
+        Magnetizer::Magnet.new(Magnetizer::Magnet::Text.new("HelloWorld.new")),
+        Magnetizer::Magnet.new(Magnetizer::Magnet::Text.new("h.say_hello"))
       ]}
 
       let(:json_output) {}

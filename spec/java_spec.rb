@@ -10,21 +10,21 @@ describe "The magnetizer on Java files" do
       let(:magnet_output) {File.read("spec/java_hello/hello.mag")}
 
       let(:data_structure) {[
-        Magnet.new(MagnetText.new("public class Hello {"),
-          MagnetDropZone.instance,
-          MagnetText.new("}")
+        Magnetizer::Magnet.new(Magnetizer::Magnet::Text.new("public class Hello {"),
+          Magnetizer::Magnet::DropZone.instance,
+          Magnetizer::Magnet::Text.new("}")
           ),
-        Magnet.new(MagnetText.new("public String helloWorld() {"),
-          MagnetDropZone.instance,
-          MagnetText.new("}")
+        Magnetizer::Magnet.new(Magnetizer::Magnet::Text.new("public String helloWorld() {"),
+          Magnetizer::Magnet::DropZone.instance,
+          Magnetizer::Magnet::Text.new("}")
           ),
-        Magnet.new(MagnetText.new("public static void main(String[] args) {"),
-          MagnetDropZone.instance,
-          MagnetText.new("}"),
+        Magnetizer::Magnet.new(Magnetizer::Magnet::Text.new("public static void main(String[] args) {"),
+          Magnetizer::Magnet::DropZone.instance,
+          Magnetizer::Magnet::Text.new("}"),
           ),
-        Magnet.new(MagnetText.new('return "Hello World";')
+        Magnetizer::Magnet.new(Magnetizer::Magnet::Text.new('return "Hello World";')
           ),
-        Magnet.new(MagnetText.new('System.out.println("Hello");')
+        Magnetizer::Magnet.new(Magnetizer::Magnet::Text.new('System.out.println("Hello");')
           )
         ]}
 
@@ -42,23 +42,23 @@ describe "The magnetizer on Java files" do
       let(:magnet_output) {File.read("spec/java_palindrome/palindrome.mag")}
 
       let(:data_structure) {[
-        Magnet.new(MagnetText.new("public class Student {"),
-          MagnetDropZone.instance,
-          MagnetText.new("}")
+        Magnetizer::Magnet.new(Magnetizer::Magnet::Text.new("public class Student {"),
+          Magnetizer::Magnet::DropZone.instance,
+          Magnetizer::Magnet::Text.new("}")
           ),
-        Magnet.new(MagnetText.new("public boolean palindrome(String str) {"),
-          MagnetDropZone.instance,
-          MagnetText.new("}")
+        Magnetizer::Magnet.new(Magnetizer::Magnet::Text.new("public boolean palindrome(String str) {"),
+          Magnetizer::Magnet::DropZone.instance,
+          Magnetizer::Magnet::Text.new("}")
           ),
-        Magnet.new(MagnetText.new("boolean isPalindrome = true;")
+        Magnetizer::Magnet.new(Magnetizer::Magnet::Text.new("boolean isPalindrome = true;")
           ),
-        Magnet.new(MagnetText.new('isPalindrome &= (str.charAt(i) == str.charAt(str.length() - (i + 1)));')
+        Magnetizer::Magnet.new(Magnetizer::Magnet::Text.new('isPalindrome &= (str.charAt(i) == str.charAt(str.length() - (i + 1)));')
           ),
-        Magnet.new(MagnetText.new("for (int i = 0; i < str.length() / 2; i++) {"),
-          MagnetDropZone.instance,
-          MagnetText.new("}"),
+        Magnetizer::Magnet.new(Magnetizer::Magnet::Text.new("for (int i = 0; i < str.length() / 2; i++) {"),
+          Magnetizer::Magnet::DropZone.instance,
+          Magnetizer::Magnet::Text.new("}"),
           ),
-        Magnet.new(MagnetText.new('return isPalindrome;')
+        Magnetizer::Magnet.new(Magnetizer::Magnet::Text.new('return isPalindrome;')
           )
         ]}
 
@@ -76,20 +76,20 @@ describe "The magnetizer on Java files" do
       let(:magnet_output) {File.read("spec/java_preamble/preamble.mag")}
 
       let(:data_structure) {[
-        Magnet.new(MagnetText.new('package mypackage;')
+        Magnetizer::Magnet.new(Magnetizer::Magnet::Text.new('package mypackage;')
           ),
-        Magnet.new(MagnetText.new('import java.util.ArrayList;')
+        Magnetizer::Magnet.new(Magnetizer::Magnet::Text.new('import java.util.ArrayList;')
           ),
-        Magnet.new(MagnetText.new('import java.util.List;')
+        Magnetizer::Magnet.new(Magnetizer::Magnet::Text.new('import java.util.List;')
           ),
-        Magnet.new(MagnetText.new("public class Preamble {"),
-          MagnetDropZone.instance,
-          MagnetText.new("}")
+        Magnetizer::Magnet.new(Magnetizer::Magnet::Text.new("public class Preamble {"),
+          Magnetizer::Magnet::DropZone.instance,
+          Magnetizer::Magnet::Text.new("}")
           ),
         #TODO: Should there be a drop zone in the empty method? 
-        Magnet.new(MagnetText.new("public void theMethod() {\n\n  }")
+        Magnetizer::Magnet.new(Magnetizer::Magnet::Text.new("public void theMethod() {\n\n  }")
           ),
-        Magnet.new(MagnetText.new("private String theField;")
+        Magnetizer::Magnet.new(Magnetizer::Magnet::Text.new("private String theField;")
           ),
         ]}
 

@@ -10,15 +10,15 @@ describe "The magnetizer on Python3 files" do
       let(:magnet_output) {File.read("spec/python3_hello/hello.mag")}
 
       let(:data_structure) {[
-        Magnet.new(MagnetText.new("class HelloWorld(object):"),
-          MagnetDropZone.instance,
+        Magnetizer::Magnet.new(Magnetizer::Magnet::Text.new("class HelloWorld(object):"),
+          Magnetizer::Magnet::DropZone.instance,
         ),
-        Magnet.new(MagnetText.new("def say_hello(self):"),
-          MagnetDropZone.instance,
+        Magnetizer::Magnet.new(Magnetizer::Magnet::Text.new("def say_hello(self):"),
+          Magnetizer::Magnet::DropZone.instance,
         ),
-        Magnet.new(MagnetText.new('print("Hello, World")')),
-        Magnet.new(MagnetText.new("h = HelloWorld()")),
-        Magnet.new(MagnetText.new("h.say_hello()"))
+        Magnetizer::Magnet.new(Magnetizer::Magnet::Text.new('print("Hello, World")')),
+        Magnetizer::Magnet.new(Magnetizer::Magnet::Text.new("h = HelloWorld()")),
+        Magnetizer::Magnet.new(Magnetizer::Magnet::Text.new("h.say_hello()"))
       ]}
 
       let(:json_output) {File.read("spec/python3_hello/hello.json").rstrip}

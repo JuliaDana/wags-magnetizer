@@ -1,10 +1,10 @@
 [
   {
-    "json_class": "Magnet",
+    "json_class": "Magnetizer::Magnet",
     "data": {
       "contents": [
         {
-          "json_class": "MagnetText",
+          "json_class": "Magnetizer::Magnet::Text",
           "data": {
             "text": "package mypackage;"
           }
@@ -13,11 +13,11 @@
     }
   },
   {
-    "json_class": "Magnet",
+    "json_class": "Magnetizer::Magnet",
     "data": {
       "contents": [
         {
-          "json_class": "MagnetText",
+          "json_class": "Magnetizer::Magnet::Text",
           "data": {
             "text": "import java.util.ArrayList;"
           }
@@ -26,11 +26,11 @@
     }
   },
   {
-    "json_class": "Magnet",
+    "json_class": "Magnetizer::Magnet",
     "data": {
       "contents": [
         {
-          "json_class": "MagnetText",
+          "json_class": "Magnetizer::Magnet::Text",
           "data": {
             "text": "import java.util.List;"
           }
@@ -39,20 +39,20 @@
     }
   },
   {
-    "json_class": "Magnet",
+    "json_class": "Magnetizer::Magnet",
     "data": {
       "contents": [
         {
-          "json_class": "MagnetText",
+          "json_class": "Magnetizer::Magnet::Text",
           "data": {
             "text": "public class Preamble {"
           }
         },
         {
-          "json_class": "MagnetDropZone"
+          "json_class": "Magnetizer::Magnet::DropZone"
         },
         {
-          "json_class": "MagnetText",
+          "json_class": "Magnetizer::Magnet::Text",
           "data": {
             "text": "}"
           }
@@ -61,11 +61,11 @@
     }
   },
   {
-    "json_class": "Magnet",
+    "json_class": "Magnetizer::Magnet",
     "data": {
       "contents": [
         {
-          "json_class": "MagnetText",
+          "json_class": "Magnetizer::Magnet::Text",
           "data": {
             "text": "public void theMethod() {\n\n  }"
           }
@@ -74,11 +74,11 @@
     }
   },
   {
-    "json_class": "Magnet",
+    "json_class": "Magnetizer::Magnet",
     "data": {
       "contents": [
         {
-          "json_class": "MagnetText",
+          "json_class": "Magnetizer::Magnet::Text",
           "data": {
             "text": "private String theField;"
           }

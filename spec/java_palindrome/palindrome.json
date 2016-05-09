@@ -1,19 +1,19 @@
 [
   {
-    "json_class": "Magnet",
+    "json_class": "Magnetizer::Magnet",
     "data": {
       "contents": [
         {
-          "json_class": "MagnetText",
+          "json_class": "Magnetizer::Magnet::Text",
           "data": {
             "text": "public class Student {"
           }
         },
         {
-          "json_class": "MagnetDropZone"
+          "json_class": "Magnetizer::Magnet::DropZone"
         },
         {
-          "json_class": "MagnetText",
+          "json_class": "Magnetizer::Magnet::Text",
           "data": {
             "text": "}"
           }
@@ -22,20 +22,20 @@
     }
   },
   {
-    "json_class": "Magnet",
+    "json_class": "Magnetizer::Magnet",
     "data": {
       "contents": [
         {
-          "json_class": "MagnetText",
+          "json_class": "Magnetizer::Magnet::Text",
           "data": {
             "text": "public boolean palindrome(String str) {"
           }
         },
         {
-          "json_class": "MagnetDropZone"
+          "json_class": "Magnetizer::Magnet::DropZone"
         },
         {
-          "json_class": "MagnetText",
+          "json_class": "Magnetizer::Magnet::Text",
           "data": {
             "text": "}"
           }
@@ -44,11 +44,11 @@
     }
   },
   {
-    "json_class": "Magnet",
+    "json_class": "Magnetizer::Magnet",
     "data": {
       "contents": [
         {
-          "json_class": "MagnetText",
+          "json_class": "Magnetizer::Magnet::Text",
           "data": {
             "text": "boolean isPalindrome = true;"
           }
@@ -57,11 +57,11 @@
     }
   },
   {
-    "json_class": "Magnet",
+    "json_class": "Magnetizer::Magnet",
     "data": {
       "contents": [
         {
-          "json_class": "MagnetText",
+          "json_class": "Magnetizer::Magnet::Text",
           "data": {
             "text": "isPalindrome &= (str.charAt(i) == str.charAt(str.length() - (i + 1)));"
           }
@@ -70,20 +70,20 @@
     }
   },
   {
-    "json_class": "Magnet",
+    "json_class": "Magnetizer::Magnet",
     "data": {
       "contents": [
         {
-          "json_class": "MagnetText",
+          "json_class": "Magnetizer::Magnet::Text",
           "data": {
             "text": "for (int i = 0; i < str.length() / 2; i++) {"
           }
         },
         {
-          "json_class": "MagnetDropZone"
+          "json_class": "Magnetizer::Magnet::DropZone"
         },
         {
-          "json_class": "MagnetText",
+          "json_class": "Magnetizer::Magnet::Text",
           "data": {
             "text": "}"
           }
@@ -92,11 +92,11 @@
     }
   },
   {
-    "json_class": "Magnet",
+    "json_class": "Magnetizer::Magnet",
     "data": {
       "contents": [
         {
-          "json_class": "MagnetText",
+          "json_class": "Magnetizer::Magnet::Text",
           "data": {
             "text": "return isPalindrome;"
           }

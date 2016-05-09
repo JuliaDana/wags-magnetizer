@@ -1,14 +1,16 @@
 require "lib/magnetizer/magnet.rb"
 
+include Magnetizer
+
 describe "A magnet" do
 
   context "when coalescing" do
-    it "should join adjacent MagnetText pieces"
+    it "should join adjacent Magnet::Text pieces"
 
     #TODO: Define what handling the whitespace means
-    it "should handle whitespace at the ends of MagnetText sections"
+    it "should handle whitespace at the ends of Magnet::Text sections"
 
-    it "should join join adjacent MagnetDropZone pieces"
+    it "should join join adjacent Magnet::DropZone pieces"
 
     it "should not join other type of MagnetContent"
 
@@ -30,10 +32,10 @@ describe "A magnet" do
     end
 
     it "should deserialize with data" do
-      m = Magnet.new([MagnetChoices.new("public", "private", "protected"),
-        MagnetText.new("class Test {"),
-        MagnetDropZone.instance,
-        MagnetText.new("}")
+      m = Magnet.new([Magnet::Choices.new("public", "private", "protected"),
+        Magnet::Text.new("class Test {"),
+        Magnet::DropZone.instance,
+        Magnet::Text.new("}")
       ])
       deserialized_m = JSON.load(m.to_json)
 

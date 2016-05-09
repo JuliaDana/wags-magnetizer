@@ -1,19 +1,19 @@
 [
   {
-    "json_class": "Magnet",
+    "json_class": "Magnetizer::Magnet",
     "data": {
       "contents": [
         {
-          "json_class": "MagnetText",
+          "json_class": "Magnetizer::Magnet::Text",
           "data": {
             "text": "public class Hello {"
           }
         },
         {
-          "json_class": "MagnetDropZone"
+          "json_class": "Magnetizer::Magnet::DropZone"
         },
         {
-          "json_class": "MagnetText",
+          "json_class": "Magnetizer::Magnet::Text",
           "data": {
             "text": "}"
           }
@@ -22,20 +22,20 @@
     }
   },
   {
-    "json_class": "Magnet",
+    "json_class": "Magnetizer::Magnet",
     "data": {
       "contents": [
         {
-          "json_class": "MagnetText",
+          "json_class": "Magnetizer::Magnet::Text",
           "data": {
             "text": "public String helloWorld() {"
           }
         },
         {
-          "json_class": "MagnetDropZone"
+          "json_class": "Magnetizer::Magnet::DropZone"
         },
         {
-          "json_class": "MagnetText",
+          "json_class": "Magnetizer::Magnet::Text",
           "data": {
             "text": "}"
           }
@@ -44,20 +44,20 @@
     }
   },
   {
-    "json_class": "Magnet",
+    "json_class": "Magnetizer::Magnet",
     "data": {
       "contents": [
         {
-          "json_class": "MagnetText",
+          "json_class": "Magnetizer::Magnet::Text",
           "data": {
             "text": "public static void main(String[] args) {"
           }
         },
         {
-          "json_class": "MagnetDropZone"
+          "json_class": "Magnetizer::Magnet::DropZone"
         },
         {
-          "json_class": "MagnetText",
+          "json_class": "Magnetizer::Magnet::Text",
           "data": {
             "text": "}"
           }
@@ -66,11 +66,11 @@
     }
   },
   {
-    "json_class": "Magnet",
+    "json_class": "Magnetizer::Magnet",
     "data": {
       "contents": [
         {
-          "json_class": "MagnetText",
+          "json_class": "Magnetizer::Magnet::Text",
           "data": {
             "text": "return \"not in code\""
           }
@@ -79,11 +79,11 @@
     }
   },
   {
-    "json_class": "Magnet",
+    "json_class": "Magnetizer::Magnet",
     "data": {
       "contents": [
         {
-          "json_class": "MagnetText",
+          "json_class": "Magnetizer::Magnet::Text",
           "data": {
             "text": "return \"Hello World\";"
           }
@@ -92,11 +92,11 @@
     }
   },
   {
-    "json_class": "Magnet",
+    "json_class": "Magnetizer::Magnet",
     "data": {
       "contents": [
         {
-          "json_class": "MagnetText",
+          "json_class": "Magnetizer::Magnet::Text",
           "data": {
             "text": "while (true) {\n      System.out.println(\"Hello\");\n    }"
           }
@@ -105,11 +105,11 @@
     }
   },
   {
-    "json_class": "Magnet",
+    "json_class": "Magnetizer::Magnet",
     "data": {
       "contents": [
         {
-          "json_class": "MagnetText",
+          "json_class": "Magnetizer::Magnet::Text",
           "data": {
             "text": "while(false)  {\n      System.out.println(\"Hello again\");\n    }"
           }
@@ -118,11 +118,11 @@
     }
   },
   {
-    "json_class": "Magnet",
+    "json_class": "Magnetizer::Magnet",
     "data": {
       "contents": [
         {
-          "json_class": "MagnetText",
+          "json_class": "Magnetizer::Magnet::Text",
           "data": {
             "text": "while (true)  {\n      System.out.println(\"Hello again\");\n    }"
           }
@@ -131,11 +131,11 @@
     }
   },
   {
-    "json_class": "Magnet",
+    "json_class": "Magnetizer::Magnet",
     "data": {
       "contents": [
         {
-          "json_class": "MagnetText",
+          "json_class": "Magnetizer::Magnet::Text",
           "data": {
             "text": "System.out.println(\"Thing \" + i);"
           }
@@ -144,20 +144,20 @@
     }
   },
   {
-    "json_class": "Magnet",
+    "json_class": "Magnetizer::Magnet",
     "data": {
       "contents": [
         {
-          "json_class": "MagnetText",
+          "json_class": "Magnetizer::Magnet::Text",
           "data": {
             "text": "for (int i = 1 ; i < 10; i++) {"
           }
         },
         {
-          "json_class": "MagnetDropZone"
+          "json_class": "Magnetizer::Magnet::DropZone"
         },
         {
-          "json_class": "MagnetText",
+          "json_class": "Magnetizer::Magnet::Text",
           "data": {
             "text": "}"
           }
@@ -166,20 +166,20 @@
     }
   },
   {
-    "json_class": "Magnet",
+    "json_class": "Magnetizer::Magnet",
     "data": {
       "contents": [
         {
-          "json_class": "MagnetText",
+          "json_class": "Magnetizer::Magnet::Text",
           "data": {
             "text": "for (int i =  0 ; i < 10; i++) {"
           }
         },
         {
-          "json_class": "MagnetDropZone"
+          "json_class": "Magnetizer::Magnet::DropZone"
         },
         {
-          "json_class": "MagnetText",
+          "json_class": "Magnetizer::Magnet::Text",
           "data": {
             "text": "}"
           }

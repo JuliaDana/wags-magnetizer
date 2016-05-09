@@ -1,69 +1,69 @@
 ---
-- !ruby/object:Magnet
+- !ruby/object:Magnetizer::Magnet
   contents:
-  - !ruby/object:MagnetText
+  - !ruby/object:Magnetizer::Magnet::Text
     text: public class Hello {
-  - &1 !ruby/object:MagnetDropZone {}
-  - !ruby/object:MagnetText
+  - &1 !ruby/object:Magnetizer::Magnet::DropZone {}
+  - !ruby/object:Magnetizer::Magnet::Text
     text: '}'
-- !ruby/object:Magnet
+- !ruby/object:Magnetizer::Magnet
   contents:
-  - !ruby/object:MagnetText
+  - !ruby/object:Magnetizer::Magnet::Text
     text: public String helloWorld() {
   - *1
-  - !ruby/object:MagnetText
+  - !ruby/object:Magnetizer::Magnet::Text
     text: '}'
-- !ruby/object:Magnet
+- !ruby/object:Magnetizer::Magnet
   contents:
-  - !ruby/object:MagnetText
+  - !ruby/object:Magnetizer::Magnet::Text
     text: public static void main(String[] args) {
   - *1
-  - !ruby/object:MagnetText
+  - !ruby/object:Magnetizer::Magnet::Text
     text: '}'
-- !ruby/object:Magnet
+- !ruby/object:Magnetizer::Magnet
   contents:
-  - !ruby/object:MagnetText
+  - !ruby/object:Magnetizer::Magnet::Text
     text: return "not in code"
-- !ruby/object:Magnet
+- !ruby/object:Magnetizer::Magnet
   contents:
-  - !ruby/object:MagnetText
+  - !ruby/object:Magnetizer::Magnet::Text
     text: return "Hello World";
-- !ruby/object:Magnet
+- !ruby/object:Magnetizer::Magnet
   contents:
-  - !ruby/object:MagnetText
+  - !ruby/object:Magnetizer::Magnet::Text
     text: |-
       while (true) {
             System.out.println("Hello");
           }
-- !ruby/object:Magnet
+- !ruby/object:Magnetizer::Magnet
   contents:
-  - !ruby/object:MagnetText
+  - !ruby/object:Magnetizer::Magnet::Text
     text: |-
       while(false)  {
             System.out.println("Hello again");
           }
-- !ruby/object:Magnet
+- !ruby/object:Magnetizer::Magnet
   contents:
-  - !ruby/object:MagnetText
+  - !ruby/object:Magnetizer::Magnet::Text
     text: |-
       while (true)  {
             System.out.println("Hello again");
           }
-- !ruby/object:Magnet
+- !ruby/object:Magnetizer::Magnet
   contents:
-  - !ruby/object:MagnetText
+  - !ruby/object:Magnetizer::Magnet::Text
     text: System.out.println("Thing " + i);
-- !ruby/object:Magnet
+- !ruby/object:Magnetizer::Magnet
   contents:
-  - !ruby/object:MagnetText
+  - !ruby/object:Magnetizer::Magnet::Text
     text: for (int i = 1 ; i < 10; i++) {
   - *1
-  - !ruby/object:MagnetText
+  - !ruby/object:Magnetizer::Magnet::Text
     text: '}'
-- !ruby/object:Magnet
+- !ruby/object:Magnetizer::Magnet
   contents:
-  - !ruby/object:MagnetText
+  - !ruby/object:Magnetizer::Magnet::Text
     text: for (int i =  0 ; i < 10; i++) {
   - *1
-  - !ruby/object:MagnetText
+  - !ruby/object:Magnetizer::Magnet::Text
     text: '}'

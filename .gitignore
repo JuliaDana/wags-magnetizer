@@ -11,6 +11,8 @@ doc/**/*.blg
 doc/**/*.out
 doc/**/*.tdo
 
+# Files created by VIM
 **/*.vim
+**/*.swp
 
 **/*.mdzip.bak
