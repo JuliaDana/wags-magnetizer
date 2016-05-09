@@ -8,16 +8,33 @@ begin
   task :default => :spec
 rescue LoadError
   # no rspec available
+  puts "RSpec tasks not available. Please install RSpec to get these tasks."
+end
+
+begin
+  require "bundler/gem_tasks"
+rescue LoadError
+  # no bundler available
+  puts "Gem tasks not available. Please install Bundler to get these tasks."
+end
+
+begin
+  require 'warbler'
+  Warbler::Task.new
+rescue LoadError
+  puts "JAR packaging tasks not available. Please install Warbler to get these tasks."
 end
 
 # TODO: Only compile files that have been updated.
 task :compile do
   Dir.mkdir "java/bin" unless File.directory? "java/bin"
   system "cd java; javac -d bin -cp ../etc/antlr-4.5.1-complete.jar:$CLASSPATH src/**/*.java"
+  system "cd java/bin; jar cf parsers.jar *; mv parsers.jar .."
 end
 
 task :clean do
   system "cd java; rm -rf  bin"
+  system "cd java; rm parser.java"
 end
 
 languages_info = YAML.load_file("data/languages.yaml")
