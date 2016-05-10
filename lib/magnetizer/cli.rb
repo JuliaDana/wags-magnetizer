@@ -49,7 +49,7 @@ module Magnetizer
    
     def parse argv
       argv = Array.new argv
-      @parser.parse!
+      @parser.parse! argv
 
       @options[:file] = argv.first
 
