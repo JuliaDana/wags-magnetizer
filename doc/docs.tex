@@ -1,6 +1,8 @@
-%\documentclass[letter,10pt,final]{article}
-\documentclass[letter,10pt]{article}
+\documentclass[letter,10pt,final]{article}
+%\documentclass[letter,10pt]{article}
 \usepackage[utf8]{inputenc}
+\usepackage{biblatex}
+\bibliography{bibliography.bib}
 
 \usepackage{listings}
 \usepackage{lstautogobble}
@@ -107,7 +109,7 @@ the style of code that can be used. For example, opening curly braces
 in Java must be on the same line as the class/method/loop they are 
 associated with. Also, statements have to be on a single line, 
 regardless of length. See Figure \ref{fig:old_parser_style} for an 
-example \cite{icer_pres_4_creating_lab}. These sylistic limitations, 
+example \cite{icer_pres_4_creating_lab}. These stylistic limitations, 
 while limiting, do not force your input to the microlab creation to 
 become an invalid solution file. However, to create alternative magnets 
 for the existing parser, one adds extra lines to the input file. This 
@@ -116,14 +118,15 @@ even change it to no longer be a valid file for its language. This
 means that the instructor now has to maintain and keep in sync both a 
 proper solution and the WAGS input file. See Figure 
 \ref{fig:old_parser_alts} to see how adding alternative magnets 
-can change an input file\cite{icer_pres_4_creating_lab}.
+can change an input file.
 
 \begin{figure}[h!]
  \centering
  
   \includegraphics{%    
 ./images/CreatingCodeMagnetLab/old_parser_presentation-07.png}
- \caption{Putting an Input File In Standard Format}
+ \caption{Putting an Input File In Standard Format %
+\cite{icer_pres_4_creating_lab}}
  \label{fig:old_parser_style}
 \end{figure}
 
@@ -132,7 +135,7 @@ can change an input file\cite{icer_pres_4_creating_lab}.
  
  \includegraphics{%
 ./images/CreatingCodeMagnetLab/old_parser_presentation-09.png}
- \caption{Adding Alternative Magnets}
+ \caption{Adding Alternative Magnets \cite{icer_pres_4_creating_lab}}
  \label{fig:old_parser_alts}
 \end{figure}
 
@@ -155,8 +158,8 @@ creation wizard, or for the user to directly type the final magnet
 The solution to the problems raised by the old, brittle parser is to 
 use a more robust parser that is based on the grammar of the language, 
 rather than the formatting of the input file. This project does this by 
-using the ANTLR4 parser generator\cite{antlr-reference} and freely 
-available grammars for common languages\cite{antlr-grammars-project}.
+using the ANTLR4 parser generator \cite{antlr-reference} and freely 
+available grammars for common languages \cite{antlr-grammars-project}.
 
 A grammar is a formal specification of a language. It is a series of 
 rules (called productions) that define valid phrases of a language. A 
@@ -240,7 +243,7 @@ the walker/listener method will always visit every node in the tree.
 With the visitor method, the base (ANTLR-generated) visitor visits 
 every node by default, but the specific visitor can choose to not visit 
 some or all of the children of a node, because the visit method is 
-responsible for chosing when to visit children.
+responsible for choosing when to visit children.
 
 The visitors for this project are dynamically created JRuby subclasses 
 of the ANTLR-generated base visitors. There is an ANTLR-generated base 
@@ -257,7 +260,11 @@ separate methods.
 \lstinputlisting[caption={The section of the configuration file that 
 sets up Java magnetization}]{./code/java_config.yaml}
 
-\todo{Show subclass generating code}
+This configuration is loaded into a LanguageConfig object that is used 
+to create the subclass, as shown in the following snippet.
+
+\lstinputlisting[caption={Dynamically subclassing a Java class in 
+Ruby}, language=Ruby]{./code/visitor_generator_snippet.rb}
 
 One difficulties encountered in creating magnets from the parse tree 
 is that the ANTLR-generated parser (like most parsers) discards 
@@ -277,7 +284,7 @@ to implement instructor directives.
  \centering
  \includegraphics{./images/antlr-hidden-channels.png}
  \caption{Diagram of tokens being split into %
-channel\cite[207]{antlr-reference}}
+channel \cite[207]{antlr-reference}}
  \label{fig:channels}
 \end{figure}
 
@@ -327,7 +334,7 @@ additional languages.
 
 
 This project creates an underlying object based data structure for 
-magnets, as shown in figure \cite{fig:magnet-diagram}. This structure 
+magnets, as shown in figure \ref{fig:magnet-diagram}. This structure 
 can then be serialized as desired. Currently, serialization to the old 
 magnet format is supported for backward compatibility, as well as JSON 
 and YAML for more robust usages.
@@ -360,7 +367,7 @@ other files that the WAGS system needs to automatically provide
 feedback to the students. The automated interaction is provided using 
 libraries commonly used in Ruby for automated testing of websites. It 
 uses the Capybara acceptance test framework (which provides a 
-convienient, cross web driver DSL for interacting with websites), the 
+convenient, cross web driver DSL for interacting with websites), the 
 Poltergeist web driver, and the PhantomJS headless browser. Support for 
 Capybara, the Selenium web driver, and Firefox browser is coded, but 
 Selenium will not trigger the log in button on the current web site.
@@ -429,10 +436,11 @@ Python3.
 
 By default, it prints the magnets in WAGS format to the console. It can 
 also or instead print the magnets to JSON or YAML. It also can 
-send the magnets to a specified output file, rather than the console. 
+send the magnets to a specified output file, rather than to the 
+console. 
 
 \begin{verbatim}
-Usage: magnetizer [options] file
+Usage: java -jar wags-magnetizer.jar [options] file
     -l, --language LANGUAGE          Specify a language (default: Java, 
                                        other: Python3)
         --json                       Print the JSON output
@@ -447,7 +455,7 @@ Usage: magnetizer [options] file
 \subsection{Installation for Use}
 This tool is packaged as a stand-alone JAR file. It does not need to be 
 installed before running. Its only dependency is that Java needs to be 
-installed, and it has been tested with Java ?? \todo{test Java versions}
+installed, and it has been tested with Java 7.
 
 % An overview of how a file is split into magnets.
 \subsection{Explanation of Magnet Creation}
@@ -461,10 +469,9 @@ The current configuration for Java creates magnets for
  \item Package declarations
  \item Import declarations
  \item Type declarations
- \item Class body declarations - this is the nonterminal that includes 
-anything that can be directly in the class body
- \item Block statements - this is the nonterminal that includes 
-anything that can be directly inside a block.
+ \item Class body declarations - anything that can be directly in the 
+class body
+ \item Block statements - anything that can be directly inside a block.
 \end{itemize}
 
 \subsubsection{Python 3}
@@ -486,12 +493,9 @@ are the same for all languages.
  \item [Python3] \verb~ ## <directive>~
 \end{description}
 
-
-
-Note that directives in python are somewhat limited because comments 
-cannot occur in a line. \todo{Verify that there are no inline comments 
-in python}
-\todo{explain which directives work in python}
+Note that all the directives are functioning in Java, but not all are 
+currently supported in Python. See the instructions for each directive 
+to see if it is supported.
 
 \subsubsection{ALT and ENDALT: Creating Alternative Magnets}
 
@@ -504,8 +508,11 @@ cannot go around anything that would trigger the creation of a new
 magnet or drop zone. This directive has only been tested in 
 Java. \todo{Check state of ALT directive in Python} 
 
-\todo{Concrete example of ALT}
-Example: To provide an alternative condition for a loop in Java.
+Example: To provide an alternative condition for a loop in Java. This 
+snippet will create 3 magnets: one of the \verb~while~ statement with 
+\verb~altCondition~ as the condition, one of the \verb~while~ statement 
+with \verb~realCondition~ as the condition, and one for the 
+\verb~System.out.println()~ statement.
 
 \begin{lstlisting}[language=Java]
 while(/*# ALT altCondition */ realCondition /*# ENDALT */) 
@@ -523,10 +530,11 @@ entire loop on a single magnet, rather than having the individual
 statements in the body be on their own magnets. This directive has only 
 been tested in Java.\todo{Check state of NODROP directive in Python} 
 
-\todo{Concrete example of NODROP}
 Example: To create a loop whose body is contained on the main magnet in 
 Java. Used when creating the body of a loop/method/etc. is not the 
-focus of the microlab.
+focus of the microlab. This snippet will create one magnet for the 
+entire for loop, rather than creating a separate one for the 
+\verb~System.out.println()~ statement.
 
 \begin{lstlisting}[language=Java]
 /*# NODROP */
@@ -541,16 +549,21 @@ The EXTRAMAG directive is used to add a magnet that is unrelated to any
 of the magnets in the input file. This directive is tested in Java and 
 Python. \todo{Check state of EXTRAMAG directive in Python} 
 
-\todo{Concrete example of EXTRAMAG}
+Example: To see if students understand the purpose of a setter method 
+in Java. This snippet will create three magnets: one for the method, 
+one for assigning name, and one with a return statement.
+\begin{lstlisting}[language=Java]
+public void setName(String name) {
+  this.name = name;
+  /*# EXTRAMAG return this.name; */
+}
+\end{lstlisting}
 
 
+% Targeted to someone expanding on this project
 \section{Developer Notes}
-\todo[color=infoColor]{Targeted to someone expanding on this project}
 
 \subsection{The Environment: Languages and Libraries Used}
-
-\todo{Section needs more details}
-
 This project is written in Ruby for the JRuby interpreter. JRuby is able
 to access Java classes from Ruby. For this project, this means we can 
 use to use a parser generated by ANTLR from Ruby.
@@ -562,19 +575,36 @@ to interact with Selenium (drives Firefox) or Poltergeist/PhantomJS
 Rake (Ruby make) is used to process new grammar files and other build 
 tool functionality.
 
+Bundler is used to handle dependency installation, and provides some 
+helper tasks to Rake.
+
 RSpec is used to handle testing.
 
+Git is used for source control, and the projects are hosted on 
+\href{http://github.com}{GitHub}
+
 \subsubsection{Installation for Development}
-\todo{Consider if this section should be on its own}
+This project is stored in two repositories, 
+\url{https://github.com/JuliaDana/wags-magnetizer} and 
+\url{https://github.com/JuliaDana/wags-site-driver}. The majority of 
+the project is in the wags-magnetizer repository, but the automated 
+interaction with the WAGS website has been moved into the separate 
+wags-site-driver repository, which uses the wags-magnetizer.
+
+Once either repository has been cloned, run \verb~bundle install~ to 
+install the dependencies for the project.
+
+The wags-site-driver project uses (and includes) the PhantomJS headless 
+browser. However, there are different versions for different operating 
+systems, and it is currently manually set up for Linux. If you are 
+using a different operating system, you will need to unzip the 
+appropriate file in the etc/ folder, and re-create the phantomjs 
+symbolic link.
 
 \subsection{The Design}
 
 \subsubsection{Directory Structure}
 \begin{description}
- \item [/bin]
-    Contains the Ruby script that has set up as an 
-executable and is the command line interface.
-
  \item [/data]
     Contains grammar files and language-specific 
 configuration information. This is the only location that has 
@@ -587,6 +617,10 @@ language-specific information.
     Contains any external projects and libraries needed for this 
 project that are not available as Ruby gems.
 
+ \item [/exe]
+    Contains the Ruby script that has set up as an 
+executable and is the command line interface.
+
  \item [/java]
     Contains Java code generated by ANTLR and the compiled class files 
 from that generated Java code.
@@ -596,13 +630,11 @@ from that generated Java code.
 for the magnetizer.
 
  \item [/spec]
-    The second of the two folders used for testing. This is for RSpec 
-spec tests.
+    Contains the RSpec tests for the project. 
 
 \end{description}
 
-
-\subsubsection{JRuby / Java Integration}
+% \subsubsection{JRuby / Java Integration}
 
 \subsubsection{Key Classes}
 
@@ -628,8 +660,7 @@ know are terminal to our magnet generation.
 
 \end{description}
 
-
-\subsection{The Testing}
+%\subsection{The Testing}
 
 \subsection{The Configuration: Specifying Magnet Sections}
 \label{sec:newConfig}
@@ -674,6 +705,19 @@ to go on channel 2. The entire comment for a directive should be
 recognized as a single token.
 
 \subsubsection{Rakefile: Useful Actions for Adding a New Language}
+When you have added a new grammar file to the system, run 
+\verb~rake generate~ to use ANTLR to generate the new Java files for 
+the parser, base visitor, etc. Then run \verb~rake compile~ to compile 
+those files and package them for use.
+
+\subsection{The Packaging: Using the Rakefile}
+To run all tests prior to packaging, use \verb~rake spec~.
+
+To package the project as a gem (for use on systems that have a 
+functioning JRuby environment), use \verb~rake build~. 
+
+To package the project as a jar (which packages a JRuby-complete 
+environment in with the project, use \verb~rake jar~.
 
 %\clearpage
 %\section{Glossary}
@@ -687,7 +731,6 @@ recognized as a single token.
 \todo{Final export of bibliography from Mendeley and link it}
 \todo{Make sure citations and bibliography are styled correctly}
 \addcontentsline{toc}{section}{References}
-\bibliography{bibliography}{}
-\bibliographystyle{plain}
+\printbibliography
 
 \end{document}
